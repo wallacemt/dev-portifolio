@@ -47,7 +47,14 @@ export const Navbar = () => {
                             src="/images/logo.svg"
                             alt="Logo"
                             className="w-20 h-16 relative top-0 cursor-pointer"
-                            style={{zIndex: 9999}}
+                            style={{
+                                zIndex: 9999,
+                                transform: menuOpen ? "rotate(360deg)" : "rotate(0deg)",
+                                transition: "transform 0.3s ease-in-out",
+                                "&:hover": {
+                                    transform: "rotate(580deg)",
+                                },
+                            }}
                         />
                     </div>
 
