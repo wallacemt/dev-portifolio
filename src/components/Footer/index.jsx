@@ -8,11 +8,11 @@ export const Footer = () => {
                     <FaGithub className="w-8 h-8 invert hover:scale-110 transition-transform duration-500" />
                 </a>
 
-                <a href="https://discord.com/users/444191344654313090" target="_blank" rel="noopener noreferrer">
+                <a href="https://discord.com/users/715397662479745044" target="_blank" rel="noopener noreferrer">
                     <FaDiscord className="w-8 h-8 hover:scale-110 transition-transform duration-500 invert" />
                 </a>
 
-                <a href="https://www.linkedin.com/in/wallace-santana-6a0b191b1/" target="_blank" rel="noopener noreferrer">
+                <a href="https://www.linkedin.com/in/wallace-santanak0" target="_blank" rel="noopener noreferrer">
                     <FaLinkedin className="w-8 h-8 invert hover:scale-110 transition-transform duration-500" />
                 </a>
             </div>
