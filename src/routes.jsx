@@ -16,7 +16,7 @@ export const RoutesApp = () => {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/sobre" element={<Container children={<Sobre />}/>}/>
                 <Route path="/projetos" element={<Container children={<Projetos />}/>}/>
-                <Route path="/formação" element={<Container children={<Formacao />}/>}/>
+                <Route path="/formacao" element={<Container children={<Formacao />}/>}/>
                 <Route path="/contato" element={<Container children={<Contato />}/>}/>
                 <Route path="/habilidades" element={<Container children={<Habilidades />}/>}/>     
             </Routes>

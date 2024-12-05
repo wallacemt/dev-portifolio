@@ -10,6 +10,7 @@ export default {
         DarkA2: "#666F7D",
         DarkA3: "#A9B8B6",
         DarkA4: "#6A7276",
+        Destaque: "#FF563C",
       },
       fontFamily: {
         principal: ["Volkhov", "serif"],

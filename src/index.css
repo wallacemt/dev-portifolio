@@ -2,10 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    height: 100vh;
+#root {
+    min-height: 100vh;
     width: 100%;
     background-image: url("/images/dark-gradient.svg");
-    background-size:cover;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
+    background-attachment: fixed;
+}
+
+::-webkit-scrollbar {
+    width:7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2C2F24;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ff563c70;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FF2A00;
 }

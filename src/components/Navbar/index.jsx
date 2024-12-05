@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { slide as Menu } from "react-burger-menu";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
+import {SwitchTheme} from "./SwitchTheme";
 export const Navbar = () => {
     const [handleTheme, setHandleTheme] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
     const toggleTheme = () => {
         setHandleTheme(!handleTheme);
@@ -15,67 +16,79 @@ export const Navbar = () => {
         setMenuOpen(false);
     };
 
+    const menuItens = [
+        {
+            name: "Sobre",
+            path: "/sobre",
+        },
+        {
+            name: "Habilidades",
+            path: "/habilidades",
+        },
+        {
+            name: "Projetos",
+            path: "/projetos",
+        },
+        {
+            name: "Formação",
+            path: "/formacao",
+        },
+        {
+            name: "Contato",
+            path: "/contato",
+        },
+    ]
     return (
-        <div className="p-4">
-            <div className="w-full h-20 bg-[#1E2021] rounded-3xl shadow-2xl m-auto">
+        <div className="mb-5 p-0 xl:p-4">
+            <div className="w-[100%] xl:w-[75%] h-20 bg-[#1e202179] rounded-3xl shadow-2xl m-auto">
                 <nav className="flex items-center justify-between h-full px-6 pr-24">
                     <div onClick={() => navigate("/")}>
                         <img
                             src="/images/logo.svg"
                             alt="Logo"
-                            className="w-20 h-16 absolute top-6 cursor-pointer"
-                            style={{zIndex: 99999999}}
+                            className="w-20 h-16 relative top-0 cursor-pointer"
+                            style={{zIndex: 9999}}
                         />
                     </div>
 
                     <ul className="hidden lg:flex items-center space-x-6">
-                        {[
-                            "Sobre",
-                            "Habilidades",
-                            "Projetos",
-                            "Formação",
-                            "Contato",
-                        ].map((item, index) => (
+                        {menuItens.map((item, index) => (
                             <li
                                 key={index}
-                                className="px-3 py-2 text-2xl font-bold text-DarkA4 cursor-pointer 
-                  transition-all duration-300 ease-in-out hover:text-DarkP hover:scale-110"
+                                className={`px-3 py-2 text-2xl md:text-[1.3rem] font-bold cursor-pointer 
+                  transition-all duration-300 ease-in-out hover:scale-110 ${
+                                    location.pathname === item.path
+                                        ? "text-Destaque underline underline-offset-4"
+                                        : "text-DarkA4 hover:text-DarkP"
+                                }`}
                                 onClick={() =>
-                                    handleMenuClick(`/${item.toLowerCase()}`)
+                                    handleMenuClick(item.path)
                                 }
                             >
-                                {item}
+                                {item.name}
                             </li>
                         ))}
-                        <li className="px-3 py-2 text-2xl font-bold text-DarkA4 cursor-pointer bg-DarkP rounded-sm hover:bg-DarkA4 hover:text-DarkP">
-                            EN
-                        </li>
-
-                        <li
-                            className="px-4 py-3 text-2xl cursor-pointer transition-colors bg-DarkP rounded-sm duration-300 ease-in-out hover:text-DarkA2"
-                            aria-label="Toggle Theme Mode"
-                            onClick={toggleTheme}
-                        >
-                            {handleTheme ? (
-                                <FaMoon className="text-2xl text-DarkA2" />
-                            ) : (
-                                <FaSun className="text-2xl" />
-                            )}
-                        </li>
+                       
                     </ul>
+                    <div className="flex items-center space-x-4">
+                        <div className="text-Destaque hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center">
+                            EN
+                        </div>
+                        <SwitchTheme toggleTheme={toggleTheme} />
+                    </div>
 
                     {/* Menu hamburguer para mobile */}
                     <div className="block lg:hidden">
                         <input id="toggleChecker" type="checkbox" className="hidden" />
                         <label
                             htmlFor="toggleChecker"
-                            className="cursor-pointer flex flex-col gap-2"
+                            className="cursor-pointer flex flex-col gap-2  p-2 rounded-lg"
                             onClick={() => setMenuOpen(!menuOpen)}
-                            style={{ position: "fixed", zIndex: 9999, right: "7em", top: "2.5em" }}
+                            style={{ position: "relative", zIndex: 9999, right: "0", top: "0" }}
                         >
-                            <div className={`h-1 w-8 bg-DarkA2 transition-transform ${menuOpen && "rotate-45 translate-y-2"}`}></div>
-                            <div className={`h-1 w-8 bg-DarkP2 transition-transform ${menuOpen && "hidden"}`}></div>
-                            <div className={`h-1 w-8 bg-DarkA2 transition-transform ${menuOpen && "-rotate-45 -translate-y-1"}`}></div>
+                            <div className={`h-1 w-8 bg-Destaque transition-transform ${menuOpen && "rotate-45 translate-y-2"}`}></div>
+                            <div className={`h-1 w-8 bg-DarkA1 transition-transform ${menuOpen && "hidden"}`}></div>
+                            <div className={`h-1 w-8 bg-Destaque transition-transform ${menuOpen && "-rotate-45 -translate-y-1"}`}></div>
                         </label>
                         <Menu
                             right
@@ -121,38 +134,25 @@ export const Navbar = () => {
                             }}
                             
                         >
-                            {[
-                                "Sobre",
-                                "Habilidades",
-                                "Projetos",
-                                "Formação",
-                                "Contato",
-                            ].map((item, index) => (
+                            {menuItens.map((item, index) => (
                                 <button
-                                    key={index}
-                                    className="menu-item text-DarkA3 hover:bg-DarkA4 hover:text-DarkP transition-transform duration-300 cursor-pointer"
-                                    onClick={() => {
-                                        setMenuOpen(false);
-                                        handleMenuClick(`/${item.toLowerCase()}`);
-                                    }}
+                                key={index}
+                                onClick={() => {
+                                    setMenuOpen(false);
+                                    handleMenuClick(item.path);
+                                }}
+                                className={`menu-item transition-transform duration-300 cursor-pointer ${
+                                    location.pathname === item.path
+                                        ? "text-Destaque underline underline-offset-4"
+                                        : "text-DarkA3 hover:bg-DarkA4 hover:text-DarkP"
+                                }`}
                                 >
-                                    {item}
+                                    {item.name}
                                 </button>
                             ))}
-                            <button
-                                onClick={toggleTheme}
-                                className="text-lg font-bold text-DarkA3 hover:text-DarkP transition duration-300 rounded-full p-2 hover:scale-150"
-                            >
-                                {handleTheme ? <FaMoon size={25} className="m-auto"/> : <FaSun size={25} className="m-auto"/>}
-                            </button>
-                         
-                            <button
-                                onClick={() => handleMenuClick("/en")}
-                                className="text-lg font-bold text-DarkA3  transition duration-300 rounded-full p-2 hover:scale-150"
-                            >
-                                EN
-                            </button>
+                            
                         </Menu>
+                           
                     </div>
                 </nav>
             </div>
