@@ -14,7 +14,8 @@ export default {
       },
       fontFamily: {
         principal: ["Volkhov", "serif"],
-        secundaria: ["Manrope", "serif"]
+        secundaria: ["Manrope", "serif"],
+        lato: ["Lato", "sans-serif"],
       },
     },
   },

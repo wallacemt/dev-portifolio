@@ -39,7 +39,7 @@ export const Navbar = () => {
         },
     ]
     return (
-        <div className="mb-5 p-0 xl:p-4">
+        <div className="p-0 xl:p-4">
             <div className="w-[100%] xl:w-[75%] h-20 bg-[#1e202179] rounded-3xl shadow-2xl m-auto">
                 <nav className="flex items-center justify-between h-full px-6 pr-24">
                     <div onClick={() => navigate("/")}>
@@ -77,7 +77,7 @@ export const Navbar = () => {
                         ))}
                        
                     </ul>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4" style={{zIndex: 9990}}>
                         <div className="text-Destaque hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center">
                             EN
                         </div>
@@ -91,7 +91,7 @@ export const Navbar = () => {
                             htmlFor="toggleChecker"
                             className="cursor-pointer flex flex-col gap-2  p-2 rounded-lg"
                             onClick={() => setMenuOpen(!menuOpen)}
-                            style={{ position: "relative", zIndex: 9999, right: "0", top: "0" }}
+                            style={{ position: "relative", zIndex: 9999, left: "100%", top: "0" }}
                         >
                             <div className={`h-1 w-8 bg-Destaque transition-transform ${menuOpen && "rotate-45 translate-y-2"}`}></div>
                             <div className={`h-1 w-8 bg-DarkA1 transition-transform ${menuOpen && "hidden"}`}></div>

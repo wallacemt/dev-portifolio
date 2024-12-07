@@ -1,0 +1,121 @@
+[
+    {
+        "nome": "C",
+        "icon": "https://img.icons8.com/?size=256&id=shQTXiDQiQVR&format=png",
+        "habilidades": [
+            "Estrutura de dados",
+            "Ponteiros",
+            "Alocação dinâmica",
+            "Algoritmos de ordenação",
+            "Algoritmos de busca"
+        ]
+    },
+    {
+        "nome": "PHP",
+        "icon": "https://img.icons8.com/?size=256&id=fAMVO_fuoOuC&format=png",
+        "habilidades": [
+            "POO",
+            "Sessões e Cookies",
+            "Tratamento de Exceções",
+            "Manipulação de Arquivos e Diretórios",
+            "Criação de APIs",
+            "Integração com APIs externas",
+            "Integração com banco de dados MySQL"
+        ]
+    },
+    {
+        "nome": "Java",
+        "icon": "https://img.icons8.com/?size=256&id=lTKW3iI3wIT0&format=png",
+        "habilidades": [
+            "Programação orientada a objetos",
+            "Utilização das ferramentas do Java",
+            "Integração com banco de dados PostgreSQL",
+            "Integração com APIs externas",
+            "Criação de APIs"
+        ]
+    },
+    {
+        "nome": "MySQL",
+        "icon": "https://img.icons8.com/?size=256&id=9nLaR5KFGjN0&format=png",
+        "habilidades": [
+            "Criação de bancos de dados",
+            "Configuração de entidades",
+            "Consultas SQL",
+            "Funções de Agregação",
+            "Agrupamento de Dados"
+        ]
+    },
+    {
+        "nome": "React",
+        "icon": "https://img.icons8.com/?size=256&id=bzf0DqjXFHIW&format=png",
+        "habilidades": [
+            "Criação de componentes",
+            "Utilização de hooks",
+            "Integração com backend usando Axios",
+            "Criação de interfaces de usuário",
+            "Criação de rotas"
+        ]
+    },
+    {
+        "nome": "Node.js",
+        "icon": "https://img.icons8.com/?size=256&id=hsPbhkOH4FMe&format=png",
+        "habilidades": [
+            "Integração com banco de dados",
+            "Integração com APIs externas",
+            "Criação de rotas",
+            "Utilização das ferramentas do Node.js",
+            "Criação de back-end de aplicações",
+            "API RESTful",
+            "Protocolo HTTP",
+            "Autenticação e Criptografia",
+            "Conexão com Banco de Dados"
+        ]
+    },
+    {
+        "nome": "Spring Boot",
+        "icon": "https://img.icons8.com/?size=256&id=90519&format=png",
+        "habilidades": [
+            "Criação de APIs",
+            "Integração com banco de dados",
+            "Integração com APIs externas",
+            "Utilização das ferramentas do Spring Boot",
+            "Criação de back-end de aplicações"
+        ]
+    },
+    {
+        "nome": "Next.js",
+        "icon": "https://img.icons8.com/?size=256&id=MWiBjkuHeMVq&format=png",
+        "habilidades": [
+            "Utilização das ferramentas do Next.js",
+            "SEO",
+            "Routing",
+            "Sistema",
+            "Criação de rotas"
+        ]
+    },
+    {
+        "nome": "Kotlin",
+        "icon": "https://img.icons8.com/?size=256&id=ZoxjA0jZDdFZ&format=png",
+        "habilidades": [
+            "Criação de apps móveis simples",
+            "Utilização de Coroutines",
+            "Utilização de Room",
+            "Utilização de Retrofit",
+            "Utilização de Android Architecture Components",
+            "Utilização de livedata",
+            "Utilização de viewmodel"
+        ]
+    },
+    {
+        "nome": "Ruby",
+        "icon": "https://img.icons8.com/?size=256&id=22189&format=png",
+        "habilidades": [
+            "Utilização das ferramentas do Ruby",
+            "Desenvolvimento de aplica es web com o framework Ruby on Rails",
+            "Utilização de Gems",
+            "Cria o de APIs",
+            "Utilização de banco de dados",
+            "Cria o de testes unitários com RSpec"
+        ]
+    }
+]

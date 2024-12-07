@@ -1,0 +1,66 @@
+[
+    {
+        "nome": "JavaScript Notes",
+        "desc": "Uma coleção de notas sobre JavaScript.",
+        "technologys": ["React", "Bulma CSS", "LocalStorage", "Node.js", "Express.js", "MongoDB"],
+        "repository": "https://github.com/wallacemt/javascript-notes-cliente",
+        "deployment": "https://javascript-notes-cliente.vercel.app/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/jsNotes_1_hi2ejx.png"
+    },
+    {
+        "nome": "WydenAI",
+        "desc": "Um chatbot inteligente de assistente virtual.",
+        "technologys": ["React", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
+        "repository": "https://github.com/wallacemt/wydenai-client",
+        "deployment": "https://wydenai-client.vercel.app/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/wydenai_1_ystmxp.png"
+    },
+    {
+        "nome": "GastroVibe",
+        "desc": "Descubra o melhor da culinária de Salvador.",
+        "technologys": ["React", "Tailwind CSS", "JSON", "Aos", "Swiper", "Google Maps API"],
+        "repository": "https://github.com/wallacemt/gastroVibe",
+        "deployment": "https://gastro-vibe.vercel.app/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
+    },
+    {
+        "nome": "FocalPoint",
+        "desc": "Gerenciador de tarefas com interface intuitiva.",
+        "technologys": ["Next.js", "SCSS", "LocalStorage"],
+        "repository": "https://github.com/wallacemt/FocalPoint",
+        "deployment": "https://focal-point-sable.vercel.app/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png "
+    },
+    {
+        "nome": "Gym Lending Page",
+        "desc": "Landing page para academia.",
+        "technologys": ["HTML", "CSS", "JavaScript", "Aos.js", "Swiper.js", "Google Maps API"],
+        "repository": "https://github.com/wallacemt/gym-lending-page",
+        "deployment": "https://gym-lending-page.vercel.app/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
+    },
+    {
+        "nome": "Projeto Calendario Semanal",
+        "desc": "Um calendario semanal de organização, para acompanhar animes e filmes.",
+        "technologys": ["HTML", "CSS", "JavaScript"],
+        "repository": "https://github.com/wallacemt/calendario-semanal",
+        "deployment": "https://wallacemt.github.io/calendario-semanal/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
+    },
+    {
+        "nome": "Site sobre Musica Classica",
+        "desc": "Um site sobre musica classica.",
+        "technologys": ["HTML", "CSS", "JavaScript"],
+        "repository": "https://github.com/wallacemt/classic-music",
+        "deployment": "https://wallacemt.github.io/classic-music/",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
+    },
+    {
+        "nome": "Site De Mangas de Animes",
+        "desc": "Um site de mangas de animes.",
+        "technologys": ["HTML", "CSS", "JavaScript"],
+        "repository": "https://github.com/wallacemt/projeto-trabalho-curso",
+        "deployment": "https://wallacemt.github.io/projeto-trabalho-curso/index.html",
+        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"
+    }
+]
