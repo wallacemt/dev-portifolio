@@ -1,22 +1,38 @@
-import React, {useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { CtaButton } from "../Footer/CtaButton";
-import aos from 'aos'
+import aos from "aos";
+import {ImageLoading} from '../ImageLoading'
 export const Sobre = () => {
-
+    const [imageLoading, setImageLoading] = useState({});
     useEffect(() => {
         aos.init({
             duration: 1000,
-            easing: 'ease-in-out',
+            easing: "ease-in-out",
             once: true,
         });
-    })
+    });
+
+    const handleImageLoad = (index) => {
+        setImageLoading(false);
+    };
+
     return (
-        <section className="px-6" data-aos="fade-right">
+        <section className="px-6 mb-20" data-aos="fade-right">
             <div className="container mx-auto flex flex-col md:flex-row items-center gap-8">
-                <div className="flex justify-center md:justify-start flex-2">
-                    <div
-                        className="bg-[url('/images/person.jpeg')] bg-cover bg-center bg-no-repeat bg-clip-content') w-80 h-96 md:h-[550px] rounded-full shadow-md border-2 border-DarkA1 hover:border-Destaque transition-transform duration-300 ease-in-out hover:scale-105 "
-                    ></div>
+            <div className="relative flex justify-center md:justify-start flex-2">
+                    {imageLoading && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 rounded-full z-10">
+                            <ImageLoading />
+                        </div>
+                    )}
+                    <img
+                        src="/images/person.jpeg"
+                        alt="Wallace Santana"
+                        className={`w-80 h-96 md:h-[550px] rounded-full shadow-md border-2 border-DarkA1 hover:border-Destaque transition-transform duration-300 ease-in-out hover:scale-105 ${
+                            imageLoading ? "opacity-0" : "opacity-100"
+                        }`}
+                        onLoad={handleImageLoad}
+                    />
                 </div>
 
                 <div className="text-center md:text-left max-w-3xl flex-1 px-4 md:px-0">
@@ -24,7 +40,8 @@ export const Sobre = () => {
                         Wallace Santana
                     </h1>
                     <h2 className="font-secundaria text-2xl md:text-1xl font-semibold text-DarkA1 mt-3">
-                        Desenvolvedor <span className="text-Destaque">Full-Stack</span>
+                        Desenvolvedor{" "}
+                        <span className="text-Destaque">Full-Stack</span>
                     </h2>
                     <p className="font-secundaria text-lg md:text-xl text-DarkP mt-6 leading-relaxed text-justify">
                         Sou Wallace Santana, um Desenvolvedor FullStack com uma

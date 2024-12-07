@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "../Loading";
 import Aos from "aos";
-import { GooSpinner } from "react-spinners-kit";
+import { ImageLoading } from "../ImageLoading";
 
 export const Habilidades = () => {
     const [skillsData, setSkillsData] = useState([]);
@@ -48,10 +48,6 @@ export const Habilidades = () => {
     }, []);
 
     const handleImageLoad = (index) => {
-        setImageLoading((prevState) => ({ ...prevState, [index]: false }));
-    };
-
-    const handleImageLoading = (index) => {
         setImageLoading((prevState) => ({ ...prevState, [index]: true }));
     };
 
@@ -70,20 +66,19 @@ export const Habilidades = () => {
                             onClick={() => setSelectedSkill(skill)}
                             data-aos="fade-right"
                         >
-                            {imageLoading[index] && (
+                            {!imageLoading[index] && (
                                 <div className="w-32 h-32 flex items-center justify-center mb-4">
-                                    <GooSpinner size={80} color="#FF2A00" />
+                                    <ImageLoading/>
                                 </div>
                             )}
                             <img
                                 src={skill.icon}
                                 alt={skill.nome}
                                 className={`w-32 h-32 mb-4 object-contain ${
-                                    imageLoading[index] ? "hidden" : ""
+                                    imageLoading[index] ? "block" : "hidden"
                                 }`}
                                 loading="lazy"
                                 onLoad={() => handleImageLoad(index)}
-                                onLoadStart={() => handleImageLoading(index)}
                             />
                             <h3 className="text-lg md:text-xl font-extrabold mt-4 font-lato ">
                                 {skill.nome}
@@ -122,7 +117,7 @@ export const Habilidades = () => {
                                     (habilidade, idx) => (
                                         <li
                                             key={idx}
-                                            className="flex items-center text-lg text-gray-300 font-secundaria hover:text-DarkP"
+                                            className="flex items-center text-lg text-gray-300 font-secundaria hover:text-DarkP cursor-pointer"
                                         >
                                             <svg
                                                 className="w-6 h-6 mr-2 text-DarkA1"
