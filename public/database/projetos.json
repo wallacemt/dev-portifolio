@@ -31,7 +31,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
         ],
         "readmeFront": "gastro-vibe",
-        "readmeBack": "gastro-vibe",
         "deployment": "https://gastro-vibe.vercel.app/",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
     },
@@ -43,7 +42,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png"
         ],
         "readmeFront": "focal-point",
-        "readmeBack": "focal-point",
         "deployment": "https://focal-point-sable.vercel.app/",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png "
     },
@@ -55,7 +53,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
         ],
         "readmeFront": "gym-lending-page",
-        "readmeBack": "gym-lending-page",
         "deployment": "https://gym-lending-page.vercel.app/",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
     },
@@ -67,7 +64,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
         ],
         "readmeFront": "projeto-calendario-semanal",
-        "readmeBack": "projeto-calendario-semanal",
         "deployment": "https://projeto-calendario-semanal.vercel.app/",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
     },
@@ -79,7 +75,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
         ],
         "readmeFront": "classic-music",
-        "readmeBack": "classic-music",
         "deployment": "https://wallacemt.github.io/classic-music/",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
     },
@@ -91,7 +86,6 @@
             "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"
         ],
         "readmeFront": "projeto-trabalho-curso",
-        "readmeBack": "projeto-trabalho-curso",
         
         "deployment": "https://wallacemt.github.io/projeto-trabalho-curso/index.html",
         "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"

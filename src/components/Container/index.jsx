@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react'
+import { useLocation } from 'react-router-dom';
 import { Navbar } from '../Navbar';
 import { Footer } from '../Footer';
 import 'aos/dist/aos.css';
 
 export const Container = ({ children }) => {
-
+    document.title = `${location.pathname.split("/")[1].toUpperCase()} | Dev FullStack`;
     return (
         <>
             <Navbar />

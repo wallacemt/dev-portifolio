@@ -4,6 +4,7 @@ import { Footer } from "../../components/Footer";
 import {Apresentacao} from "../../components/Apresentacao";
 
 export const Home = () => {
+  document.title = "Wallace Santana | Dev FullStack"
   return (
     <>
       <Navbar />

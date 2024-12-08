@@ -3,14 +3,16 @@ import ReactDOM from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
 import { AiOutlineClose } from "react-icons/ai";
 import { DepoButton } from "../DepoButton";
 import { ImageLoading } from "../../ImageLoading";
 import ReactMarkdown from "react-markdown";
 import { SpiralSpinner } from "react-spinners-kit";
 import fetchReadmeFromGitHub from "../../../services/api";
-import "@tailwindcss/typography"
+import "@tailwindcss/typography";
+import aos from "aos";
 
 export const CardProjetos = ({ project }) => {
     const [imageLoading, setImageLoading] = useState(true);
@@ -19,22 +21,43 @@ export const CardProjetos = ({ project }) => {
     const [readmeFront, setReadmeFront] = useState("");
     const [readmeBack, setReadmeBack] = useState("");
 
-    // Função de controle de modal
+    useEffect(() => {
+        aos.init({
+            duration: 1000,
+            easing: "ease-in-out",
+            once: true,
+        });
+    });
     const toggleModal = async () => {
         setModalOpen(!isModalOpen);
         if (!isModalOpen && !readmeFront && !readmeBack) {
             setLoading(true);
-            const frontReadme = await fetchReadmeFromGitHub(
-                "wallacemt",
-                project.readmeFront
-            );
-            const backReadme = await fetchReadmeFromGitHub(
-                "wallacemt",
-                project.readmeBack
-            );
-            setReadmeFront(frontReadme);
-            setReadmeBack(backReadme);
-            setLoading(false);
+            try {
+                const frontReadme = await fetchReadmeFromGitHub(
+                    "wallacemt",
+                    project.readmeFront
+                );
+                const backReadme = await fetchReadmeFromGitHub(
+                    "wallacemt",
+                    project.readmeBack
+                );
+                setReadmeFront(frontReadme);
+                setReadmeBack(backReadme);
+            } catch (error) {
+                console.error(
+                    "Erro ao carregar o README do GitHub para o projeto",
+                    project.nome,
+                    error
+                );
+                setReadmeFront(
+                    "Erro ao carregar o README. Tente novamente mais tarde."
+                );
+                setReadmeBack(
+                    "Erro ao carregar o README. Tente novamente mais tarde."
+                );
+            } finally {
+                setLoading(false);
+            }
         }
     };
 
@@ -46,7 +69,7 @@ export const CardProjetos = ({ project }) => {
         <div
             className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-300 p-4"
             onClick={toggleModal}
-            style={{zIndex: 9999}}
+            style={{ zIndex: 9999 }}
         >
             <div
                 className="bg-DarkP rounded-lg shadow-lg w-full max-w-5xl max-h-[90vh] overflow-auto p-6 relative transform scale-100 opacity-100"
@@ -65,18 +88,22 @@ export const CardProjetos = ({ project }) => {
                 </div>
 
                 <Swiper
-                    modules={[Navigation]}
+                    modules={[Navigation, Pagination]}
                     navigation={{
-                        navigation: true,
                         nextEl: ".swiper-button-next",
                         prevEl: ".swiper-button-prev",
+                    }}
+                    pagination={{
+                        clickable: true,
+                        el: ".swiper-pagination",
                     }}
                     spaceBetween={20}
                     slidesPerView={1}
                     className="mb-6 mt-16"
                 >
-                    <div className="swiper-button-next text-red-500"></div>
-                    <div className="swiper-button-prev text-red-500"></div>
+                    <div className="swiper-button-next p-7" style={{ right: '5px', backgroundColor: "#FF560c", borderRadius: "50%", color: "#fff" }}></div>
+                    <div className="swiper-button-prev p-7" style={{ left: '5px', backgroundColor: "#FF560c", borderRadius: "50%", color: "#fff"}}></div>
+                    <div className="swiper-pagination"></div>
                     {project.screenshots.map((src, index) => (
                         <SwiperSlide key={index}>
                             <img
@@ -89,59 +116,55 @@ export const CardProjetos = ({ project }) => {
                 </Swiper>
 
                 {/* Accordion */}
-                <details className="border rounded-lg mb-6">
-                    <summary className="p-4 font-bold cursor-pointer text-gray-800">
-                        Leia o README do Frontend
-                    </summary>
-                    <div className="p-4 text-gray-600 prose">
-                        {/* Condicional para verificar se o README está carregado */}
-                        {loading ? (
-                            <div className="text-center text-gray-600">
-                                 <p className="font-bold"><SpiralSpinner /> Carregando README...</p>
-                            </div>
-                        ) : (
-                            <div>
-                                {/* README Frontend */}
-                                {readmeFront && (
+                <div>   
+                    {readmeFront && (
+                        <details className="border rounded-lg mb-6">
+                            <summary className="p-4 font-bold cursor-pointer text-gray-800">
+                                Leia o README do Frontend
+                            </summary>
+                            <div className="p-4 text-gray-600 prose">
+                                {loading ? (
+                                    <div className="text-center text-gray-600">
+                                        <p className="font-bold flex items-center flex-col">
+                                            <SpiralSpinner textColor="#FF560c" />{" "}
+                                            Carregando README...
+                                        </p>
+                                    </div>
+                                ) : (
                                     <div className="mb-6">
-                                        <div className="prose">
-                                            <ReactMarkdown>
-                                                {readmeFront}
-                                            </ReactMarkdown>
-                                        </div>
+                                        <ReactMarkdown>
+                                            {readmeFront}
+                                        </ReactMarkdown>
                                     </div>
                                 )}
                             </div>
-                        )}
-                    </div>
-                </details>
+                        </details>
+                    )}
 
-                <details className="border rounded-lg mb-6">
-                    <summary className="p-4 font-bold cursor-pointer text-gray-800">
-                        Leia o README do Backend
-                    </summary>
-                    <div className="p-4 text-gray-600 prose">
-                        {/* Condicional para verificar se o README está carregado */}
-                        {loading ? (
-                            <div className="text-center text-gray-600">
-                                <SpiralSpinner /> Carregando README...
-                            </div>
-                        ) : (
-                            <div>
-                                {/* README Backend */}
-                                {readmeBack && (
+                    {readmeBack && (
+                        <details className="border rounded-lg mb-6">
+                            <summary className="p-4 font-bold cursor-pointer text-gray-800">
+                                Leia o README do Backend
+                            </summary>
+                            <div className="p-4 text-gray-600 prose">
+                                {loading ? (
+                                    <div className="text-center text-gray-600">
+                                        <p className="font-bold flex items-center flex-col">
+                                            <SpiralSpinner textColor="#FF560c" />{" "}
+                                            Carregando README...
+                                        </p>
+                                    </div>
+                                ) : (
                                     <div className="mb-6">
-                                        <div className="prose">
-                                            <ReactMarkdown>
-                                                {readmeBack}
-                                            </ReactMarkdown>
-                                        </div>
+                                        <ReactMarkdown>
+                                            {readmeBack}
+                                        </ReactMarkdown>
                                     </div>
                                 )}
                             </div>
-                        )}
-                    </div>
-                </details>
+                        </details>
+                    )}
+                </div>
 
                 {/* Tecnologias */}
                 <div className="flex flex-wrap gap-4 justify-center">
@@ -159,7 +182,10 @@ export const CardProjetos = ({ project }) => {
     );
 
     return (
-        <div className="bg-DarkP2 rounded-lg shadow-2xl p-6 transition-transform duration-200 hover:scale-105">
+        <div
+            className="bg-DarkP2 rounded-lg shadow-2xl p-6 transition-transform duration-200 hover:scale-105 ovrerflow-y-hidden"
+            data-aos="fade-right"
+        >
             <h3 className="text-2xl text-center mb-6 font-bold text-gray-800 font-principal">
                 {project.nome}
             </h3>
