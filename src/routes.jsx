@@ -7,6 +7,7 @@ import { Projetos } from "./components/Projetos";
 import { Formacao } from "./components/Formacao";
 import { Contato } from "./components/Contato";
 import { Habilidades } from "./components/Habilidades";
+import { ServicesPage } from "./components/ServicesPage";
 
 
 export const RoutesApp = () => {
@@ -18,7 +19,8 @@ export const RoutesApp = () => {
                 <Route path="/projetos" element={<Container children={<Projetos />}/>}/>
                 <Route path="/formacao" element={<Container children={<Formacao />}/>}/>
                 <Route path="/contato" element={<Container children={<Contato />}/>}/>
-                <Route path="/habilidades" element={<Container children={<Habilidades />}/>}/>     
+                <Route path="/habilidades" element={<Container children={<Habilidades />}/>}/>  
+                <Route path="/servicos" element={<Container children={<ServicesPage />}/>}/>   
             </Routes>
         </BrowserRouter>
     );

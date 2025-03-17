@@ -5,7 +5,7 @@ import { Footer } from '../Footer';
 import 'aos/dist/aos.css';
 
 export const Container = ({ children }) => {
-    document.title = `${location.pathname.split("/")[1].toUpperCase()} | Dev FullStack`;
+    document.title = `${location.pathname.split("/")[1].toUpperCase()} | Wallace`;
     return (
         <>
             <Navbar />

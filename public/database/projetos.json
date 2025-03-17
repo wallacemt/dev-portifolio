@@ -1,94 +1,134 @@
 [
-    {
-        "nome": "JavaScript Notes",
-        "technologys": ["React", "Bulma CSS", "LocalStorage", "Node.js", "Express.js", "MongoDB"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/jsNotes_1_hi2ejx.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/jsNotes_1_hi2ejx.png"
-        ],
-        "readmeFront": "javascript-notes-cliente",
-        "readmeBack": "javascript-notes-api",
-        "deployment": "https://javascript-notes-cliente.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/jsNotes_1_hi2ejx.png"
-    },
-    {
-        "nome": "WydenAI",
-        "technologys": ["React", "Tailwind CSS", "Node.js", "Express.js", "MongoDB"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/WydenAI_1_ystmxp.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/WydenAI_1_ystmxp.png"
-        ],
-        "readmeFront": "wydenai-client",
-        "readmeBack": "wydenai-api",
-        "deployment": "https://wydenai-client.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/WydenAI_1_ystmxp.png"
-    },
-    {
-        "nome": "GastroVibe",
-        "technologys": ["React", "Tailwind CSS", "JSON", "Aos", "Swiper", "Google Maps API"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
-        ],
-        "readmeFront": "gastro-vibe",
-        "deployment": "https://gastro-vibe.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
-    },
-    {
-        "nome": "FocalPoint",
-        "technologys": ["Next.js", "SCSS", "LocalStorage"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png"
-        ],
-        "readmeFront": "focal-point",
-        "deployment": "https://focal-point-sable.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png "
-    },
-    {
-        "nome": "Gym Lending Page",
-        "technologys": ["HTML", "CSS", "JavaScript", "Aos.js", "Swiper.js", "Google Maps API"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
-        ],
-        "readmeFront": "gym-lending-page",
-        "deployment": "https://gym-lending-page.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
-    },
-    {
-        "nome": "Projeto Calendário Semanal",
-        "technologys": ["HTML", "CSS", "JavaScript"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
-        ],
-        "readmeFront": "projeto-calendario-semanal",
-        "deployment": "https://projeto-calendario-semanal.vercel.app/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
-    },
-    {
-        "nome": "Site sobre Musica Classica",
-        "technologys": ["HTML", "CSS", "JavaScript"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
-        ],
-        "readmeFront": "classic-music",
-        "deployment": "https://wallacemt.github.io/classic-music/",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
-    },
-    {
-        "nome": "Site De Mangas de Animes",
-        "technologys": ["HTML", "CSS", "JavaScript"],
-        "screenshots": [
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png",
-            "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"
-        ],
-        "readmeFront": "projeto-trabalho-curso",
-        
-        "deployment": "https://wallacemt.github.io/projeto-trabalho-curso/index.html",
-        "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"
-    }
-]
+  {
+    "nome": "Critix",
+    "technologys": ["React", "Tailwind CSS", "Spring Boot", "Java","MySQL", "Axios", "JWT"],
+    "descricao": "O Critix é uma plataforma de avaliação de filmes e séries. O frontend foi desenvolvido com React e consome a API do backend para fornecer uma experiência dinâmica e interativa aos usuários.",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222384/Captura_de_tela_2025-03-05_212941_jkdl14.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222401/Captura_de_tela_2025-03-05_213059_t1tqvb.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222363/Captura_de_tela_2025-03-05_213130_ueosc9.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222374/Captura_de_tela_2025-03-05_213234_p8vc1c.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222364/Captura_de_tela_2025-03-05_213217_hopb3c.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222397/Captura_de_tela_2025-03-05_213616_ox4wta.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222505/Captura_de_tela_2025-03-05_215450_nx5sw5.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222400/Captura_de_tela_2025-03-05_213649_rb31kb.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222379/Captura_de_tela_2025-03-05_213413_fmylh8.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222375/Captura_de_tela_2025-03-05_213333_wdhdgr.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222370/Captura_de_tela_2025-03-05_213308_q5flyu.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222376/Captura_de_tela_2025-03-05_213533_ywd50v.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222375/Captura_de_tela_2025-03-05_213424_eckptn.png"
 
+
+    ],
+    "deployment": "https://github.com/wallacemt/critix-frontend",
+    "frontend": "https://github.com/wallacemt/critix-frontend",
+    "backend": "https://github.com/wallacemt/critix-backend",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1741222384/Captura_de_tela_2025-03-05_212941_jkdl14.png"
+  },
+  {
+    "nome": "JavaScript Notes",
+    "technologys": ["React", "Bulma CSS", "LocalStorage", "Node.js", "Express.js", "MongoDB"],
+    "descricao": "O JavaScript Notes é uma aplicação web que permite aos usuários criar e gerenciar notas pessoais. Cada usuário pode criar uma conta e suas notas são mantidas privadas e acessíveis somente por ele. A aplicação é construída com React e utiliza Bulma para estilização.",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733769312/Monica_2024-12-09_15-32-28_xvudd9.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733769313/Monica_2024-12-09_15-33-52_wo4rpe.png"
+    ],
+    "deployment": "https://javascript-notes-cliente.vercel.app/",
+    "frontend": "https://github.com/wallacemt/javascript-notes-cliente",
+    "backend": "https://github.com/wallacemt/javascript-notes-API",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/jsNotes_1_hi2ejx.png"
+  },
+  {
+    "nome": "WydenAI",
+    "technologys": ["React", "Tailwind CSS", "PHP", "MySQL", "Axios"],
+    "descricao": "Um projeto de chat interativo desenvolvido para conectar estudantes universitários e facilitar a aprendizagem.",
+    "frontend": "https://github.com/wallacemt/wydenai-client",
+    "backend": "https://github.com/wallacemt/wydenaiAPI",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733769620/Capturar_gygutz.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733769621/Monica_2024-12-09_15-32-28_tnbj0y.png"
+    ],
+
+    "deployment": "https://wydenai-client.vercel.app/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/WydenAI_1_ystmxp.png"
+  },
+  {
+    "nome": "GastroVibe",
+    "technologys": ["React", "Tailwind CSS", "JSON", "Aos", "Swiper", "Google Maps API"],
+    "descricao": "Site que divulga a melhor gastronomia de Salvador",
+    "frontend": "https://github.com/wallacemt/gastroVibe",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771460/Capturar_alyuym.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771476/Captu66rar_uadvqn.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771463/Captu7897rar_h9ji6n.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771453/Ca79797pturar_fvddj2.png"
+    ],
+    "deployment": "https://gastro-vibe.vercel.app/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gastrovibe_opazmk.png"
+  },
+  {
+    "nome": "FocalPoint",
+    "descricao": "FocalPoint é uma aplicação de lista de tarefas (To-do List)",
+    "technologys": ["Next.js", "SCSS", "LocalStorage"],
+    "frontend": "https://github.com/wallacemt/FocalPoint",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771592/Captu7897rar_sej5pi.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771592/Capturar_thgqtc.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771593/Ca79797pturar_dxhit7.png"
+    ],
+    "deployment": "https://focal-point-sable.vercel.app/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/FocalPoint_cpuzzk.png "
+  },
+  {
+    "nome": "Gym Lending Page",
+    "technologys": ["HTML", "CSS", "JavaScript", "Aos.js", "Swiper.js", "Google Maps API"],
+    "descricao": "Este projeto foi criado para fornecer uma experiência interativa e visualmente atraente para os usuários, utilizando animações e sliders dinâmicos. 💪",
+    "frontend": "https://github.com/wallacemt/gym-lending-page",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771731/Capturar_antatf.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771737/Ca79797pturar_hni6eg.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771743/Captu7897rar_ikk6r3.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733771738/Casaapturar_wfjpsu.png"
+    ],
+    "deployment": "https://gym-lending-page.vercel.app/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/gym_2_u3hdjt.png"
+  },
+  {
+    "nome": "Projeto Calendário Semanal",
+    "descricao": "Projeto de um esquema de um calendario de conteudos onde e exebido o conteudo comforme o dia que o usuario clica, que aparece em um menu lateral, site feito com responsividade usando Media Query.",
+    "technologys": ["HTML", "CSS", "JavaScript"],
+    "frontend": "https://github.com/wallacemt/classic-music",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772078/Capturar_ysxgpe.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772112/Captu7897rar_guhwa3.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772120/Casaapturar_wbjtml.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772073/Ca79797pturar_l5moci.png"
+    ],
+    "deployment": "https://projeto-calendario-semanal.vercel.app/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/calendar_pcafqh.png"
+  },
+  {
+    "nome": "Site sobre Musica Classica",
+    "descricao": "Este projeto é uma homenagem à rica história da música clássica, apresentando compositores notáveis e suas obras mais importantes. O site oferece uma visão geral de compositores icônicos, curiosidades sobre suas vidas e composições, além de uma seção dedicada a ouvir suas músicas.",
+    "technologys": ["HTML", "CSS", "JavaScript"],
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775060/Capturar_uduck8.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775041/Ca79797pturar_b9jvsd.png"
+    ],
+    "deployment": "https://wallacemt.github.io/classic-music/",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/classicmusic_dbrqbu.png"
+  },
+  {
+    "nome": "Site De Mangas de Animes",
+    "technologys": ["HTML", "CSS", "JavaScript"],
+    "frontend": "https://github.com/wallacemt/projeto-trabalho-curso",
+    "descricao": "Projeto de um esquema de um calendario de conteudos onde e exebido o conteudo comforme o dia que o usuario clica, que aparece em um menu lateral, site feito com responsividade usando Media Query.",
+    "screenshots": [
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775265/Capturar_yngxem.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775268/Captu12rar_imcigh.png",
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775267/Ca79797pturar_n2bqql.png"
+    ],
+    "deployment": "https://wallacemt.github.io/projeto-trabalho-curso/index.html",
+    "previewImage": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1623427587/manga_xhzt7o.png"
+  }
+]
