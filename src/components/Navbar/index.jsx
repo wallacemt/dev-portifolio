@@ -37,10 +37,6 @@ export const Navbar = () => {
       name: "Formação",
       path: "/formacao",
     },
-    {
-      name: "Contato",
-      path: "/contato",
-    },
   ];
   return (
     <div className="p-0 xl:p-4">

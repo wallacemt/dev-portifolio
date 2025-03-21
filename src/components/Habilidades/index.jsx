@@ -58,7 +58,7 @@ export const Habilidades = () => {
   const renderSkillItem = (skill, index) => (
     <div
       key={index}
-      className="flex flex-col items-center bg-[#1E2021] p-6 rounded-lg shadow-lg transition-all duration-200 ease-linear hover:bg-opacity-80 hover:shadow-2xl hover:border-2 border-Destaque cursor-pointer hover:scale-105 overflow-hidden"
+      className="flex flex-col items-center bg-neutral10 dark:bg-[#1E2021] p-6 rounded-lg shadow-lg transition-all duration-200 ease-linear hover:bg-opacity-80 hover:shadow-2xl hover:border-2 border-Destaque cursor-pointer hover:scale-105 overflow-hidden"
       onClick={() => setSelectedSkill(skill)}
       data-aos="fade-right"
     >
@@ -73,7 +73,7 @@ export const Habilidades = () => {
         className={`w-32 h-32 mb-4 object-contain ${imageLoading[index] ? "block" : "hidden"}`}
         onLoad={() => handleImageLoad(index)}
       />
-      <h3 className="text-lg md:text-xl font-extrabold mt-4 font-lato">{skill.nome}</h3>
+      <h3 className="text-lg md:text-xl font-extrabold mt-4 font-lato text-neutral90 dark:text-DarkP">{skill.nome}</h3>
     </div>
   );
 
@@ -82,10 +82,10 @@ export const Habilidades = () => {
       <div className="container mx-auto px-6">
         {/* FrontEnd */}
         <div className="mb-8 mt-4">
-          <h2 className="font-principal text-DarkP bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
+          <h2 className="font-principal text-Destaque dark:text-DarkP bg-neutral10 dark:bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
             FrontEnd
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 border-b-2 p-2 rounded-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 border-b-2 border-neutral90 dark:border-neutral10 p-2 rounded-md">
             {loading
               ? Array(6)
                   .fill()
@@ -98,10 +98,10 @@ export const Habilidades = () => {
 
         {/* BackEnd */}
         <div className="mb-8">
-          <h2 className="font-principal text-DarkP bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
+          <h2 className="font-principal text-Destaque dark:text-DarkP bg-neutral10 dark:bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
             BackEnd
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 border-b-2 p-2 rounded-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 border-b-2 border-neutral90 dark:border-neutral10 p-2 rounded-md">
             {loading
               ? Array(6)
                   .fill()
@@ -114,10 +114,10 @@ export const Habilidades = () => {
 
         {/* DevOps */}
         <div className="mb-8">
-          <h2 className="font-principal text-DarkP bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
+          <h2 className="font-principal text-Destaque dark:text-DarkP bg-neutral10 dark:bg-neutral90 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
             DevOps
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 text-center border-b-2 p-2 rounded-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 text-center border-b-2 border-neutral90 dark:border-neutral10 p-2 rounded-md">
             {loading
               ? Array(6)
                   .fill()

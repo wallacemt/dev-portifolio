@@ -97,7 +97,7 @@
     "nome": "Projeto Calendário Semanal",
     "descricao": "Projeto de um esquema de um calendario de conteudos onde e exebido o conteudo comforme o dia que o usuario clica, que aparece em um menu lateral, site feito com responsividade usando Media Query.",
     "technologys": ["HTML", "CSS", "JavaScript"],
-    "frontend": "https://github.com/wallacemt/classic-music",
+    "frontend": "https://github.com/wallacemt/projeto-calendario-semanal",
     "screenshots": [
       "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772078/Capturar_ysxgpe.png",
       "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733772112/Captu7897rar_guhwa3.png",
@@ -111,6 +111,7 @@
     "nome": "Site sobre Musica Classica",
     "descricao": "Este projeto é uma homenagem à rica história da música clássica, apresentando compositores notáveis e suas obras mais importantes. O site oferece uma visão geral de compositores icônicos, curiosidades sobre suas vidas e composições, além de uma seção dedicada a ouvir suas músicas.",
     "technologys": ["HTML", "CSS", "JavaScript"],
+    "frontend": "https://github.com/wallacemt/classic-music",
     "screenshots": [
       "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775060/Capturar_uduck8.png",
       "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733775041/Ca79797pturar_b9jvsd.png"

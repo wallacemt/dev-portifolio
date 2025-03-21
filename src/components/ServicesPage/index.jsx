@@ -55,9 +55,10 @@ export const ServicesPage = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 mb-12">
       {servicesData.map((service, index) => (
-        <div key={index} className="relative w-full h-64" onClick={() => toggleFlip(index)}>
+        <div key={index} className="relative w-full h-64 select-none" onClick={() => toggleFlip(index)}>
+          {/* Frente */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-white dark:bg-gray-800"
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral10 dark:bg-neutral90 transition-colors duration-500"
             animate={{ rotateY: flipped[index] ? 180 : 0 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}
@@ -65,12 +66,13 @@ export const ServicesPage = () => {
             <div className="flex flex-col items-center justify-center h-full text-center p-6">
               {service.icon}
               <h3 className="text-xl font-bold mt-4 text-primary80 font-principal">{service.name}</h3>
-              <p className="text-gray-600 dark:text-gray-300 mt-2">{service.description}</p>
+              <p className="text-neutral80 dark:text-neutral10 mt-2">{service.description}</p>
             </div>
           </motion.div>
 
+          {/* Verso */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral10 dark:bg-neutral90 flex items-center justify-center"
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral10 dark:bg-neutral90 flex items-center justify-center transition-colors duration-500"
             animate={{ rotateY: flipped[index] ? 0 : 180 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}

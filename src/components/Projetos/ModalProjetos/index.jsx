@@ -19,7 +19,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
       style={{ zIndex: 9999 }}
     >
       <div
-        className="bg-neutral90 rounded-lg shadow-lg w-full max-w-5xl  overflow-auto p-6 relative transform scale-100 opacity-100"
+        className="bg-neutral90 rounded-lg shadow-lg w-full max-w-5xl   overflow-auto p-6 relative transform scale-100 opacity-100"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -29,7 +29,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           >
             <AiOutlineClose size={28} color="#fff" />
           </button>
-          <h1 className="border-b-2 border-primary90 text-xl sm:text-2xl lg:text-4xl font-principal font-bold text-neutral10 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md">
+          <h1 className="border-b-2 border-primary90 text-2xl lg:text-5xl font-principal font-bold text-neutral10 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md mt-6">
             {project.nome}
           </h1>
         </div>
@@ -47,10 +47,10 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           resource="screenshot"
           spaceBetween={20}
           slidesPerView={1}
-          className="mb-6 mt-16 lg:h-[50vh] overflow-hidden"
+          className="mb-6 mt-16 lg:h-[50vh] h-[25vh] overflow-hidden"
         >
           <div
-            className="swiper-button-next p-7"
+            className="swiper-button-next p-7 md:opacity-100 opacity-0"
             style={{
               right: "5px",
               backgroundColor: "#FF560c",
@@ -59,7 +59,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
             }}
           ></div>
           <div
-            className="swiper-button-prev p-7"
+            className="swiper-button-prev p-7 md:opacity-100 opacity-0"
             style={{
               left: "5px",
               backgroundColor: "#FF560c",
@@ -78,7 +78,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
                 <LazyImage
                   src={src}
                   alt={`Screenshot ${index + 1}`}
-                  className={`max-w-full max-h-full object-contain transition-opacity ${
+                  className={`w-full h-full object-contain transition-opacity ${
                     imageLoadingStates[index] ? "opacity-0" : "opacity-100"
                   }`}
                   onLoad={() => {
@@ -94,7 +94,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           <p className="text-neutral90 leading-relaxed text-sm md:text-lg">{project.descricao}</p>
         </div>
         {/* Tecnologias */}
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap gap-4 justify-center mb-12">
           {project.technologys.map((tech, idx) => (
             <div
               key={idx}
@@ -104,7 +104,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
             </div>
           ))}
         </div>
-        <div className="flex justify-between items-center gap-4 mt-4">
+        <div className="flex justify-between items-center gap-4 mt-4 absolute bottom-4 left-1/2 transform -translate-x-1/2">
           {project.frontend && (
             <a href={project.frontend} target="_blank" rel="noopener noreferrer">
               <DepoButton message={"FrontEnd"} bg={"666F7D"} />

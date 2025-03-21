@@ -16,7 +16,7 @@ export const Footer = () => {
                     <FaLinkedin className="w-8 h-8 invert hover:scale-110 transition-transform duration-500" />
                 </a>
 
-                <a href="https://wa.me/5571992581081" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/5571992581081?text=Ol%C3%A1%2C+gostaria+de+falar+com+voc%C3%AA+sobre+um+projeto!" target="_blank" rel="noopener noreferrer">
                     <FaWhatsapp className="w-8 h-8 invert hover:scale-110 transition-transform duration-500" />
                 </a>
             </div>
