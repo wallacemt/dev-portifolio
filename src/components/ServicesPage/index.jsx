@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCode, FaServer, FaDatabase, FaPlug, FaBook } from "react-icons/fa";
+import Aos from "aos";
 
 const servicesData = [
   {
@@ -52,32 +53,46 @@ export const ServicesPage = () => {
     });
   };
 
+  useEffect(() => {
+    Aos.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 mb-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 mb-12 relative" id="servicos">
+      <div className=" absolute top-[-2rem] left-1/2 transform -translate-x-1/2 text-center ">
+        <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">Serviços</h2>
+        <div className="mt-2 w-20 h-1 bg-primary80 mx-auto rounded-full"></div>
+      </div>
+
       {servicesData.map((service, index) => (
-        <div key={index} className="relative w-full h-64 select-none" onClick={() => toggleFlip(index)}>
+        <div key={index} className="relative w-full  mt-24 h-64 select-none" onClick={() => toggleFlip(index)} data-aos="fade-right">
           {/* Frente */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral10 dark:bg-neutral90 transition-colors duration-500"
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 transition-colors duration-500"
             animate={{ rotateY: flipped[index] ? 180 : 0 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}
+            
           >
-            <div className="flex flex-col items-center justify-center h-full text-center p-6">
+            <div className="flex flex-col items-center justify-center h-full text-center p-6" >
               {service.icon}
               <h3 className="text-xl font-bold mt-4 text-primary80 font-principal">{service.name}</h3>
-              <p className="text-neutral80 dark:text-neutral10 mt-2">{service.description}</p>
+              <p className="text-neutral10 dark:text-neutral90 mt-2">{service.description}</p>
             </div>
           </motion.div>
 
           {/* Verso */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral10 dark:bg-neutral90 flex items-center justify-center transition-colors duration-500"
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 flex items-center justify-center transition-colors duration-500"
             animate={{ rotateY: flipped[index] ? 0 : 180 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}
           >
-            <p className="text-lg text-center p-4 font-semibold text-gray-800 dark:text-white">{service.details}</p>
+            <p className="text-lg text-center p-4 font-semibold text-white dark:text-gray-800">{service.details}</p>
           </motion.div>
         </div>
       ))}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Loading from "../Loading";
+import Aos from "aos";
 
 export const Formacao = () => {
   const [formacoes, setFormacoes] = useState([]);
@@ -39,27 +40,43 @@ export const Formacao = () => {
     fetchFormacoes();
   }, []);
 
+ useEffect(() => {
+    Aos.init({
+      duration: 1000,
+      easing: "ease-in-out",
+      once: true,
+    });
+  }, []);
+
+
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col items-center p-8 mb-12">
-      <div className="flex flex-wrap justify-center gap-6 w-full select-none">
+    <div className="flex flex-col items-center p-8 mb-12" id="formacao">
+      <div className="flex flex-wrap justify-center gap-6 w-full select-none relative">
+        <div className=" absolute top-[-4rem] left-1/2 transform -translate-x-1/2 text-center ">
+          <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">
+            Formações
+          </h2>
+          <div className="mt-2 w-20 h-1 bg-primary80 mx-auto rounded-full"></div>
+        </div>
+
         {formacoes.map((formacao, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.6 }}
-            className="relative w-80 h-[380px] cursor-pointer"
+            className="relative w-80 mt-24 h-[380px] cursor-pointer"
             onClick={() => setFlipped((prev) => ({ ...prev, [index]: !prev[index] }))}
           >
             <motion.div
-              className="absolute w-full h-full rounded-xl shadow-lg bg-white dark:bg-neutral90 transition-transform duration-500 border border-DarkA1"
+              className="absolute w-full h-full rounded-xl shadow-lg bg-neutral90 dark:bg-neutral10 transition-transform duration-500 border border-DarkA1"
               animate={{ rotateY: flipped[index] ? 180 : 0 }}
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Frente do Card */}
-              <div className="absolute w-full h-full flex flex-col items-center justify-center p-6">
+              <div className="absolute w-full h-full flex flex-col items-center justify-center p-6" data-aos="fade-right">
                 <img
                   src={formacao.imagePreview}
                   alt={formacao.nome}
@@ -68,8 +85,10 @@ export const Formacao = () => {
                 <h3 className="text-xl font-semibold text-primary80 mt-4 text-center font-principal">
                   {typedTexts[index] || ""}
                 </h3>
-                <p className="text-md text-gray-600 dark:text-neutral10 underline">{formacao.instituicao}</p>
-                <p className="text-sm text-DarkA3 mt-2">
+                <p className="text-md font-principal font-bold text-neutral10 dark:text-neutral90">
+                  {formacao.instituicao}
+                </p>
+                <p className="text-sm text-neutral10 dark:text-neutral90 mt-2">
                   {formacao.dataInicio} - {formacao.dataTermino}
                 </p>
               </div>

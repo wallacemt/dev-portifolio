@@ -14,12 +14,12 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center transition-opacity duration-300 p-4"
+      className="fixed inset-0 bg-black  bg-opacity-70 flex items-center justify-center transition-opacity duration-300 p-4"
       onClick={onClose}
       style={{ zIndex: 9999 }}
     >
       <div
-        className="bg-neutral90 rounded-lg shadow-lg w-full max-w-5xl   overflow-auto p-6 relative transform scale-100 opacity-100"
+        className="bg-neutral90 dark:bg-neutral10 rounded-lg shadow-lg w-full max-w-5xl   overflow-auto p-6 relative transform scale-100 opacity-100"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -29,7 +29,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           >
             <AiOutlineClose size={28} color="#fff" />
           </button>
-          <h1 className="border-b-2 border-primary90 text-2xl lg:text-5xl font-principal font-bold text-neutral10 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md mt-6">
+          <h1 className="border-b-2 border-primary90 text-2xl lg:text-5xl font-principal font-bold text-neutral10 dark:text-neutral90 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md mt-6">
             {project.nome}
           </h1>
         </div>
@@ -90,8 +90,8 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           ))}
         </Swiper>
 
-        <div className="mb-4 mt-4 bg-neutral10 p-4 rounded-lg font-principal max-w-2xl mx-auto text-center">
-          <p className="text-neutral90 leading-relaxed text-sm md:text-lg">{project.descricao}</p>
+        <div className="mb-4 mt-4 bg-neutral10 dark:bg-neutral90 p-4 rounded-lg font-principal max-w-2xl mx-auto text-center">
+          <p className="text-neutral90 dark:text-neutral10 leading-relaxed text-sm md:text-lg">{project.descricao}</p>
         </div>
         {/* Tecnologias */}
         <div className="flex flex-wrap gap-4 justify-center mb-12">

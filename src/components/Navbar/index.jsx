@@ -1,46 +1,81 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { slide as Menu } from "react-burger-menu";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SwitchTheme } from "./SwitchTheme";
+import Scroll from "locomotive-scroll";
+
 export const Navbar = () => {
   const [handleTheme, setHandleTheme] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isDark, setDark] = useState(false);
+  const [scroll, setScroll] = useState(null);
+
   const toggleTheme = () => {
     setHandleTheme(!handleTheme);
-  };
-  const handleMenuClick = (path) => {
-    navigate(path);
-    setMenuOpen(false);
   };
 
   const menuItens = [
     {
       name: "Sobre",
-      path: "/sobre",
+      path: "sobre",
     },
     {
       name: "Habilidades",
-      path: "/habilidades",
+      path: "habilidades",
     },
     {
       name: "Projetos",
-      path: "/projetos",
+      path: "projetos",
     },
     {
       name: "Serviços",
-      path: "/servicos",
+      path: "servicos",
     },
     {
       name: "Formação",
-      path: "/formacao",
+      path: "formacao",
     },
   ];
+
+  useEffect(() => {
+    const el = document.querySelector("[data-scroll-container]");
+    if (!el) return;
+
+    const scrollInstance = new Scroll({
+      el,
+      smooth: true,
+    });
+
+    setScroll(scrollInstance);
+    return () => {
+      scrollInstance.destroy();
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (document.documentElement.classList.contains("dark")) {
+      setDark(true);
+    } else {
+      setDark(false);
+    }
+  }, [handleTheme]);
   return (
-    <div className="p-0 xl:p-4">
-      <div className="w-[100%] xl:w-[75%] h-20 bg-[#1e202179] rounded-3xl shadow-2xl m-auto">
+    <div className="p-0 xl:p-4 fixed top-0 left-0 right-0 z-50">
+      <div
+        className={`w-[100%] xl:w-[75%] h-20 transition-all duration-300 ${
+          scrollY > 0 ? " bg-neutral90 dark:bg-white" : "bg-[#1e202179] dark:bg-[#bdbdbd79]"
+        } rounded-3xl shadow-2xl m-auto`}
+      >
         <nav className="flex items-center justify-between h-full px-6 pr-24">
           <div onClick={() => navigate("/")}>
             <img
@@ -52,8 +87,8 @@ export const Navbar = () => {
                 transform: menuOpen ? "rotate(360deg)" : "rotate(0deg)",
                 transition: "transform 0.3s ease-in-out",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "rotate(360deg)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = menuOpen ? "rotate(360deg)" : "rotate(0deg)"}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = "rotate(360deg)")}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = menuOpen ? "rotate(360deg)" : "rotate(0deg)")}
             />
           </div>
 
@@ -62,19 +97,24 @@ export const Navbar = () => {
               <li
                 key={index}
                 className={`px-3 py-2 text-2xl md:text-[1.3rem] font-bold cursor-pointer 
-                  transition-all duration-300 ease-in-out hover:scale-110 ${
-                    location.pathname === item.path
-                      ? "text-Destaque underline underline-offset-4"
-                      : "text-DarkA4 hover:text-DarkP"
-                  }`}
-                onClick={() => handleMenuClick(item.path)}
+                  transition-all duration-300 ease-in-out hover:scale-110 text-neutral10 dark:text-neutral90 hover:underline`}
+                onClick={() => {
+                  const section = document.getElementById(item.path);
+                  if (section) {
+                    window.scrollTo({
+                      top: section.offsetTop - 200,
+                      behavior: "smooth",
+                    });
+                    navigate(`#${item.path}`);
+                  }
+                }}
               >
                 {item.name}
               </li>
             ))}
           </ul>
           <div className="flex items-center space-x-4" style={{ zIndex: 9990 }}>
-            <div className="text-Destaque hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center">
+            <div className="text-Destaque hover:bg-neutral90 dark:hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center">
               EN
             </div>
             <SwitchTheme toggleTheme={toggleTheme} />
@@ -114,13 +154,14 @@ export const Navbar = () => {
                   top: "0",
                 },
                 bmMenu: {
-                  background: "#182226",
+                  background: `${isDark ? "#1A1A1A" : "#E5E5E5"}`,
                   padding: "4em 2em",
                   fontSize: "1.2em",
                   overflow: "hidden",
                 },
                 bmItemList: {
                   display: "flex",
+                
                   flexDirection: "column",
                   marginTop: "2em",
                   gap: "20px",
@@ -143,13 +184,15 @@ export const Navbar = () => {
                   key={index}
                   onClick={() => {
                     setMenuOpen(false);
-                    handleMenuClick(item.path);
+                    const section = document.getElementById(item.path);
+                    if (section) {
+                      window.scrollTo({
+                        top: section.offsetTop - 100,
+                        behavior: "smooth",
+                      });
+                    }
                   }}
-                  className={`menu-item transition-transform duration-300 cursor-pointer ${
-                    location.pathname === item.path
-                      ? "text-Destaque underline underline-offset-4"
-                      : "text-DarkA3 hover:bg-DarkA4 hover:text-DarkP"
-                  }`}
+                  className={`menu-item transition-transform duration-300 cursor-pointer hover:scale-110 text-neutral80 dark:text-neutral10`}
                 >
                   {item.name}
                 </button>

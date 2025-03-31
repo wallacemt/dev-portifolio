@@ -26,26 +26,26 @@ export const Projetos = () => {
     return <Loading />;
   }
 
-  const firstProject = projects.length > 0 ? projects[0] : null;
-  const otherProjects = projects.slice(1);
 
   return (
-    <section className="bg-transparent mb-20">
-      <div className="container mx-auto px-6">
-        {/* Projeto em destaque */}
-        {firstProject && (
-          <div className="mb-10">
-            <CardProjetos project={firstProject} projOne= {true}	/>
-          </div>
-        )}
-
-        {/* Outros projetos */}
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6">
-          {otherProjects.map((project, index) => (
-            <CardProjetos key={index} project={project} />
-          ))}
+    <>
+      <section className="bg-transparent" id="projetos">
+        <div className="container mx-auto px-6 relative">
+          
+        <div className=" absolute top-[-4rem] left-1/2 transform -translate-x-1/2 text-center">
+          <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">
+            Projetos
+          </h2>
+          <div className="mt-2 w-20 h-1 bg-primary80 mx-auto rounded-full"></div>
         </div>
-      </div>
-    </section>
+        
+          <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6 mt-16">
+            {projects.map((project, index) => (
+              <CardProjetos key={index} project={project} projOne={index === 0 ? true:false} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };

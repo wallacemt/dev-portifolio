@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export const NotFoundPage = () => {
   return (
     <motion.div
-      className="flex flex-col items-center justify-center min-h-96 p-6  text-gray-800 dark:text-gray-100"
+      className="flex flex-col items-center justify-center h-screen p-6 "
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -18,7 +18,7 @@ export const NotFoundPage = () => {
       />
 
       <motion.h2
-        className="text-3xl font-principal text-neutral90 font-semibold"
+        className="text-3xl font-principal text-neutral90 dark:text-neutral10 font-semibold"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}

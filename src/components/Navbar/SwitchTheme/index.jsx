@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export const SwitchTheme = () => {
+export const SwitchTheme = ({toggleTheme}) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
+  const root = document.getElementById("root");
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-    console.log("Dark mode ativado?", document.documentElement.classList.contains("dark"));
-  }, [isDarkMode]);
+   useEffect(() => {
+    root.style.transition = "background 1s ease-in-out";
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark");
+        root.style.background = "url('/images/dark-gradient.jpg')"
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        root.style.background = "url('/images/light-gradient.jpg')"
+        localStorage.setItem("theme", "light");
+      }
+      root.style.backgroundRepeat = "no-repeat";
+        root.style.backgroundSize = "cover";
+        root.style.backgroundPosition = "center";
+        root.style.backgroundAttachment = "fixed";
+        toggleTheme();
+    }, [isDarkMode]);
   return (
     <StyledWrapper>
       <label htmlFor="switch" className="switch">

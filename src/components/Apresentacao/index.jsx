@@ -50,14 +50,14 @@ export const Apresentacao = () => {
   }, []);
 
   return (
-    <section className="h-auto w-auto flex justify-center items-center px-4 sm:px-6 md:px-8 lg:px-10 shadow-sm">
+    <section className="h-screen w-auto flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-10 shadow-sm ">
       <p
         id="animated-subtitle"
         className="text-6xl font-principal font-extrabold text-center sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl flex items-center"
       >
-        <span id="animated-text" className="relative text-neutral90">
+        <span id="animated-text" className="relative text-neutral90 dark:text-neutral10 ">
           {currentText}
-          <span className="ml-2 text-neutral80">{currentIcon}</span>
+          <span className="ml-2 text-neutral90 dark:text-neutral10">{currentIcon}</span>
           <span className={showCursor ? "opacity-100" : "opacity-0"}> |</span>
         </span>
       </p>
