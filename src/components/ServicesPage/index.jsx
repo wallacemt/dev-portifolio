@@ -60,13 +60,12 @@ export const ServicesPage = () => {
 
       {servicesData.map((service, index) => (
         <div key={index} className="relative w-full  mt-24 h-64 select-none" onClick={() => toggleFlip(index)} data-aos="fade-right">
-          {/* Frente */}
+          {/* Verso */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 transition-colors duration-500"
-            animate={{ rotateY: flipped[index] ? 180 : 0 }}
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 flex items-center justify-center transition-colors duration-500"
+            animate={{ rotateY: flipped[index] ? 0 : 180 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}
-            
           >
             <div className="flex flex-col items-center justify-center h-full text-center p-6" >
               {service.icon}
@@ -75,10 +74,10 @@ export const ServicesPage = () => {
             </div>
           </motion.div>
 
-          {/* Verso */}
+          {/* Frente */}
           <motion.div
-            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 flex items-center justify-center transition-colors duration-500"
-            animate={{ rotateY: flipped[index] ? 0 : 180 }}
+            className="absolute w-full h-full rounded-2xl shadow-lg cursor-pointer transform bg-neutral90 dark:bg-neutral10 transition-colors duration-500 flex justify-center items-center"
+            animate={{ rotateY: flipped[index] ? 180 : 0 }}
             transition={{ duration: 0.6 }}
             style={{ backfaceVisibility: "hidden" }}
           >
