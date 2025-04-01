@@ -60,7 +60,7 @@ export const Habilidades = () => {
   const renderSkillItem = (skill, index) => (
     <div
       key={index}
-      className="flex flex-col items-center bg-[#1E2021] dark:bg-neutral10  p-6 rounded-lg shadow-lg transition-all duration-200 ease-linear hover:bg-opacity-80 hover:shadow-2xl hover:border-2 border-Destaque cursor-pointer hover:scale-105 overflow-hidden"
+      className="flex flex-col items-center bg-[#1E2021] dark:bg-neutral10 p-2 rounded-lg shadow-lg transition-all duration-200 ease-linear hover:bg-opacity-80 hover:shadow-2xl hover:border-2 border-Destaque cursor-pointer hover:scale-105 overflow-hidden"
       onClick={() => setSelectedSkill(skill)}
       data-aos="fade-right"
     >
@@ -75,7 +75,7 @@ export const Habilidades = () => {
         className={`w-32 h-32 mb-4 object-contain ${imageLoading[index] ? "block" : "hidden"}`}
         onLoad={() => handleImageLoad(index)}
       />
-      <h3 className="text-lg md:text-xl font-extrabold mt-4 font-lato text-DarkP dark:text-neutral90 ">{skill.nome}</h3>
+      <h3 className="text-lg md:text-xl font-extrabold mt-4 font-lato text-DarkP dark:text-neutral90 ">{skill.nome.replace(/_/g, " ")}</h3>
     </div>
   );
 
@@ -126,7 +126,7 @@ export const Habilidades = () => {
           <h2 className="font-principal text-DarkP  dark:text-Destaque bg-neutral90 dark:bg-neutral10 w-fit mx-auto rounded-lg text-3xl mb-4 text-center p-1">
             DevOps
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 text-center border-b-2 border-neutral90 dark:border-neutral10 p-2 rounded-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-6 text-center  border-neutral90 dark:border-neutral10 p-2 rounded-md">
             {loading
               ? Array(6)
                   .fill()
@@ -140,7 +140,7 @@ export const Habilidades = () => {
 
       {/* Modal de Seleção de Habilidade */}
       {selectedSkill && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out opacity-100 ">
+        <article className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out opacity-100 ">
           <div className="bg-neutral90 dark:bg-neutral10 p-6 rounded-lg shadow-lg max-w-lg w-[90%] md:w-full relative transform transition-transform duration-300 ease-in-out scale-95 hover:scale-100">
             <button
               onClick={() => setSelectedSkill(null)}
@@ -163,8 +163,8 @@ export const Habilidades = () => {
             ></img>
 
             {/* Modal Title */}
-            <h3 className="text-5xl font-bold font-principal mb-4 text-center text-primary80 bg-neutral10 dark:bg-neutral80 rounded-lg w-fit mx-auto p-1">
-              {selectedSkill.nome}
+            <h3 className="text-4xl md:text-6xl font-bold font-principal mb-4 text-center text-primary80 bg-neutral10 dark:bg-neutral80 rounded-lg w-fit mx-auto p-1">
+              {selectedSkill.nome.replace(/_/g, " ")}
             </h3>
 
             {/* Skill List */}
@@ -172,7 +172,7 @@ export const Habilidades = () => {
               {selectedSkill.habilidades.map((habilidade, idx) => (
                 <li
                   key={idx}
-                  className="flex items-center justify-center text-2xl dark:text-neutral90 font-bold font-secundaria hover:text-DarkP cursor-pointer transition-all duration-200 transform hover:translate-x-2 rounded-lg gap-2 border-b-2 border-Destaque w-full text-center"
+                  className="flex items-center justify-center text-[1.2em] md:text-2xl dark:text-neutral90 font-bold font-secundaria hover:text-DarkP cursor-pointer transition-all duration-200 transform hover:translate-x-2 rounded-lg gap-2 border-b-2 border-Destaque w-full text-center"
                 >
                   {t(
                     `habillidades.${selectedSkill.nome.toLowerCase()}.${habilidade.toLowerCase().replace(/\s+/g, "_")}`
@@ -181,7 +181,7 @@ export const Habilidades = () => {
               ))}
             </ul>
           </div>
-        </div>
+        </article>
       )}
     </section>
   );

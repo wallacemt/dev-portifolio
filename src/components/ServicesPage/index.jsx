@@ -27,7 +27,7 @@ const servicesData = [
   },
   {
     name: "documentacao_projetos",
-    icon: <FaBook className="text-neutral10 text-4xl" />,
+    icon: <FaBook className="text-neutral10 dark:text-neutral90 text-4xl" />,
   },
 ];
 

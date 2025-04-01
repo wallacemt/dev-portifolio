@@ -2,7 +2,7 @@ import React from "react";
 import { FaGithub, FaDiscord, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 export const Footer = () => {
     return (
-        <div className="fixed bottom-1 z-40 left-0 right-0 flex justify-center items-center h-12 w-64 mx-auto bg-[#1E2021] dark:bg-DarkP2 rounded-3xl transition-all duration-300 ease-in-out hover:shadow-md">
+        <footer className="fixed bottom-1 z-40 left-0 right-0 flex justify-center items-center h-12 w-64 mx-auto bg-[#1E2021] dark:bg-DarkP2 rounded-3xl transition-all duration-300 ease-in-out hover:shadow-md">
             <div className="flex items-center gap-8">
                 <a href="https://github.com/wallacemt" target="_blank" rel="noopener noreferrer">
                     <FaGithub className="w-8 h-8 invert dark:filter-none hover:scale-110 transition-transform duration-500 "  />
@@ -20,7 +20,7 @@ export const Footer = () => {
                     <FaWhatsapp className="w-8 h-8 invert dark:filter-none hover:scale-110 transition-transform duration-500" />
                 </a>
             </div>
-        </div>
+        </footer>
     );
 }
 

@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-export const SwitchTheme = ({toggleTheme}) => {
+import { TraceSpinner } from "react-spinners-kit";
+export const SwitchTheme = ({ toggleTheme }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
+  const [isImagedLoaded, setImagemLoaded] = useState(false);
   const root = document.getElementById("root");
-
-   useEffect(() => {
+  useEffect(() => {
     root.style.transition = "background 1s ease-in-out";
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark");
-        root.style.background = "url('/images/dark-gradient.jpg')"
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        root.style.background = "url('/images/light-gradient.jpg')"
-        localStorage.setItem("theme", "light");
-      }
-      root.style.backgroundRepeat = "no-repeat";
-        root.style.backgroundSize = "cover";
-        root.style.backgroundPosition = "center";
-        root.style.backgroundAttachment = "fixed";
-        toggleTheme();
-    }, [isDarkMode]);
+    const themes = {
+      light: "url('/images/light-gradient.jpg')",
+      dark: "url('/images/dark-gradient.jpg')",
+    };
+    if (isDarkMode) {
+      document.documentElement.classList.add("dark");
+      root.style.background = themes.dark;
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      root.style.background = themes.light;
+      localStorage.setItem("theme", "light");
+    }
+    root.style.backgroundRepeat = "no-repeat";
+    root.style.backgroundSize = "cover";
+    root.style.backgroundPosition = "center";
+    root.style.backgroundAttachment = "fixed";
+    toggleTheme();
+  }, [isDarkMode]);
   return (
     <StyledWrapper>
       <label htmlFor="switch" className="switch">
@@ -41,7 +45,6 @@ export const SwitchTheme = ({toggleTheme}) => {
 };
 
 const StyledWrapper = styled.div`
-  /* O restante do código do switch permanece igual */
   .switch {
     font-size: 17px;
     position: relative;

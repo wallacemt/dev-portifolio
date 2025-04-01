@@ -64,6 +64,7 @@ export const Formacao = () => {
   return (
     <div className="flex flex-col items-center p-8 mb-12" id="formacao">
       <div className="flex flex-wrap justify-center gap-6 w-full select-none relative">
+
         <div className=" absolute top-[-4rem] left-1/2 transform -translate-x-1/2 text-center ">
           <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">
             Formações
@@ -77,7 +78,7 @@ export const Formacao = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2, duration: 0.6 }}
-            className="relative w-80 mt-24 h-[380px] cursor-pointer"
+            className="relative w-80 mt-10 h-[380px] cursor-pointer"
             onClick={() => setFlipped((prev) => ({ ...prev, [index]: !prev[index] }))}
           >
             <motion.div
@@ -104,6 +105,9 @@ export const Formacao = () => {
                 <p className="text-sm text-neutral10 dark:text-neutral90 mt-2">
                   {formacao.dataInicio} - {formacao.dataTermino}
                 </p>
+                <div className="text-md mt-3 font-light bg-neutral10 font-principal dark:bg-neutral90 text-primary90 absolute p-1 rounded-lg top-0 right-2 first-letter:uppercase">
+                  {formacao.tipo}
+                </div>
               </div>
 
               {/* Verso do Card */}
@@ -123,6 +127,17 @@ export const Formacao = () => {
           </motion.div>
         ))}
       </div>
+      <footer className="text-center text-neutral10 h-16 mt-12">
+        Copyright &copy; {new Date().getFullYear()}{" "}
+        <a
+          href="https://github.com/wallacemt"
+          className="text-Destaque font-principal font-bold hover:underline"
+          target="_blank"
+        >
+          Wallace Santana
+        </a>{" "}
+        {t(`copy`)}
+      </footer>
     </div>
   );
 };

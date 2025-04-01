@@ -18,10 +18,6 @@ export const SPA = () => {
                 {screens.map((screen, index) => (
                     <div key={index} className={`h-full p-2 ${index !== screens.length - 1 ? "border-b-4" : "mb-0"}  mt-12 border-neutral90 dark:border-neutral10`}>
                         {screen}
-                        {index === screens.length - 1 && 
-                         <p className="text-center text-neutral10 h-16">
-                         Copyright &copy; {new Date().getFullYear()} <a href="https://github.com/wallacemt" className="text-Destaque font-principal font-bold hover:underline" target="_blank">Wallace Santana</a> {t(`copy`)}
-                     </p>}
                     </div>
                 ))}
             </div>
