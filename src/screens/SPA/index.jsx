@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Footer } from "../../components/Footer";
 import { Formacao } from "../../components/Formacao";
 import { Habilidades } from "../../components/Habilidades";
@@ -9,6 +10,7 @@ import { Sobre } from "../../components/Sobre";
 
 export const SPA = () => {
     const screens = [<Home />, <Sobre />, <Habilidades />, <Projetos />,<ServicesPage />, <Formacao /> ]
+    const {t}=  useTranslation();
     return (
         <>
             <Navbar />
@@ -18,7 +20,7 @@ export const SPA = () => {
                         {screen}
                         {index === screens.length - 1 && 
                          <p className="text-center text-neutral10 h-16">
-                         Copyright &copy; {new Date().getFullYear()} <a href="https://github.com/wallacemt" className="text-Destaque font-principal font-bold hover:underline" target="_blank">Wallace Santana</a> Todos os direitos reservados.
+                         Copyright &copy; {new Date().getFullYear()} <a href="https://github.com/wallacemt" className="text-Destaque font-principal font-bold hover:underline" target="_blank">Wallace Santana</a> {t(`copy`)}
                      </p>}
                     </div>
                 ))}

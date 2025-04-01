@@ -8,12 +8,13 @@ import "@tailwindcss/typography";
 import aos from "aos";
 import { ModalProject } from "../ModalProjetos";
 import { LazyImage } from "../LazyImage";
-
+import { useTranslation } from "react-i18next";
 
 export const CardProjetos = ({ project, projOne = false }) => {
   const [imageLoading, setImageLoading] = useState(true);
   const [isModalOpen, setModalOpen] = useState(false);
   const [imageLoadingStates, setImageLoadingStates] = useState(Array(project.screenshots.length).fill(true));
+  const [t] = useTranslation();
 
   useEffect(() => {
     aos.init({
@@ -34,19 +35,21 @@ export const CardProjetos = ({ project, projOne = false }) => {
   return (
     <div
       className={`rounded-lg shadow-2xl  p-6 transition-transform duration-200 overflow-y-hidden
-  ${projOne
-          ? "bg-gradient-to-r from-Destaque to-primary80 border-4 border-white scale-105 "
-          : "bg-neutral90 dark:bg-neutral10 hover:bg-neutral80 dark:hover:bg-DarkA3"
-        }`}
+  ${
+    projOne
+      ? "bg-gradient-to-r from-Destaque to-primary80 border-4 border-white scale-105 "
+      : "bg-neutral90 dark:bg-neutral10 hover:bg-neutral80 dark:hover:bg-DarkA3"
+  }`}
       data-aos="fade-right"
     >
       <h3
-        className={`text-center mb-6 font-bold transform-cpu duration-300 border-b-2 rounded-md ${projOne
+        className={`text-center mb-6 font-bold transform-cpu duration-300 border-b-2 rounded-md ${
+          projOne
             ? "text-DarkP border-neutral10 bg-gradient-to-r from-Destaque to-primary80 text-3xl"
             : "text-neutral90 border-neutral90 bg-gradient-to-r from-DarkP2 to-DarkA1 text-2xl"
-          } font-principal`}
+        } font-principal`}
       >
-        {project.nome}
+        {t(`projetos.${project.nome.toLowerCase().replace(/\s+/g, "_")}.name`)}
       </h3>
 
       <div className="relative overflow-hidden rounded-lg mb-6 cursor-pointer" onClick={toggleModal}>
@@ -59,8 +62,9 @@ export const CardProjetos = ({ project, projOne = false }) => {
         <LazyImage
           src={project.previewImage}
           alt={`Preview do projeto ${project.nome}`}
-          className={`border-2 border-neutral90 w-full "h-60" object-cover transition-transform duration-300 hover:scale-110 ${imageLoading ? "opacity-0" : "opacity-100"
-            }`}
+          className={`border-2 border-neutral90 w-full "h-60" object-cover transition-transform duration-300 hover:scale-110 ${
+            imageLoading ? "opacity-0" : "opacity-100"
+          }`}
           onLoad={handleImageLoad}
           projOne={projOne}
         />
@@ -81,7 +85,6 @@ export const CardProjetos = ({ project, projOne = false }) => {
           <DepoButton message={"Deploy"} />
         </a>
       </div>
-
 
       {/* Modal */}
       <ModalProject

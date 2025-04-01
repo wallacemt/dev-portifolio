@@ -4,8 +4,10 @@ import Loading from "../Loading";
 import Aos from "aos";
 import { ImageLoading } from "../ImageLoading";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 export const Habilidades = () => {
   const [skillsData, setSkillsData] = useState([]);
+  const { t } = useTranslation();
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState({});
@@ -23,8 +25,6 @@ export const Habilidades = () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedSkill]);
-
-  
 
   useEffect(() => {
     Aos.init({
@@ -84,7 +84,7 @@ export const Habilidades = () => {
       <div className="container mx-auto px-6">
         <div className=" absolute top-[-3rem] left-1/2 transform -translate-x-1/2 text-center mb-12">
           <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">
-            Habilidades
+            {t("hab.titulo")}
           </h2>
           <div className="mt-2 w-20 h-1 bg-primary80 mx-auto rounded-full"></div>
         </div>
@@ -174,7 +174,9 @@ export const Habilidades = () => {
                   key={idx}
                   className="flex items-center justify-center text-2xl dark:text-neutral90 font-bold font-secundaria hover:text-DarkP cursor-pointer transition-all duration-200 transform hover:translate-x-2 rounded-lg gap-2 border-b-2 border-Destaque w-full text-center"
                 >
-                  {habilidade}
+                  {t(
+                    `habillidades.${selectedSkill.nome.toLowerCase()}.${habilidade.toLowerCase().replace(/\s+/g, "_")}`
+                  )}
                 </li>
               ))}
             </ul>

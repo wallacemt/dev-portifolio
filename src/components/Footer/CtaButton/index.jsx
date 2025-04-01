@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { BsFiletypePdf } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 export const CtaButton = () => {
+    const {t} = useTranslation();
     return (
         <StyledWrapper>
             <div className="button-borders">
@@ -9,7 +11,7 @@ export const CtaButton = () => {
                     onClick={() => window.open("/curriculo.pdf", "_blank")}
                 >
                     <BsFiletypePdf color="#fff" className="hover:text-white mr-2"/>
-                    Baixar CV
+                    {t('sobre.ctaBotao')}
                 </button>
             </div>
         </StyledWrapper>

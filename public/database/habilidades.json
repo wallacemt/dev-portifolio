@@ -5,8 +5,8 @@
     "habilidades": [
       "Estrutura de dados",
       "Ponteiros",
-      "Alocação dinâmica",
-      "Algoritmos de ordenação",
+      "Alocacao dinamica",
+      "Algoritmos de ordenacao",
       "Algoritmos de busca"
     ],
     "stack": "BackEnd",
@@ -17,12 +17,12 @@
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768774/img.icons8_gyxyl4.png",
     "habilidades": [
       "POO",
-      "Sessões e Cookies",
-      "Tratamento de Exceções",
-      "Manipulação de Arquivos e Diretórios",
-      "Criação de APIs",
-      "Integração com APIs externas",
-      "Integração com banco de dados MySQL"
+      "Sessoes e Cookies",
+      "Tratamento de Excecoes",
+      "Manipulacao de Arquivos e Diretorios",
+      "Criacao de APIs",
+      "Integracao com APIs externas",
+      "Integracao com banco de dados MySQL"
     ],
     "stack": "BackEnd",
     "type": "language"
@@ -31,11 +31,11 @@
     "nome": "Java",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768823/img.icons8_zceqs1.png",
     "habilidades": [
-      "Programação orientada a objetos",
-      "Utilização das ferramentas do Java",
-      "Integração com banco de dados PostgreSQL",
-      "Integração com APIs externas",
-      "Criação de APIs"
+      "Programacao orientada a objetos",
+      "Utilizacao das ferramentas do Java",
+      "Integracao com banco de dados PostgreSQL",
+      "Integracao com APIs externas",
+      "Criacao de APIs"
     ],
     "stack": "BackEnd",
     "type": "language"
@@ -44,10 +44,10 @@
     "nome": "MySQL",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768840/img.icons8_ptida1.png",
     "habilidades": [
-      "Criação de bancos de dados",
-      "Configuração de entidades",
+      "Criacao de bancos de dados",
+      "Configuracao de entidades",
       "Consultas SQL",
-      "Funções de Agregação",
+      "Funcoes de Agregacao",
       "Agrupamento de Dados"
     ],
     "stack": "BackEnd",
@@ -57,11 +57,11 @@
     "nome": "React",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768842/img.icons8_aaqinh.png",
     "habilidades": [
-      "Criação de componentes",
-      "Utilização de hooks",
-      "Integração com backend usando Axios",
-      "Criação de interfaces de usuário",
-      "Criação de rotas"
+      "Criacao de componentes",
+      "Utilizacao de hooks",
+      "Integracao com backend usando Axios",
+      "Criacao de interfaces de usuario",
+      "Criacao de rotas"
     ],
     "stack": "FrontEnd",
     "type": "framework"
@@ -70,11 +70,10 @@
     "nome": "Storybook",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/storybook/storybook-original.svg",
     "habilidades": [
-      "Criação de componentes reutilizáveis",
+      "Criacao de componentes reutilizaveis",
       "Desenvolvimento de UI isolada",
-      "Documentação e testes de componentes",
-      "Integração com React, Vue e Angular",
-      "Configuração e personalização do Storybook"
+      "Documentacao e testes de componentes",
+      "Configuracao e personalizacao do Storybook"
     ],
     "stack": "FrontEnd"
   },
@@ -82,23 +81,20 @@
     "nome": "Vite",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg",
     "habilidades": [
-      "Configuração e uso de Vite para desenvolvimento",
+      "Configuracao e uso de Vite para desenvolvimento",
       "Melhoria da performance do projeto com Vite",
-      "Uso de Vite com React e Vue",
-      "Configuração de hot-reloading",
-      "Integração com ferramentas como Tailwind e Prettier"
+      "Uso de Vite com React e Vue"
     ],
     "stack": "FrontEnd"
   },
   {
-    "nome": "Tailwind CSS",
+    "nome": "Tailwind_CSS",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
     "habilidades": [
-      "Estilização rápida com classes utilitárias",
-      "Customização de temas",
-      "Criação de layouts responsivos",
-      "Integração com outras ferramentas como React e Next.js",
-      "Criação de design adaptativo"
+      "Estilizacao rapida com classes utilitarias",
+      "Customizacao de temas",
+      "Criacao de layouts responsivos",
+      "Criacao de design adaptativo"
     ],
     "stack": "FrontEnd"
   },
@@ -106,40 +102,39 @@
     "nome": "Axios",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/axios/axios-plain-wordmark.svg",
     "habilidades": [
-      "Realizar requisições HTTP",
-      "Integração com APIs RESTful",
+      "Realizar requisicoes HTTP",
+      "Integracao com APIs RESTful",
       "Gerenciamento de erros e respostas",
-      "Configuração global de Axios",
-      "Uso de interceptadores para autenticação"
+      "Configuracao global de Axios",
+      "Uso de interceptadores para autenticacao"
     ],
     "stack": "FrontEnd"
   },
   {
-    "nome": "Node.js",
+    "nome": "Node_js",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768844/img.icons8_l1pcjg.png",
     "habilidades": [
-      "Integração com banco de dados",
-      "Integração com APIs externas",
-      "Criação de rotas",
-      "Utilização das ferramentas do Node.js",
-      "Criação de back-end de aplicações",
+      "Integracao com banco de dados",
+      "Integracao com APIs externas",
+      "Criacao de rotas",
+      "Criacao de backend de aplicacoes",
       "API RESTful",
       "Protocolo HTTP",
-      "Autenticação e Criptografia",
-      "Conexão com Banco de Dados"
+      "Autenticacao e Criptografia",
+      "Conexao com Banco de Dados"
     ],
     "stack": "BackEnd",
     "type": "framework"
   },
   {
-    "nome": "Spring Boot",
+    "nome": "Spring_Boot",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768864/img.icons8_jzpzeh.png",
     "habilidades": [
-      "Criação de APIs",
-      "Integração com banco de dados",
-      "Integração com APIs externas",
-      "Utilização das ferramentas do Spring Boot",
-      "Criação de back-end de aplicações"
+      "Criacao de APIs",
+      "Integracao com banco de dados",
+      "Integracao com APIs externas",
+      "Utilizacao das ferramentas do Spring Boot",
+      "Criacao de backend de aplicacoes"
     ],
     "stack": "BackEnd",
     "type": "framework"
@@ -148,19 +143,18 @@
     "nome": "WebSocket",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742058046/images-removebg-preview_ritj99.png",
     "habilidades": [
-      "Comunicação bidirecional em tempo real",
-      "Integração de WebSockets em Node.js",
-      "Implementação de WebSockets em APIs",
-      "Criação de chat em tempo real",
-      "Implementação de notificações em tempo real",
-      "Gerenciamento de conexões persistentes"
+      "Comunicacao bidirecional em tempo real",
+      "Implementacao de WebSockets em APIs",
+      "Criacao de chat em tempo real",
+      "Implementacao de notificacoes em tempo real",
+      "Gerenciamento de conexoes persistentes"
     ],
     "stack": "BackEnd"
   },
   {
-    "nome": "Next.js",
+    "nome": "Next_js",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768866/img.icons8_dlgsuf.png",
-    "habilidades": ["Utilização das ferramentas do Next.js", "SEO", "Routing", "Sistema", "Criação de rotas"],
+    "habilidades": ["Utilizacao das ferramentas do Nextjs", "SEO", "Routing", "Sistema", "Criacao de rotas"],
     "stack": "FrontEnd",
     "type": "framework"
   },
@@ -168,13 +162,12 @@
     "nome": "Kotlin",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1733768869/img.icons8_wpfkgf.png",
     "habilidades": [
-      "Criação de apps móveis simples",
-      "Utilização de Coroutines",
-      "Utilização de Room",
-      "Utilização de Retrofit",
-      "Utilização de Android Architecture Components",
-      "Utilização de livedata",
-      "Utilização de viewmodel"
+      "Criacao de apps moveis simples",
+      "Utilizacao de Coroutines",
+      "Utilizacao de Room",
+      "Utilizacao de Android Architecture Components",
+      "Utilizacao de livedata",
+      "Utilizacao de viewmodel"
     ],
     "stack": "BackEnd",
     "type": "framework"
@@ -188,7 +181,7 @@
       "Uso de Gems",
       "APIs",
       "Banco de dados",
-      "Testes unitários com RSpec"
+      "Testes unitarios com RSpec"
     ],
     "stack": "BackEnd",
     "type": "framework"
@@ -198,27 +191,27 @@
     "stack": "DevOps",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742051524/icons8-amazon-aws-96_cpojab.png",
     "habilidades": [
-      "Criação e gerenciamento de instâncias EC2",
-      "Configuração de buckets S3",
+      "Criacao e gerenciamento de instancias EC2",
+      "Configuracao de buckets S3",
       "Gerenciamento de bancos de dados RDS",
-      "Automação com AWS Lambda",
+      "Automacao com AWS Lambda",
       "Monitoramento com CloudWatch",
-      "Implantação usando Elastic Beanstalk",
+      "Implantacao usando Elastic Beanstalk",
       "Gerenciamento de redes com VPC"
     ]
   },
   {
-    "nome": "Google Cloud",
+    "nome": "Google_Cloud",
     "stack": "DevOps",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742051641/icons8-google-cloud-480_wh10ip.png",
     "habilidades": [
-      "Gerenciamento de instâncias Compute Engine",
+      "Gerenciamento de instancias Compute Engine",
       "Armazenamento no Cloud Storage",
       "Gerenciamento de Kubernetes com GKE",
-      "Automação com Cloud Functions",
+      "Automacao com Cloud Functions",
       "Gerenciamento de redes com VPC",
       "Monitoramento com Stackdriver",
-      "Implantação de aplicações com App Engine"
+      "Implantacao de aplicacoes com App Engine"
     ]
   },
   {
@@ -226,11 +219,11 @@
     "stack": "DevOps",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742051850/pngwing.com_qaj629.png",
     "habilidades": [
-      "Configuração de filas e exchanges",
-      "Gerenciamento de mensagens assíncronas",
+      "Configuracao de filas e exchanges",
+      "Gerenciamento de mensagens assincronas",
       "Monitoramento de filas",
-      "Integração com microserviços",
-      "Criação de sistemas de mensageria em tempo real"
+      "Integracao com microservicos",
+      "Criacao de sistemas de mensageria em tempo real"
     ]
   },
   {
@@ -238,36 +231,36 @@
     "stack": "DevOps",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742051969/icons8-apache-kafka-512_r7fgwh.png",
     "habilidades": [
-      "Criação de tópicos e streams",
+      "Criacao de topicos e streams",
       "Processamento de dados em tempo real",
-      "Integração com sistemas distribuídos",
+      "Integracao com sistemas distribuidos",
       "Gerenciamento de consumidores e produtores",
       "Escalabilidade com Kafka clusters"
     ]
   },
   {
-    "nome": "GitHub Actions",
+    "nome": "GitHub_Actions",
     "stack": "DevOps",
     "icon": "https://res.cloudinary.com/dg9hqvlas/image/upload/v1742052040/GitHub_Actions_fd7edh.png",
     "habilidades": [
-      "Automatização de CI/CD",
-      "Criação de pipelines de build e deploy",
-      "Configuração de fluxos de trabalho",
-      "Integração com testes automatizados",
-      "Gerenciamento de versionamento de código"
+      "Automatizacao de CI/CD",
+      "Criacao de pipelines de build e deploy",
+      "Configuracao de fluxos de trabalho",
+      "Integracao com testes automatizados",
+      "Gerenciamento de versionamento de codigo"
     ]
   },
   {
     "nome": "Swagger",
     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swagger/swagger-original.svg",
     "habilidades": [
-      "Documentação de APIs REST",
-      "Criação de especificações OpenAPI",
-      "Integração com backend",
-      "Geração de documentação interativa",
-      "Suporte a autenticação e segurança na documentação"
+      "Documentacao de APIs REST",
+      "Criacao de especificacoes OpenAPI",
+      "Integracao com backend",
+      "Geracao de documentacao interativa",
+      "Suporte a autenticacao e seguranca na documentacao"
     ],
     "stack": "BackEnd"
   }
-  
 ]
+

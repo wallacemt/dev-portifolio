@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { CtaButton } from "../Footer/CtaButton";
 import aos from "aos";
+import { useTranslation } from "react-i18next";
 
 export const Sobre = () => {
+  const {t} = useTranslation();
   useEffect(() => {
     aos.init({
       duration: 1000,
@@ -16,7 +18,7 @@ export const Sobre = () => {
       <div className="container mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12 z-50 ">
         <div className=" absolute top-0 left-1/2 transform -translate-x-1/2 text-center ">
           <h2 className="font-principal text-3xl md:text-4xl font-bold text-neutral-950 dark:text-neutral10">
-            Sobre Mim
+            {t('sobre.titulo')}
           </h2>
           <div className="mt-2 w-20 h-1 bg-primary80 mx-auto rounded-full"></div>
         </div>
@@ -32,17 +34,13 @@ export const Sobre = () => {
             Wallace Santana
           </h1>
           <h2 className="font-secundaria text-xl md:text-lg font-semibold text-DarkA1 mt-3">
-            Desenvolvedor <span className="text-primary80">Full-Stack</span>
+            {t('sobre.ocupacao')} <span className="text-primary80">Full-Stack</span>
           </h2>
           <p className="font-secundaria text-base md:text-lg text-neutral10 dark:text-neutral10 mt-6 leading-relaxed text-justify">
-            Sou Wallace Santana, um Desenvolvedor FullStack com uma paixão constante pelo aprendizado e evolução. Adoto
-            uma abordagem autodidata, sempre em busca de novas formas de aprimorar minhas habilidades técnicas e meu
-            crescimento pessoal. Acredito que a excelência vai além do código e se reflete em todas as áreas da vida.
+          {t('sobre.descricao1')}
           </p>
           <p className="font-secundaria text-base md:text-lg text-neutral10 mt-4 leading-relaxed text-justify">
-            Tenho dois grandes sonhos profissionais: o primeiro é trabalhar no exterior, expandindo meus horizontes; o
-            segundo é me tornar uma referência na tecnologia, influenciando positivamente o setor e contribuindo para a
-            inovação.
+          {t('sobre.descricao2')}
           </p>
           <div className="mt-6 flex justify-center md:justify-start">
             <CtaButton />

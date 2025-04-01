@@ -1,0 +1,279 @@
+{
+  "menu": {
+    "sobre": "About",
+    "habilidades": "Skills",
+    "projetos": "Projects",
+    "servicos": "Services",
+    "formacao": "Education"
+  },
+
+  "apresentacao": {
+    "ola": "Hello World!",
+    "eu": "I'm a Full-Stack Developer!",
+    "portfolio": "This is my portfolio!",
+    "bemvindo": "Welcome!"
+  },
+  "sobre": {
+    "titulo": "About Me",
+    "ocupacao": "Developer",
+    "descricao1": "I am Wallace Santana, a FullStack Developer with a constant passion for learning and evolving. I adopt a self-taught approach, always seeking new ways to enhance my technical skills and personal growth. I believe that excellence goes beyond code and reflects in all areas of life.",
+    "descricao2": "I have two major professional dreams: the first is to work abroad, expanding my horizons; the second is to become a reference in technology, positively influencing the sector and contributing to innovation.",
+    "ctaBotao": "Download CV"
+  },
+  "hab": {
+    "titulo": "Skils"
+  },
+
+  "habillidades": {
+    "c": {
+      "estrutura_de_dados": "Data Structures",
+      "ponteiros": "Pointers",
+      "alocacao_dinamica": "Dynamic Allocation",
+      "algoritmos_de_ordenacao": "Sorting Algorithms",
+      "algoritmos_de_busca": "Search Algorithms"
+    },
+    "php": {
+      "poo": "OOP",
+      "sessoes_e_cookies": "Sessions and Cookies",
+      "tratamento_de_excecoes": "Exception Handling",
+      "manipulacao_de_arquivos_e_diretorios": "File and Directory Manipulation",
+      "criacao_de_apis": "API Creation",
+      "integracao_com_apis_externas": "Integration with External APIs",
+      "integracao_com_banco_de_dados_mysql": "Integration with MySQL Database"
+    },
+    "java": {
+      "programacao_orientada_a_objetos": "Object-oriented Programming",
+      "utilizacao_das_ferramentas_do_java": "Using Java Tools",
+      "integracao_com_banco_de_dados_postgresql": "Integration with PostgreSQL Database",
+      "integracao_com_apis_externas": "Integration with External APIs",
+      "criacao_de_apis": "API Creation"
+    },
+    "mysql": {
+      "criacao_de_bancos_de_dados": "Database Creation",
+      "configuracao_de_entidades": "Entity Configuration",
+      "consultas_sql": "SQL Queries",
+      "funcoes_de_agregacao": "Aggregation Functions",
+      "agrupamento_de_dados": "Data Grouping"
+    },
+    "react": {
+      "criacao_de_componentes": "Component Creation",
+      "utilizacao_de_hooks": "Using Hooks",
+      "integracao_com_backend_usando_axios": "Backend Integration with Axios",
+      "criacao_de_interfaces_de_usuario": "UI Creation",
+      "criacao_de_rotas": "Route Creation"
+    },
+    "storybook": {
+      "criacao_de_componentes_reutilizaveis": "Reusable Component Creation",
+      "desenvolvimento_de_ui_isolada": "Isolated UI Development",
+      "documentacao_e_testes_de_componentes": "Component Documentation and Testing",
+      "integracao_com_react_vue_e_angular": "Integration with React, Vue, and Angular",
+      "configuracao_e_personalizacao_do_storybook": "Storybook Setup and Customization"
+    },
+    "vite": {
+      "configuracao_e_uso_de_vite_para_desenvolvimento": "Vite Configuration and Usage for Development",
+      "melhoria_da_performance_do_projeto_com_vite": "Performance Improvement with Vite",
+      "uso_de_vite_com_react_e_vue": "Using Vite with React and Vue",
+      "configuracao_de_hot_reloading": "Hot-reloading Setup",
+      "integracao_com_ferramentas_como_tailwind_e_prettier": "Integration with Tools like Tailwind and Prettier"
+    },
+    "tailwind_css": {
+      "estilizacao_rapida_com_classes_utilitarias": "Quick Styling with Utility Classes",
+      "customizacao_de_temas": "Theme Customization",
+      "criacao_de_layouts_responsivos": "Responsive Layout Creation",
+      "integracao_com_outras_ferramentas_como_react_e_nextjs": "Integration with Tools like React and Next.js",
+      "criacao_de_design_adaptativo": "Adaptive Design Creation"
+    },
+    "axios": {
+      "realizar_requisicoes_http": "Making HTTP Requests",
+      "integracao_com_apis_restful": "Integration with RESTful APIs",
+      "gerenciamento_de_erros_e_respostas": "Error and Response Management",
+      "configuracao_global_de_axios": "Global Axios Configuration",
+      "uso_de_interceptadores_para_autenticacao": "Using Interceptors for Authentication"
+    },
+    "node_js": {
+      "integracao_com_banco_de_dados": "Database Integration",
+      "integracao_com_apis_externas": "External API Integration",
+      "criacao_de_rotas": "Route Creation",
+      "utilizacao_das_ferramentas_do_node_js": "Using Node.js Tools",
+      "criacao_de_backend_de_aplicacoes": "Backend Application Creation",
+      "api_restful": "RESTful API",
+      "protocolo_http": "HTTP Protocol",
+      "autenticacao_e_criptografia": "Authentication and Encryption",
+      "conexao_com_banco_de_dados": "Database Connection"
+    },
+    "spring_boot": {
+      "criacao_de_apis": "API Creation",
+      "integracao_com_banco_de_dados": "Database Integration",
+      "integracao_com_apis_externas": "External API Integration",
+      "utilizacao_das_ferramentas_do_spring_boot": "Using Spring Boot Tools",
+      "criacao_de_backend_de_aplicacoes": "Backend Application Creation"
+    },
+    "websocket": {
+      "comunicacao_bidirecional_em_tempo_real": "Bidirectional Real-time Communication",
+      "integracao_de_websockets_em_node_js": "WebSocket Integration in Node.js",
+      "implementacao_de_websockets_em_apis": "WebSocket Implementation in APIs",
+      "criacao_de_chat_em_tempo_real": "Real-time Chat Creation",
+      "implementacao_de_notificacoes_em_tempo_real": "Real-time Notification Implementation",
+      "gerenciamento_de_conexoes_persistentes": "Persistent Connection Management"
+    },
+    "next_js": {
+      "utilizacao_das_ferramentas_do_nextjs": "Using Next.js Tools",
+      "seo": "SEO",
+      "routing": "Routing",
+      "sistema": "System",
+      "criacao_de_rotas": "Route Creation"
+    },
+    "kotlin": {
+      "criacao_de_apps_moveis_simples": "Creating Simple Mobile Apps",
+      "utilizacao_de_coroutines": "Using Coroutines",
+      "utilizacao_de_room": "Using Room",
+      "utilizacao_de_retroit": "Using Retrofit",
+      "utilizacao_de_android_architecture_components": "Using Android Architecture Components",
+      "utilizacao_de_livedata": "Using LiveData",
+      "utilizacao_de_viewmodel": "Using ViewModel"
+    },
+    "ruby": {
+      "ferramentas_do_ruby": "Ruby Tools",
+      "desenvolvimento_web_com_ruby": "Web Development with Ruby",
+      "uso_de_gems": "Using Gems",
+      "apis": "APIs",
+      "banco_de_dados": "Databases",
+      "testes_unitarios_com_rspec": "Unit Testing with RSpec"
+    },
+    "aws": {
+      "criacao_e_gerenciamento_de_instancias_ec2": "Creating and Managing EC2 Instances",
+      "configuracao_de_buckets_s3": "S3 Bucket Configuration",
+      "gerenciamento_de_bancos_de_dados_rds": "Managing RDS Databases",
+      "automacao_com_aws_lambda": "Automation with AWS Lambda",
+      "monitoramento_com_cloudwatch": "Monitoring with CloudWatch",
+      "implantacao_usando_elastic_beanstalk": "Deployment using Elastic Beanstalk",
+      "gerenciamento_de_redes_com_vpc": "Network Management with VPC"
+    },
+    "google_cloud": {
+      "gerenciamento_de_instancias_compute_engine": "Managing Compute Engine Instances",
+      "armazenamento_no_cloud_storage": "Cloud Storage",
+      "gerenciamento_de_kubernetes_com_gke": "Managing Kubernetes with GKE",
+      "automacao_com_cloud_functions": "Automation with Cloud Functions",
+      "gerenciamento_de_redes_com_vpc": "Network Management with VPC",
+      "monitoramento_com_stackdriver": "Monitoring with Stackdriver",
+      "implantacao_de_aplicacoes_com_app_engine": "App Deployment with App Engine"
+    },
+    "rabbitmq": {
+      "configuracao_de_filas_e_exchanges": "Configuring Queues and Exchanges",
+      "gerenciamento_de_mensagens_assincronas": "Managing Asynchronous Messages",
+      "monitoramento_de_filas": "Queue Monitoring",
+      "integracao_com_microservicos": "Microservice Integration",
+      "criacao_de_sistemas_de_mensageria_em_tempo_real": "Real-time Messaging Systems"
+    },
+    "kafka": {
+      "criacao_de_topicos_e_streams": "Creating Topics and Streams",
+      "processamento_de_dados_em_tempo_real": "Real-time Data Processing",
+      "integracao_com_sistemas_distribuidos": "Integration with Distributed Systems",
+      "gerenciamento_de_consumidores_e_produtores": "Managing Consumers and Producers",
+      "escalabilidade_com_kafka_clusters": "Scalability with Kafka Clusters"
+    },
+    "github_actions": {
+      "automatizacao_de_ci/cd": "CI/CD Automation",
+      "criacao_de_pipelines_de_build_e_deploy": "Creating Build and Deploy Pipelines",
+      "configuracao_de_fluxos_de_trabalho": "Workflow Configuration",
+      "integracao_com_testes_automatizados": "Integration with Automated Testing",
+      "gerenciamento_de_versionamento_de_codigo": "Code Versioning Management"
+    },
+    "swagger": {
+      "documentacao_de_apis_rest": "REST API Documentation",
+      "criacao_de_especificacoes_openapi": "Creating OpenAPI Specifications",
+      "integracao_com_backend": "Backend Integration",
+      "geracao_de_documentacao_interativa": "Interactive Documentation Generation",
+      "suporte_a_autenticacao_e_seguranca_na_documentacao": "Support for Authentication and Security in Documentation"
+    }
+  },
+  "projetos": {
+    "critix": {
+      "name": "Critix",
+      "description": "Critix is a platform for movie and TV series ratings. The frontend was developed with React and consumes the backend API to provide a dynamic and interactive experience for users."
+    },
+    "javascript_notes": {
+      "name": "JavaScript Notes",
+      "description": "JavaScript Notes is a web application that allows users to create and manage personal notes. Each user can create an account, and their notes are kept private and accessible only by them. The application is built with React and uses Bulma for styling."
+    },
+    "wydenai": {
+      "name": "WydenAI",
+      "description": "An interactive chat project developed to connect university students and facilitate learning."
+    },
+    "gastrovibe": {
+      "name": "GastroVibe",
+      "description": "A site showcasing the best gastronomy in Salvador."
+    },
+    "focalpoint": {
+      "name": "FocalPoint",
+      "description": "FocalPoint is a to-do list application."
+    },
+    "gym_lending_page": {
+      "name": "Gym Lending Page",
+      "description": "This project was created to provide an interactive and visually appealing experience for users, using animations and dynamic sliders."
+    },
+    "projeto_calendário_semanal": {
+      "name": "Weekly Calendar Project",
+      "description": "A project for a content calendar system where content is displayed based on the day the user clicks, with a side menu. The site is made responsive using Media Query."
+    },
+    "site_sobre_musica_classica": {
+      "name": "Classical Music Website",
+      "description": "This project is a tribute to the rich history of classical music, showcasing notable composers and their most important works. The site offers an overview of iconic composers, curiosities about their lives and compositions, and a section dedicated to listening to their music."
+    },
+    "site_de_mangas_de_animes": {
+      "name": "Anime Manga Website",
+      "description": "A project for a content calendar system where content is displayed based on the day the user clicks, with a side menu. The site is made responsive using Media Query."
+    }
+  },
+  "servicos": {
+    "desenvolvimento_aplicacoes_web": {
+      "name": "Web Application Development",
+      "description": "Creation of modern and responsive web applications.",
+      "details": "Uses technologies such as React, Next.js, and Tailwind CSS."
+    },
+    "desenvolvimento_apis_rest": {
+      "name": "REST API Development",
+      "description": "Creation of scalable and secure APIs.",
+      "details": "Uses Node.js, Express, Spring Boot, and JWT authentication."
+    },
+    "desenvolvimento_frontend": {
+      "name": "Frontend Development",
+      "description": "Implementation of dynamic and interactive user interfaces.",
+      "details": "Specialist in React, Tailwind, and animations with Framer Motion."
+    },
+    "desenvolvimento_backend": {
+      "name": "Backend Development",
+      "description": "Creation of robust and high-performance servers.",
+      "details": "Works with SQL and NoSQL databases, as well as microservices."
+    },
+    "integracao_apis_terceiros": {
+      "name": "Third-Party API Integration",
+      "description": "Connection with services like TMDb and Stripe.",
+      "details": "Uses Axios, GraphQL, and optimizes requests."
+    },
+    "documentacao_projetos": {
+      "name": "Project Documentation",
+      "description": "Creation of detailed technical documentation.",
+      "details": "Uses Swagger, Postman, and Notion for documentation."
+    }
+  },
+  "formacao": {
+    "bootcamp_fullstack_sysmap": {
+      "name": "Bootcamp FullStack Sysmap",
+      "description": "Advanced FullStack Bootcamp covering microservices, security, and cloud development."
+    },
+    "bootcamp_fullstack_maisprati": {
+      "name": "Bootcamp FullStack MaisPraTi",
+      "description": "Intensive FullStack training focused on React, Spring Boot, and SQL databases."
+    },
+    "análise_e_desenvolvimento_de_sistemas": {
+      "name": "Analysis and Development of Systems",
+      "description": "Higher education course focused on system development, databases, and software engineering."
+    },
+    "técnico_em_informática": {
+      "name": "Technical in Computing",
+      "description": "Technical course focused on software development, computer maintenance, and networks."
+    }
+  },
+  "copy": "All rights reserved."
+}

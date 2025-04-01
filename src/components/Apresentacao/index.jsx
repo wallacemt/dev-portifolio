@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import anime from "animejs";
-import { FaGlobe, FaHandshake, FaCode} from "react-icons/fa";
+import { FaGlobe, FaHandshake, FaCode } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 export const Apresentacao = () => {
+  const { t, i18n } = useTranslation();
+
   const animatedText = [
-    { text: "Olá Mundo!", icon: <FaGlobe className="inline  ml-2" /> },
-    { text: "Sou Dev FullStack!", icon: <FaCode className="inline ml-2" /> },
-    { text: "Esse é meu portifólio!"},
-    { text: "Seja bem-vindo(a)!", icon: <FaHandshake className="inline ml-2" /> },
+    { text: t("apresentacao.ola"), icon: <FaGlobe className="inline ml-2" /> },
+    { text: t("apresentacao.eu"), icon: <FaCode className="inline ml-2" /> },
+    { text: t("apresentacao.portfolio") },
+    { text: t("apresentacao.bemvindo"), icon: <FaHandshake className="inline ml-2" /> },
   ];
-  
   const [currentText, setCurrentText] = useState("");
   const [currentIcon, setCurrentIcon] = useState(null);
   const [showCursor, setShowCursor] = useState(true);
@@ -17,12 +19,12 @@ export const Apresentacao = () => {
   useEffect(() => {
     let index = 0;
     const typeText = () => {
-      setCurrentText(""); 
+      setCurrentText("");
       setCurrentIcon(animatedText[index].icon);
       const text = animatedText[index].text;
       anime({
         targets: "#animated-text",
-        duration: text.length * 200, 
+        duration: text.length * 200,
         easing: "easeInOutCubic",
         update: (anim) => {
           const progress = Math.floor((anim.progress / 100) * text.length);
@@ -32,12 +34,11 @@ export const Apresentacao = () => {
           setTimeout(() => {
             index = (index + 1) % animatedText.length;
             typeText();
-          }, 3500); 
+          }, 3500);
         },
       });
     };
 
-    
     const cursorBlink = setInterval(() => {
       setShowCursor((prev) => !prev);
     }, 500);
@@ -45,10 +46,18 @@ export const Apresentacao = () => {
     typeText();
 
     return () => {
-      clearInterval(cursorBlink); 
+      clearInterval(cursorBlink);
+      i18n.on("languageChanged", () => {
+        animatedText.forEach((item) => {
+          item.text = t(item.text);
+        });
+        typeText();
+      });
     };
   }, []);
 
+  
+  
   return (
     <section className="h-screen w-auto flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-10 shadow-sm ">
       <p
@@ -62,5 +71,5 @@ export const Apresentacao = () => {
         </span>
       </p>
     </section>
-  );  
+  );
 };

@@ -3,51 +3,61 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import Loading from "../Loading";
 import Aos from "aos";
+import { useTranslation } from "react-i18next";
 
 export const Formacao = () => {
   const [formacoes, setFormacoes] = useState([]);
   const [typedTexts, setTypedTexts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [flipped, setFlipped] = useState({});
+  const { t, i18n } = useTranslation();
+
+  const fetchFormacoes = async () => {
+    try {
+      const { data: formacoesData } = await axios.get("/database/formacao.json");
+      setFormacoes(formacoesData);
+
+      formacoesData.forEach((item, index) => {
+        item.descricao = t(`formacao.${item.nome.toLowerCase().replace(/\s+/g, "_")}.description`);
+        item.nome = t(`formacao.${item.nome.toLowerCase().replace(/\s+/g, "_")}.name`);
+      });
+
+      formacoesData.forEach((item, index) => {
+        let text = "";
+        let i = 0;
+        const interval = setInterval(() => {
+          text += item.nome[i];
+          setTypedTexts((prev) => {
+            const newArr = [...prev];
+            newArr[index] = text;
+            return newArr;
+          });
+
+          if (++i === item.nome.length) clearInterval(interval);
+        }, 50);
+      });
+    } catch (error) {
+      console.error("Erro ao carregar as formações:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchFormacoes = async () => {
-      try {
-        const { data: formacoesData } = await axios.get("/database/formacao.json");
-        setFormacoes(formacoesData);
-
-        formacoesData.forEach((item, index) => {
-          let text = "";
-          let i = 0;
-          const interval = setInterval(() => {
-            text += item.nome[i];
-            setTypedTexts((prev) => {
-              const newArr = [...prev];
-              newArr[index] = text;
-              return newArr;
-            });
-
-            if (++i === item.nome.length) clearInterval(interval);
-          }, 50);
-        });
-      } catch (error) {
-        console.error("Erro ao carregar as formações:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchFormacoes();
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
+    fetchFormacoes();
+  }, [i18n.language]);
+
+  useEffect(() => {
     Aos.init({
       duration: 1000,
       easing: "ease-in-out",
       once: true,
     });
   }, []);
-
 
   if (loading) return <Loading />;
 
@@ -76,7 +86,10 @@ export const Formacao = () => {
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Frente do Card */}
-              <div className="absolute w-full h-full flex flex-col items-center justify-center p-6" data-aos="fade-right">
+              <div
+                className="absolute w-full h-full flex flex-col items-center justify-center p-6"
+                data-aos="fade-right"
+              >
                 <img
                   src={formacao.imagePreview}
                   alt={formacao.nome}

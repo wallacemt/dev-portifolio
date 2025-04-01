@@ -4,8 +4,10 @@ import { slide as Menu } from "react-burger-menu";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SwitchTheme } from "./SwitchTheme";
 import Scroll from "locomotive-scroll";
+import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
+  const { i18n, t } = useTranslation();
   const [handleTheme, setHandleTheme] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,6 +15,7 @@ export const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isDark, setDark] = useState(false);
   const [scroll, setScroll] = useState(null);
+  const [showDp, setShowDp] = useState(false);
 
   const toggleTheme = () => {
     setHandleTheme(!handleTheme);
@@ -20,23 +23,23 @@ export const Navbar = () => {
 
   const menuItens = [
     {
-      name: "Sobre",
+      name: t("menu.sobre"), 
       path: "sobre",
     },
     {
-      name: "Habilidades",
+      name: t("menu.habilidades"),
       path: "habilidades",
     },
     {
-      name: "Projetos",
+      name: t("menu.projetos"),
       path: "projetos",
     },
     {
-      name: "Serviços",
+      name: t("menu.servicos"),
       path: "servicos",
     },
     {
-      name: "Formação",
+      name: t("menu.formacao"),
       path: "formacao",
     },
   ];
@@ -69,6 +72,13 @@ export const Navbar = () => {
       setDark(false);
     }
   }, [handleTheme]);
+
+  
+  const changeLanguage = (lng) => {
+    localStorage.setItem("leng", lng)
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <div className="p-0 xl:p-4 fixed top-0 left-0 right-0 z-50">
       <div
@@ -114,9 +124,17 @@ export const Navbar = () => {
             ))}
           </ul>
           <div className="flex items-center space-x-4" style={{ zIndex: 9990 }}>
-            <div className="text-Destaque hover:bg-neutral90 dark:hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center">
-              EN
+            {/* Dropdown de idiomas */}
+            <div className="relative">
+              <div
+                className="text-Destaque hover:bg-neutral90 dark:hover:bg-DarkP px-2 py-4 text-1xl md:text-[1.1rem] font-bold cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 rounded-full text-center"
+                onClick={() => changeLanguage(i18n.language === "en" ? "pt" : "en")}
+              >
+                {i18n.language.toUpperCase()}
+              </div>
+              
             </div>
+
             <SwitchTheme toggleTheme={toggleTheme} />
           </div>
 
@@ -154,14 +172,14 @@ export const Navbar = () => {
                   top: "0",
                 },
                 bmMenu: {
-                  background: `${isDark ? "#1A1A1A" : "#E5E5E5"}`,
+                  background: `${isDark ? "#E5E5E5" : "#1A1A1A"}`,
                   padding: "4em 2em",
                   fontSize: "1.2em",
                   overflow: "hidden",
                 },
                 bmItemList: {
                   display: "flex",
-                
+
                   flexDirection: "column",
                   marginTop: "2em",
                   gap: "20px",
@@ -192,7 +210,7 @@ export const Navbar = () => {
                       });
                     }
                   }}
-                  className={`menu-item transition-transform duration-300 cursor-pointer hover:scale-110 text-neutral80 dark:text-neutral10`}
+                  className={`menu-item transition-transform duration-300 cursor-pointer hover:scale-110 text-neutral10 dark:text-neutral90`}
                 >
                   {item.name}
                 </button>

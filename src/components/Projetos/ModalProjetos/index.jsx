@@ -8,9 +8,11 @@ import { DepoButton } from "../DepoButton";
 import { ImageLoading } from "../../ImageLoading";
 import "@tailwindcss/typography";
 import { LazyImage } from "../LazyImage";
+import { useTranslation } from "react-i18next";
 
 export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, setImageLoadingStates, projOne }) => {
   if (!isOpen) return null;
+  const {t} = useTranslation();
 
   return ReactDOM.createPortal(
     <div
@@ -29,8 +31,8 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           >
             <AiOutlineClose size={28} color="#fff" />
           </button>
-          <h1 className="border-b-2 border-primary90 text-2xl lg:text-5xl font-principal font-bold text-neutral10 dark:text-neutral90 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md mt-6">
-            {project.nome}
+          <h1 className="border-b-2 border-primary90 text-2xl lg:text-5xl font-principal font-bold text-neutral10 dark:text-neutral90 text-center absolute left-1/2 transform -translate-x-1/2 rounded-md mt-16">
+          {t(`projetos.${project.nome.toLowerCase().replace(/\s+/g, "_")}.name`)}
           </h1>
         </div>
 
@@ -47,7 +49,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
           resource="screenshot"
           spaceBetween={20}
           slidesPerView={1}
-          className="mb-6 mt-16 lg:h-[50vh] h-[25vh] overflow-hidden"
+          className="mb-12 mt-24 lg:h-[50vh] h-[25vh] overflow-hidden"
         >
           <div
             className="swiper-button-next p-7 md:opacity-100 opacity-0"
@@ -91,7 +93,7 @@ export const ModalProject = ({ isOpen, onClose, project, imageLoadingStates, set
         </Swiper>
 
         <div className="mb-4 mt-4 bg-neutral10 dark:bg-neutral90 p-4 rounded-lg font-principal max-w-2xl mx-auto text-center">
-          <p className="text-neutral90 dark:text-neutral10 leading-relaxed text-sm md:text-lg">{project.descricao}</p>
+          <p className="text-neutral90 dark:text-neutral10 leading-relaxed text-sm md:text-lg">{t(`projetos.${project.nome.toLowerCase().replace(/\s+/g, "_")}.description`)}</p>
         </div>
         {/* Tecnologias */}
         <div className="flex flex-wrap gap-4 justify-center mb-12">
