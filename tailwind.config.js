@@ -7,6 +7,14 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
+  safelist: [
+    "motion",
+    "transform",
+    "duration-500", 
+    "rotateY",
+    "backfaceVisibility",
+    "fade-right", 
+  ],
   theme: {
     extend: {
       colors: {
