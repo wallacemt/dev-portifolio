@@ -87,7 +87,7 @@ export const Navbar = () => {
         } rounded-3xl shadow-2xl m-auto`}
       >
         <nav className="flex items-center justify-between h-full px-6 pr-24">
-          <div onClick={() => navigate("/")}>
+          <div onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
             <img
               src="/images/logo.svg"
               alt="Logo"
