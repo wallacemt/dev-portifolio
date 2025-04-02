@@ -10,7 +10,7 @@ export const NotFoundPage = () => {
       transition={{ duration: 0.5 }}
     >
       <motion.img
-        src="./images/404.svg"
+        src="/images/404.svg"
         alt="404 - Página Não Encontrada"
         className="w-full max-w-md h-auto mb-6"
         animate={{ y: [0, -5, 0] }}

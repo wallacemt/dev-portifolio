@@ -4,11 +4,13 @@ import { BsFiletypePdf } from "react-icons/bs";
 import { useTranslation } from "react-i18next";
 export const CtaButton = () => {
     const {t} = useTranslation();
+    const leng = t('curriculo');
+    console.log(leng)
     return (
         <StyledWrapper>
             <div className="button-borders">
                 <button className="primary-button flex items-center"
-                    onClick={() => window.open("/curriculo.pdf", "_blank")}
+                    onClick={() => window.open(`/curriculo${leng}.pdf`)}
                 >
                     <BsFiletypePdf color="#fff" className="hover:text-white mr-2"/>
                     {t('sobre.ctaBotao')}
