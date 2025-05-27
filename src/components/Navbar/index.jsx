@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { slide as Menu } from "react-burger-menu";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, parsePath } from "react-router";
 import { SwitchTheme } from "./SwitchTheme";
 import Scroll from "locomotive-scroll";
 import { useTranslation } from "react-i18next";
 
-export const Navbar = () => {
+export const Navbar = ({ lenguage }) => {
   const { i18n, t } = useTranslation();
   const [handleTheme, setHandleTheme] = useState(false);
   const navigate = useNavigate();
@@ -15,7 +15,14 @@ export const Navbar = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isDark, setDark] = useState(false);
   const [scroll, setScroll] = useState(null);
-  const [showDp, setShowDp] = useState(false);
+
+  useEffect(() => {
+    if (lenguage === "en") {
+      changeLanguage("en");
+    } else {
+      changeLanguage("pt");
+    }
+  }, []);
 
   const toggleTheme = () => {
     setHandleTheme(!handleTheme);
@@ -23,7 +30,7 @@ export const Navbar = () => {
 
   const menuItens = [
     {
-      name: t("menu.sobre"), 
+      name: t("menu.sobre"),
       path: "sobre",
     },
     {
@@ -73,9 +80,8 @@ export const Navbar = () => {
     }
   }, [handleTheme]);
 
-  
   const changeLanguage = (lng) => {
-    localStorage.setItem("leng", lng)
+    localStorage.setItem("leng", lng);
     i18n.changeLanguage(lng);
   };
 
@@ -132,7 +138,6 @@ export const Navbar = () => {
               >
                 {i18n.language.toUpperCase()}
               </div>
-              
             </div>
 
             <SwitchTheme toggleTheme={toggleTheme} />
