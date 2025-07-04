@@ -2,11 +2,19 @@
 import { useState } from "react";
 import { slide as Menu } from "react-burger-menu";
 import { X, PanelRightClose } from "lucide-react";
-import "./mobileNav.css";
 import Link from "next/link";
 
 import { usePathname } from "next/navigation";
-export const MobileNav = ({ menuItens }: { menuItens: { name: string; path: string }[] }) => {
+import { LanguageSelector } from "./languageSelector";
+import { Language } from "@/types/utilis";
+
+interface MobileNavProps {
+  menuItens: { name: string; path: string }[];
+  languages: {
+    [key: string]: Language;
+  };
+}
+export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const handleStateChange = (state: { isOpen: boolean }) => {
@@ -17,7 +25,7 @@ export const MobileNav = ({ menuItens }: { menuItens: { name: string; path: stri
     setIsOpen(false);
   };
   return (
-    <div className=" sm:hidden block z-50">
+    <div className=" lg:hidden block z-50">
       <button onClick={() => setIsOpen(true)} className="absolute cursor-pointer top-1 right-6 p-2 z-50 text-neutral10">
         <PanelRightClose size={24} />
       </button>
@@ -62,7 +70,11 @@ export const MobileNav = ({ menuItens }: { menuItens: { name: string; path: stri
         }}
       >
         <>
-          <p className="text-neutral12 text-sm p-0 absolute top-4 left-4">PT</p>
+          {languages && (
+            <div className=" absolute top-4 left-4">
+              <LanguageSelector translations={languages} />
+            </div>
+          )}
           {menuItens.map((item, index) => (
             <Link
               href={item.path}

@@ -58,7 +58,7 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-background: var(--textura-roxo-5-hex);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -173,4 +173,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2.5rem);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+@layer utilities {
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+}
+.bm-item {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.bm-cross-button {
+  height: 32px !important;
+  width: 32px !important;
+  top: 24px !important;
+  right: 24px !important;
 }

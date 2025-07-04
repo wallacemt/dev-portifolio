@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Aclonica, Lato, Roboto } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Wallace Santana | FullStack Developer",
@@ -30,9 +31,8 @@ export const metadata: Metadata = {
     images: ["https://wallacesantana.dev/og-image.png"],
   },
   icons: {
-    icon: "./assets/favicon.ico",
-    shortcut: "./assets/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
   },
 };
 
@@ -58,7 +58,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" data-lt-installed="true" className={`${aclonica.variable} ${lato.variable} ${roboto.variable}`}>
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
     </html>
-  )
+  );
 }
