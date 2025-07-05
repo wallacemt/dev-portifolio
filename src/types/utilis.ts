@@ -9,3 +9,12 @@ export interface LenguagesResponse {
     [key: string]: Language;
   }[];
 }
+
+export interface NavbarItem {
+  name: string;
+  path: string;
+}
+export interface NavbarItens {
+  itens: NavbarItem[];
+  callText: string;
+}

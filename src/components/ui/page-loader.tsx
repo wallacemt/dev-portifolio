@@ -15,7 +15,7 @@ export const PageLoader = ({ children }: { children: React.ReactNode }) => {
     return <DevLoader />;
   }
 
-  return <>{children}</>;
+  return <div className="overflow-x-hidden">{children}</div>;
 };
 
 const DevLoader = () => {
