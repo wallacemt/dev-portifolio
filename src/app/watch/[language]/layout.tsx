@@ -6,6 +6,8 @@ import { PageLoader } from "@/components/ui/page-loader";
 import Footer from "@/components/Visitor/Footer/Footer";
 import { LenguagesResponse, NavbarItens } from "@/types/utilis";
 import { Header } from "@/components/Visitor/Header/Header";
+import { LanguageProvider } from "@/contexts/LanguageContext";
+import { OwnerProvider } from "@/contexts/OwnerContext";
 
 interface Props {
   children: ReactNode;
@@ -14,7 +16,7 @@ interface Props {
 
 export default async function LanguageLayout({ children, params }: Props) {
   let { language } = await params;
-  let available: Record<string, any>;
+  let available: Record<string, unknown>;
   let menuItens: NavbarItens = {
     itens: [{ name: "", path: "" }],
     callText: "",
@@ -28,6 +30,7 @@ export default async function LanguageLayout({ children, params }: Props) {
     available = lang.translation[0];
     menuItens = await getNavbarItems(language);
   } catch (e) {
+    console.error(e);
     throw new Error("API_ERROR");
   }
 
@@ -36,13 +39,17 @@ export default async function LanguageLayout({ children, params }: Props) {
   }
 
   return (
-    <PageLoader>
-      <Header menuItens={menuItens.itens} languages={lang.translation[0]} />
-      <div className="fixed inset-0 z-[-1]">
-        <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
-      </div>
-      <main className="p-6">{children}</main>
-      <Footer items={menuItens} />
-    </PageLoader>
+    <LanguageProvider>
+      <PageLoader>
+        <OwnerProvider>
+          <Header menuItens={menuItens.itens} languages={lang.translation[0]} />
+          <div className="fixed inset-0 z-[-1]">
+            <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
+          </div>
+          <main className="p-6 container flex-1">{children}</main>
+          <Footer items={menuItens} />
+        </OwnerProvider>
+      </PageLoader>
+    </LanguageProvider>
   );
 }

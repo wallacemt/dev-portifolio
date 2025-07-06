@@ -1,21 +1,22 @@
 "use client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Code, GitBranch, ScanQrCode, Variable } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const PageLoader = ({ children }: { children: React.ReactNode }) => {
   const [loaded, setLoaded] = useState(false);
-
+  const { isLoading } = useLanguage();
   useEffect(() => {
-    const timeout = setTimeout(() => setLoaded(true), 1600);
+    const timeout = setTimeout(() => setLoaded(true), 600);
     return () => clearTimeout(timeout);
-  }, []);
+  }, [isLoading]);
 
-  if (!loaded) {
+  if (isLoading || !loaded) {
     return <DevLoader />;
   }
 
-  return <div className="overflow-x-hidden">{children}</div>;
+  return <div className="overflow-x-hidden flex flex-col min-h-screen">{children}</div>;
 };
 
 const DevLoader = () => {

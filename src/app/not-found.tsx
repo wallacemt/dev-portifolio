@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { headers } from "next/headers";
+import Image from "next/image";
 
 export default async function NotFound() {
   const headersList = await headers();
@@ -8,7 +9,7 @@ export default async function NotFound() {
 
   return (
     <div className={`h-screen bg-no-repeat bg-background flex flex-col items-center justify-center lg:mx-auto`}>
-      <img src={"/images/404.svg"} alt="404 Ilustration" className="w-full lg:w-1/4 animate-float" />
+      <Image src={"/images/404.svg"} alt="404 Ilustration" className="w-full lg:w-1/4 animate-float" />
 
       <div className="sm:mt-0 mt-6 text-center w-full flex flex-col gap-2">
         <h1 className="font-bold font-principal text-amber-500 lg:w-[30%] lg:mx-auto " style={{ fontSize: "1.7rem" }}>

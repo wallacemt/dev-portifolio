@@ -8,6 +8,9 @@ export interface OwnerResponse {
   birthDate: Date;
   cvLinkPT: string;
   cvLinkEN: string;
+  welcomeMessage: string;
+  buttons: {
+    project: string;
+    curriculo: string;
+  };
 }
-
-

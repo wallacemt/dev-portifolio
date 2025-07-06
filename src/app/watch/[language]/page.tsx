@@ -1,26 +1,14 @@
+import { Abbout } from "@/components/Visitor/Abbout";
 import { getOwner } from "@/services/ownerApi";
-import { OwnerResponse } from "@/types/owner";
 
-export default async function HomePage() {
-  let owner: OwnerResponse = {
-    id: "",
-    name: "",
-    about: "",
-    email: "",
-    birthDate: new Date(),
-    occupation: "",
-    avatar: "",
-    cvLinkEN: "",
-    cvLinkPT: "",
-  };
+export default async function HomePage({ params }: { params: Promise<{ language: string }> }) {
   try {
-    owner = await getOwner();
+    const { language } = await params;
+    const ownerRes = await getOwner(language);
+    return (
+      <Abbout owner={ownerRes} language={language} />
+    );
   } catch (e) {
     console.log(e);
   }
-  return (
-  <div className="text-white text-2xl">
-    Bem-vindo:
-    <p>OWNER: {JSON.stringify(owner)}</p>
-    </div>)
 }

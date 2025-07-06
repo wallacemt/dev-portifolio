@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Aclonica, Lato, Roboto } from "next/font/google";
 import "./globals.css";
-import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Wallace Santana | FullStack Developer",
@@ -59,7 +58,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" data-lt-installed="true" className={`${aclonica.variable} ${lato.variable} ${roboto.variable}`}>
       <body className={`antialiased`}>
-        <LanguageProvider>{children}</LanguageProvider>
+       {children}
       </body>
     </html>
   );
