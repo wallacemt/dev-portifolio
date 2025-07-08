@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 
 export const PageLoader = ({ children }: { children: React.ReactNode }) => {
   const [loaded, setLoaded] = useState(false);
-  const { isLoading } = useLanguage();
+  const { isLoading, language } = useLanguage();
   useEffect(() => {
     const timeout = setTimeout(() => setLoaded(true), 600);
     return () => clearTimeout(timeout);
-  }, [isLoading]);
+  }, [language]);
 
   if (isLoading || !loaded) {
     return <DevLoader />;

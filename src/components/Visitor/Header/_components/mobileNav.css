@@ -1,0 +1,13 @@
+
+
+.bm-item {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.bm-cross-button {
+  height: 32px !important;
+  width: 32px !important;
+  top: 24px !important;
+  right: 24px !important;
+}

@@ -11,7 +11,6 @@ import {
   DevicesIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
-import { Suspense } from "react";
 import GitHubCalendar from "react-github-calendar";
 
 interface FooterProps {

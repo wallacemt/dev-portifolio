@@ -26,7 +26,7 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
   };
   return (
     <div className=" lg:hidden block z-50">
-      <button onClick={() => setIsOpen(true)} className="absolute cursor-pointer top-1 right-6 p-2 z-50 text-neutral10">
+      <button onClick={() => setIsOpen(true)} className="absolute cursor-pointer top-5 right-6 p-2 z-50 text-neutral10">
         <PanelRightClose size={24} />
       </button>
 
