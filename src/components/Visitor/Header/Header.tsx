@@ -16,7 +16,6 @@ interface NavItemsProps {
 export const Header = ({ menuItens, languages }: NavItemsProps) => {
   const { language } = useLanguage();
   const pathName = usePathname();
-  console.log(pathName)
   const isHome = pathName === `/watch/${language}`;
   return (
     <header className="min-w-screen max-h-screen z-20 relative">

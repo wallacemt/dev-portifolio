@@ -33,14 +33,18 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
             {owner.buttons.curriculo}
             <Download />
           </Link>
-          <Link href="/watch/pt/projects" className="px-4 py-2   text-white rounded-lg  hover:bg-roxo700 hover:border border-white transition">
+          <Link
+            href="/watch/pt/projects"
+            className="px-4 py-2   text-white rounded-lg  hover:bg-roxo700 hover:border border-white transition"
+          >
             {owner.buttons.project}
           </Link>
         </div>
       </div>
       <div className="flex-shrink-0">
         <TiltedCard
-          imageSrc={owner.avatar}
+          // imageSrc={owner.avatar}
+          imageSrc="/owner.jpeg"
           altText="Owner image"
           className="hidden md:block"
           captionText={owner.name}
@@ -53,7 +57,14 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           showTooltip={true}
           displayOverlayContent={true}
         />
-        <Image src={owner.avatar} width={280} height={380} alt="Owner image" className="lg:hidden rounded-xl" />
+        <Image 
+          //src={owner.avatar}
+          src="/owner.jpeg"
+          width={280}
+          height={380}
+          alt="Owner image"
+          className="lg:hidden rounded-xl"
+        />
       </div>
     </section>
   );

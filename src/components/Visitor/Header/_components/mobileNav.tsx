@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LanguageSelector } from "./languageSelector";
 import { Language } from "@/types/utilis";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface MobileNavProps {
   menuItens: { name: string; path: string }[];
@@ -16,7 +17,9 @@ interface MobileNavProps {
 }
 export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
+  const { language } = useLanguage();
+  const pathName = usePathname();
+  const isHome = pathName === `/watch/${language}`;
   const handleStateChange = (state: { isOpen: boolean }) => {
     setIsOpen(state.isOpen);
   };
@@ -77,11 +80,13 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
           )}
           {menuItens.map((item, index) => (
             <Link
-              href={item.path}
+              href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}
               key={index}
               onClick={closeMenu}
-              className={`hover:text-roxo300 hover:scale-105 cursor-pointer w-full hover:border-Destaque nav-glass border-b-2 rounded-2xl ${
-                pathname.endsWith(item.path) ? "border-Destaque text-roxo100" : "border-white/10 text-white"
+              className={`hover:text-roxo300 hover:scale-105 cursor-pointer w-full hover:border-Destaque nav-glass border-b-2 rounded-2xl  ${
+                pathName.endsWith(item.path) ? "border-b-2 border-Destaque" : ""
+              } ${
+                isHome && item.path === "/" ? "border-b-2 border-Destaque" : ""
               } transition-colors text-xl text-center`}
             >
               {item.name}

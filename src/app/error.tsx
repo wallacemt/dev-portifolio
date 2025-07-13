@@ -9,6 +9,8 @@ export default function WatchError({ error }: { error: Error }) {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 text-center">
       <Image
         src={"/images/503.svg"}
+        width={32}
+        height={32}
         alt="Ilustração de erro 503 - Servidor em manutenção"
         onError={(e) => {
           (e.target as HTMLImageElement).style.display = "none";
@@ -26,7 +28,7 @@ export default function WatchError({ error }: { error: Error }) {
           ) : (
             <>
               <h1 className="text-2xl font-bold">Algo deu errado</h1>
-              {error.message && <p className="mt-2 text-sm truncate text-red-600">{error.message}</p>}
+              {error.message && <p className="mt-2 text-sm  text-red-900">{error.message}</p>}
             </>
           )}
         </h1>

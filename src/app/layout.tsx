@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Aclonica, Lato, Roboto } from "next/font/google";
+import { Aclonica, Lato, Roboto, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
+import TopLoadingBar from "@/components/ui/top-loading-bar";
 
 export const metadata: Metadata = {
   title: "Wallace Santana | FullStack Developer",
@@ -45,6 +46,11 @@ const lato = Lato({
   variable: "--font-textBody",
   weight: "400",
 });
+const monoT = Share_Tech_Mono({
+  subsets: ["latin"],
+  variable: "--font-monoT",
+  weight: "400",
+})
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-buttons",
@@ -56,7 +62,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" data-lt-installed="true" className={`${aclonica.variable} ${lato.variable} ${roboto.variable}`}>
+    <html lang="pt-br" data-lt-installed="true" className={`${aclonica.variable} ${lato.variable} ${roboto.variable} ${monoT.variable}`}>
+       <TopLoadingBar />
       <body className={`antialiased`}>
        {children}
       </body>
