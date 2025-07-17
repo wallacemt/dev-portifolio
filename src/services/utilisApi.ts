@@ -1,5 +1,5 @@
 import { LenguagesResponse, NavbarItens } from "@/types/utilis";
-import { API } from "./api";
+import { API } from "@/lib/axios";
 
 export async function getNavbarItems(language = "pt"): Promise<NavbarItens> {
   const res = await API.get(`/utilis/navbar`, {

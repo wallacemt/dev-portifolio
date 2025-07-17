@@ -1,5 +1,5 @@
 import { ProjectResponse } from "@/types/projects";
-import { API } from "./api";
+import { API } from "@/lib/axios";
 
 export const getProjects = async (language: string = "pt"): Promise<ProjectResponse> => {
   try {

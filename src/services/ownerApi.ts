@@ -5,8 +5,9 @@
 //   return res.data;
 // }
 
+import { API } from "@/lib/axios";
 import { OwnerResponse } from "@/types/owner";
-import { API } from "./api";
+
 
 export const getOwner = async (language: string = "pt"): Promise<OwnerResponse> => {
   try {
