@@ -13,7 +13,7 @@ interface ProjectProps {
 
 export const ProjectsPage = ({ projects, language }: ProjectProps) => {
   const [filters, setFilters] = useState({ search: "", tech: "", orderBy: "" });
-
+  console.log(language);
   const filteredProjects = projects.filter((pr) => {
     const matchSearch = pr.title.toLowerCase().includes(filters.search.toLowerCase());
     const matchTech = filters.tech ? pr.techs.includes(filters.tech) : true;
@@ -48,9 +48,9 @@ export const ProjectsPage = ({ projects, language }: ProjectProps) => {
           ))}
         </div>
       </ol>
-      {/* <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-10">
         <Button className="bg-sky-400 hover:bg-sky-500 text-black">Carregar Mais</Button>
-      </div> */}
+      </div>
     </section>
   );
 };

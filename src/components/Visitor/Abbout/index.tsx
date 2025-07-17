@@ -43,8 +43,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
       </div>
       <div className="flex-shrink-0">
         <TiltedCard
-          // imageSrc={owner.avatar}
-          imageSrc="/owner.jpeg"
+          imageSrc={owner.avatar}
           altText="Owner image"
           className="hidden md:block"
           captionText={owner.name}
@@ -58,8 +57,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           displayOverlayContent={true}
         />
         <Image 
-          //src={owner.avatar}
-          src="/owner.jpeg"
+          src={owner.avatar}
           width={280}
           height={380}
           alt="Owner image"
