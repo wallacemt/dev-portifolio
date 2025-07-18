@@ -1,12 +1,15 @@
-import { ProjectsPage } from "@/components/Visitor/Projects/Projects";
-import { getProjects } from "@/services/projects";
+import ProjectTimelineSkeleton from "@/components/Visitor/Projects/_components/project-card-skeleton";
+import ProjectTimeline from "@/components/Visitor/Projects/Projects";
+import { Suspense } from "react";
 
-export default async function Projects({ params }: { params: Promise<{ language: string }> }) {
-  try {
-    const { language } = await params;
-    const projectsResponse = await getProjects(language);
-    return <ProjectsPage projects={projectsResponse.projects} language={language} />;
-  } catch (err) {
-    console.log(err);
-  }
+interface ProjectsProps {
+  params: Promise<{ language: string }>;
+}
+export default async function Projects({ params }: ProjectsProps) {
+  const {language} = await params;
+  return (
+    <Suspense fallback={<ProjectTimelineSkeleton  />}>
+      <ProjectTimeline language={language} />
+    </Suspense>
+  );
 }

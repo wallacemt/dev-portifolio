@@ -10,5 +10,6 @@ export default async function HomePage({ params }: { params: Promise<{ language:
     );
   } catch (e) {
     console.log(e);
+    throw new Error("API_ERROR");
   }
 }

@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import Cookies from "js-cookie";
 export default function Home() {
-  redirect("/pt");
+  const lang = Cookies.get("preferredLanguage") || "pt";
+  redirect(`/watch/${lang}`);
 }

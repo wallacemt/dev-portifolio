@@ -1,3 +1,6 @@
+
+import { Skill } from "./skills";
+
 export interface Project {
   activate: boolean;
   ownerId: string;
@@ -11,14 +14,17 @@ export interface Project {
   frontend: string;
   previewImage: string;
   lastUpdate: Date | null;
+  skills: Skill[];
 }
 
 export interface ProjectResponse {
   projects: Project[];
-  meta: {
-    page: number;
-    limit: number;
-    total: number;
-    hasNextPage: boolean;
-  };
+  meta: Meta;
+}
+
+export interface Meta {
+  page: number;
+  limit: number;
+  total: number;
+  hasNextPage: boolean;
 }

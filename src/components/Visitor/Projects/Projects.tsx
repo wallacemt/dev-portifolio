@@ -1,56 +1,31 @@
-"use client";
-import { Project } from "@/types/projects";
+import { getProjects } from "@/services/projects";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import ProjectTimeline from "./_components/project-card";
+import { ProjectFilters } from "./_components/project-filters";
+import ProjectCard from "./_components/project-card";
 
-interface ProjectProps {
-  projects: Project[];
-  language: string;
-}
-
-export const ProjectsPage = ({ projects, language }: ProjectProps) => {
-  const [filters, setFilters] = useState({ search: "", tech: "", orderBy: "" });
-  console.log(language);
-  const filteredProjects = projects.filter((pr) => {
-    const matchSearch = pr.title.toLowerCase().includes(filters.search.toLowerCase());
-    const matchTech = filters.tech ? pr.techs.includes(filters.tech) : true;
-    return matchSearch && matchTech;
-  });
+export default async function ProjectTimeline({ language }: { language: string }) {
+  let projectsPromise;
+  try {
+    projectsPromise = await getProjects(language);
+  } catch (e) {
+    console.error(e);
+    throw new Error("API_ERROR");
+  }
   return (
-    <section className="min-w-screen mx-auto px-4 md:px-12 py-8">
-      <div className="flex max-w-xl mx-auto gap-4 mb-6">
-        <Input
-          placeholder="Buscar projeto"
-          value={filters.search}
-          onChange={(v) => setFilters({ ...filters, search: String(v.target.value) })}
-          className="bg-neutral-900 text-white"
-        />
-        <Select onValueChange={(v) => setFilters({ ...filters, tech: v })}>
-          <SelectTrigger className="w-[150px] bg-neutral-900 text-white">
-            <SelectValue placeholder="Tecnologia" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todas</SelectItem>
-            <SelectItem value="Next.js">Next.js</SelectItem>
-            <SelectItem value="React">React</SelectItem>
-            <SelectItem value="Node.js">Node.js</SelectItem>
-            <SelectItem value="Vue">Vue</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <ol className="relative  flex flex-col justify-center items-center space-y-12">
-        <div className="border-s    border-neutral-800">
-          {filteredProjects.map((project) => (
-            <ProjectTimeline key={project.id} project={project} />
+    <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8">
+      <ProjectFilters projects={projectsPromise.projects} />
+      <ol className="flex flex-col items-start" style={{ listStyle: "none" }}>
+        <li className="mx-auto md:border-s-2 border-roxo100/50">
+          {projectsPromise?.projects.map((project) => (
+            <ProjectCard project={project} key={project.id} />
           ))}
-        </div>
+        </li>
       </ol>
-      <div className="flex justify-center mt-10">
-        <Button className="bg-sky-400 hover:bg-sky-500 text-black">Carregar Mais</Button>
-      </div>
+      {projectsPromise.meta.hasNextPage && (
+        <div className="flex justify-center mt-10">
+          <Button className="bg-sky-400 hover:bg-sky-500 text-black">Carregar Mais</Button>
+        </div>
+      )}
     </section>
   );
-};
+}

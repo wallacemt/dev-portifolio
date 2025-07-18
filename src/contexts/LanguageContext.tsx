@@ -18,15 +18,19 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const router = useRouter();
   const pathName = usePathname();
   const segments = pathName.split("/").filter(Boolean);
-  const [language, setLanguage] = useState(segments[1] ? segments[1] : segments[0] || "pt");
+  const [language, setLanguage] = useState(segments[1] || "pt");
+
   const [isLoading, setIsLoading] = useState(false);
   const setLenguage = (lang: string) => {
     setIsLoading(true);
     try {
       Cookies.set("preferredLanguage", lang, { expires: 30 });
-      const rest = segments.slice(2).join("/") || "";
-      router.push(`/watch/${lang}${rest ? "/" + rest : ""}`);
-      setLanguage(lang);
+      const restOfPath = segments.slice(2).join("/") || "";
+
+      if (segments[1] !== lang) {
+        router.push(`/watch/${lang}/${restOfPath}`);
+        setLanguage(lang);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -34,12 +38,13 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() => {
     const savedLang = Cookies.get("preferredLanguage");
-    const currentLang = segments[1] || segments[0];
+    const currentLang = segments[1] || "pt";
+    console.log(currentLang);
     if (savedLang && savedLang !== currentLang) {
       setLanguage(savedLang);
-      router.replace(`/watch/${savedLang}`, undefined);
+      router.replace(`/watch/${savedLang}/${segments.slice(2).join("/")}`);
     } else {
-      setLanguage(currentLang || "pt");
+      setLanguage(currentLang);
     }
   }, [router, segments]);
 

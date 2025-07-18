@@ -23,16 +23,10 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Wallace Santana | FullStack Developer",
-    description:
-      "Portfolio of Wallace Santana, a FullStack Developer specializing in Next.js, React, Node.js, and more.",
-    images: ["https://wallacesantana.dev/og-image.png"],
-  },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    shortcut:
+      "https://res.cloudinary.com/dg9hqvlas/image/upload/v1751925493/Black_Creative_W_Letter_Logo-removebg-preview_yka3ae.png",
+    icon: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1751925484/Black_Creative_W_Letter_Logo__1_-removebg-preview_cuiljg.png",
   },
 };
 
@@ -50,7 +44,7 @@ const monoT = Share_Tech_Mono({
   subsets: ["latin"],
   variable: "--font-monoT",
   weight: "400",
-})
+});
 const roboto = Roboto({
   subsets: ["latin"],
   variable: "--font-buttons",
@@ -62,11 +56,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br" data-lt-installed="true" className={`${aclonica.variable} ${lato.variable} ${roboto.variable} ${monoT.variable}`}>
-       <TopLoadingBar />
-      <body className={`antialiased`}>
-       {children}
-      </body>
+    <html
+      lang="pt-br"
+      data-lt-installed="true"
+      className={`${aclonica.variable} ${lato.variable} ${roboto.variable} ${monoT.variable}`}
+    >
+      <TopLoadingBar />
+      <body className={`antialiased`}>{children}</body>
     </html>
   );
 }

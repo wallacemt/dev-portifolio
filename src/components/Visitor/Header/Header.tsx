@@ -19,7 +19,10 @@ export const Header = ({ menuItens, languages }: NavItemsProps) => {
   const isHome = pathName === `/watch/${language}`;
   return (
     <header className="min-w-screen max-h-screen z-20 relative">
-      <nav className="nav-glass mt-4 w-full max-w-full lg:max-w-fit mx-auto rounded-full px-6 py-3 flex items-center lg:justify-between gap-4 justify-center backdrop-blur-xs shadow-lg border border-border pointer-events-auto h-12 relative z-30 ">
+      <nav
+        className="nav-glass mt-4 w-full max-w-full lg:max-w-fit mx-auto rounded-full px-6 py-3 flex items-center lg:justify-between gap-4 justify-center backdrop-blur-xs shadow-lg border border-border pointer-events-auto h-12 relative z-30"
+        style={{ userSelect: "none" }}
+      >
         <Link href="/" role="img" aria-label="Logo">
           <h1 className="font-principal xl:text-4xl md:text-2xl text-[1.8rem]">
             Wallace<span className="text-Destaque">.Dev</span>
@@ -31,7 +34,7 @@ export const Header = ({ menuItens, languages }: NavItemsProps) => {
             <Link key={index} href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}>
               <li
                 className={`hover:text-roxo100 ${pathName.endsWith(item.path) ? "border-b-2 border-roxo100" : ""} ${
-                  isHome && item.path === "/" ? "border-b-2 border-roxo100": ""
+                  isHome && item.path === "/" ? "border-b-2 border-roxo100" : ""
                 } lg:text-lg transition-colors text-neutral10 hover:font-bold hover:border-b-2 font-secundaria`}
               >
                 {item.name}
