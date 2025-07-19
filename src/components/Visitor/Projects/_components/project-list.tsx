@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getProjects } from "@/services/projects";
-import { ProjectFilters } from "@/types/projects";
+import { Meta, Project, ProjectFilters } from "@/types/projects";
 import ProjectCard from "./project-card";
 import { useInView } from "react-intersection-observer";
 
 interface ProjectTimelineListProps {
   language: string;
-  initialProjects: any[];
-  initialMeta: any;
+  initialProjects: Project[];
+  initialMeta: Meta;
   filters: ProjectFilters;
 }
 
@@ -23,25 +23,25 @@ export default function ProjectTimelineList({
   const [meta, setMeta] = useState(initialMeta);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { ref, inView } = useInView(); // Detecta quando chega no fim da lista
-
-  const loadMore = async () => {
-    if (!meta.hasNextPage || isLoading) return;
-
-    setIsLoading(true);
-    const res = await getProjects(language, {
-      ...filters,
-      page: String(meta.page + 1),
-    });
-
-    setProjects((prev) => [...prev, ...res.projects]);
-    setMeta(res.meta);
-    setIsLoading(false);
-  };
+  const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView) loadMore();
-  }, [inView]);
+    if (!inView || !meta.hasNextPage || isLoading) return;
+
+    const fetchNext = async () => {
+      setIsLoading(true);
+      const res = await getProjects(language, {
+        ...filters,
+        page: String(meta.page + 1),
+      });
+
+      setProjects((prev) => [...prev, ...res.projects]);
+      setMeta(res.meta);
+      setIsLoading(false);
+    };
+
+    fetchNext();
+  }, [inView, meta, filters, language, isLoading]);
 
   return (
     <>

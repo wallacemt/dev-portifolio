@@ -6,7 +6,7 @@ import { getTechsProject } from "@/services/projects";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
-export const ProjectFilters = ({ language }: { language: string }) => {
+export const ProjectFilters = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [techsList, setTechList] = useState<string[]>([]);
@@ -20,7 +20,7 @@ export const ProjectFilters = ({ language }: { language: string }) => {
       }
       router.push(`?${params.toString()}`);
     },
-    [router, searchParams, language]
+    [router, searchParams]
   );
   useEffect(() => {
     const fetchTechs = async () => {

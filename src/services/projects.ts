@@ -14,7 +14,7 @@ export const getProjects = async (language: string = "pt", filters?: ProjectFilt
     }
 
     queryParams.set("language", language);
-    queryParams.set("limit", "4");
+    queryParams.set("limit", "5");
 
     const response = await API.get(`/projects/owner/${ownerId}?${queryParams.toString()}`);
     return response.data as ProjectResponse;

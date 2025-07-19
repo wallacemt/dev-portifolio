@@ -12,7 +12,7 @@ export default async function ProjectTimeline({
   const response = await getProjects(language, { ...filters, page: "1" });
   return (
     <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8">
-      <ProjectFilters language={language} />
+      <ProjectFilters/>
       <ProjectTimelineList
         language={language}
         initialProjects={response.projects}
