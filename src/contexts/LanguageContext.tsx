@@ -39,7 +39,6 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   useEffect(() => {
     const savedLang = Cookies.get("preferredLanguage");
     const currentLang = segments[1] || "pt";
-    console.log(currentLang);
     if (savedLang && savedLang !== currentLang) {
       setLanguage(savedLang);
       router.replace(`/watch/${savedLang}/${segments.slice(2).join("/")}`);

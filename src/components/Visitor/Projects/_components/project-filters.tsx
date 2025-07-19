@@ -1,37 +1,55 @@
 "use client";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { Project } from "@/types/projects";
 
-interface ProjectFiltersProps {
-    projects: Project[];
-}
-export const ProjectFilters = ({}:ProjectFiltersProps) => {
-  const [filters, setFilters] = useState({ search: "", tech: "", orderBy: "" });
-//   const filteredProjects = projects.filter((pr) => {
-//     const matchSearch = pr.title.toLowerCase().includes(filters.search.toLowerCase());
-//     const matchTech = filters.tech ? pr.techs.includes(filters.tech) : true;
-//     return matchSearch && matchTech;
-//   });
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { getTechsProject } from "@/services/projects";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+
+export const ProjectFilters = ({ language }: { language: string }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [techsList, setTechList] = useState<string[]>([]);
+  const updateQueryParam = useCallback(
+    (key: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(key, value);
+      } else {
+        params.delete(key);
+      }
+      router.push(`?${params.toString()}`);
+    },
+    [router, searchParams, language]
+  );
+  useEffect(() => {
+    const fetchTechs = async () => {
+      const res = await getTechsProject();
+      setTechList(res);
+      setTechList(res);
+    };
+    fetchTechs();
+  }, []);
   return (
     <div className="flex md:flex-row flex-col max-w-xl mx-auto gap-4 mb-6">
       <Input
         placeholder="Buscar projeto"
-        value={filters.search}
-        onChange={(v) => setFilters({ ...filters, search: String(v.target.value) })}
+        defaultValue={searchParams.get("search") || ""}
+        onChange={(e) => updateQueryParam("search", e.target.value)}
         className="bg-neutral-900 text-white"
       />
-      <Select onValueChange={(v) => setFilters({ ...filters, tech: v })}>
-        <SelectTrigger className="w-full md:w-[150px] bg-neutral-900 text-white">
-          <SelectValue placeholder="Tecnologia" />
-        </SelectTrigger>
+      <Select
+        defaultValue={searchParams.get("tech") || "all"}
+        onValueChange={(value) => updateQueryParam("tech", value)}
+      >
+        <SelectTrigger className="bg-neutral-900 text-white w-full">Tecnologias</SelectTrigger>
         <SelectContent>
           <SelectItem value="all">Todas</SelectItem>
-          <SelectItem value="Next.js">Next.js</SelectItem>
-          <SelectItem value="React">React</SelectItem>
-          <SelectItem value="Node.js">Node.js</SelectItem>
-          <SelectItem value="Vue">Vue</SelectItem>
+          {techsList.map((tech) => (
+            <SelectItem key={tech} value={tech}>
+              <span className="capitalize">{tech}</span>
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

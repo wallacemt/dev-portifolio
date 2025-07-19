@@ -27,14 +27,14 @@ export default  function ProjectCard({ project }: { project: Project }) {
             height={500}
             className=" md:w-[60%] h-[100%] rounded-tl-md rounded-bl-md"
           />
-          <div className="flex flex-col justify-between   border-neutral-800 rounded-lg p-6 bg-roxo600 shadow-md transition-all hover:shadow-[0_0_5px_rgba(0,229,255,0.2)]">
-            <h3 className="text-xl font-semibold text-white font-mono">{project.title}</h3>
+          <div className="flex flex-col justify-between border-neutral-800 rounded-lg p-6 bg-gradient-to-b from-roxo700 to-roxo500 shadow-md transition-all hover:shadow-[0_0_5px_rgba(0,229,255,0.2)]">
+            <h3 className="text-xl font-medium text-white font-principal">{project.title}</h3>
             <p className="text-sm text-gray-300 mt-2 mb-4 leading-relaxed tracking-wide">
               {project.description.slice(0, 100).concat("...")}
             </p>
             <div className="flex overflow-x-auto snap-x mb-4">
-              <div className="overflow-hidden w-full">
-                <div className={`flex space-x-4 ${project.skills.length > 2 && "animate-marquee"}`}>
+              <div className="overflow-hidden w-full ">
+                <div className={`flex space-x-4 ${project.skills.length > 2 && "animate-marquee"}`} onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")} onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}>
                   {project.skills.map((sk) => (
                     <Image
                       key={`${sk.id}`}

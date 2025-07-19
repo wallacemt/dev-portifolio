@@ -28,3 +28,13 @@ export interface Meta {
   total: number;
   hasNextPage: boolean;
 }
+
+
+export interface ProjectFilters {
+  page?: string;
+  limit?: string;
+  tech?: string;
+  activate?: string;
+  orderBy?: string;
+  search?: string;
+}

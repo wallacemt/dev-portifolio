@@ -4,12 +4,14 @@ import { Suspense } from "react";
 
 interface ProjectsProps {
   params: Promise<{ language: string }>;
+  searchParams: Promise<{ search?: string; tech?: string; orderBy?: string }>;
 }
-export default async function Projects({ params }: ProjectsProps) {
-  const {language} = await params;
+export default async function Projects({ params, searchParams }: ProjectsProps) {
+  const { language } = await params;
+  const filters = await searchParams
   return (
-    <Suspense fallback={<ProjectTimelineSkeleton  />}>
-      <ProjectTimeline language={language} />
+    <Suspense fallback={<ProjectTimelineSkeleton />}>
+      <ProjectTimeline language={language} filters={filters} />
     </Suspense>
   );
 }
