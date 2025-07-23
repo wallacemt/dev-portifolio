@@ -6,7 +6,7 @@ export default function WatchError({ error }: { error: Error }) {
   const isApiError = error.message === "API_ERROR";
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 text-center">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 text-center overflow-hidden">
       <Image
         src={"/images/503.svg"}
         width={32}

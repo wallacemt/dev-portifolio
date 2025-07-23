@@ -51,10 +51,15 @@
   --principal: #2a3240;
   --secundaria: #1e2530;
   --textura-roxo-1-hex: #d629d9;
+  --textura-roxo-1-1-hex: #dc8df2;
   --textura-roxo-2-hex: #8921a6;
+  --textura-roxo-2-2-hex: #ca6df2;
   --textura-roxo-3-hex: #2f0559;
+  --textura-roxo-3-3-hex: #8836bf;
   --textura-roxo-4-hex: #1e0640;
+  --textura-roxo-4-4-hex: #56208c;
   --textura-roxo-5-hex: #0f0526;
+  --textura-roxo-5-5-hex: #100126;
 }
 
 @theme inline {

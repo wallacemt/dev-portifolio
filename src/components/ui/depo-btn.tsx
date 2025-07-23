@@ -4,14 +4,16 @@ import styled from "styled-components";
 
 interface DepoButtonProps {
   message: string;
+  bg?: string;
+  hover?: string;
 }
-export const DepoButton = ({ message }: DepoButtonProps) => {
+export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6" }: DepoButtonProps) => {
   const StyledWrapper = styled.div`
     .Btn-Container {
       display: flex;
       width: 170px;
       height: fit-content;
-      background-color: #0f0526;
+      background-color: ${bg};
       border-radius: 40px;
       justify-content: space-between;
       align-items: center;
@@ -21,7 +23,7 @@ export const DepoButton = ({ message }: DepoButtonProps) => {
     }
     .Btn-Container:hover {
       transition-duration: 1.5s;
-      background-color: #8921a6;
+      background-color: ${hover};
     }
     .icon-Container {
       width: 45px;
