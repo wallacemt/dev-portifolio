@@ -200,6 +200,17 @@
     transform: translateX(-100%);
   }
 }
+@keyframes floats {
+  0% {
+    transform: translate3d(0, 0, 0) rotate3d(1, 1, 1, 0deg) scale3d(1, 1, 1);
+  }
+  50% {
+    transform: translate3d(0, -1rem, 0.5rem) rotate3d(1, 1, 1, 30deg) scale3d(1.05, 1.05, 1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate3d(1, 1, 1, 0deg) scale3d(1, 1, 1);
+  }
+}
 
 @layer utilities {
   .animate-float {
@@ -210,6 +221,9 @@
     display: flex;
     gap: 0.2rem;
     align-items: center;
+  }
+  .animate-floating {
+    animation: floats 2s ease-in-out infinite;
   }
 }
 .bm-item {

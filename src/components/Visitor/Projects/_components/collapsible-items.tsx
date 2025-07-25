@@ -1,0 +1,129 @@
+"use client";
+import { ChevronsDownUp, ChevronsUpDown } from "lucide-react";
+
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
+import { Project } from "@/types/projects";
+import Link from "next/link";
+import { DepoButton } from "@/components/ui/depo-btn";
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
+
+interface CollapsibleItemsProps {
+  project: Project;
+  title: string;
+  open?: boolean;
+  setIsOpen?: (open: boolean) => void;
+}
+
+function HeaderComponent({ title, open }: Omit<CollapsibleItemsProps, "project">) {
+  return (
+    <CollapsibleTrigger asChild>
+      <div className="flex gap-2 items-center cursor-pointer w-fit">
+        <h2 className=" text-xl md:text-4xl font-semibold text-gray-100 font-principal">{title}</h2>
+        {open ? <ChevronsUpDown className="text-Destaque" /> : <ChevronsDownUp className="text-Destaque" />}
+      </div>
+    </CollapsibleTrigger>
+  );
+}
+
+function Badges({ title, project, open, setIsOpen }: CollapsibleItemsProps) {
+  return (
+    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
+      <HeaderComponent title={title} open={open} />
+      <CollapsibleContent>
+        <div className="flex flex-wrap gap-2">
+          {project.techs.content.map((tech) => (
+            <Badge key={tech} className="bg-roxo300 text-gray-50 px-3 py-1 rounded-full text-sm">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function Buttons({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
+  return (
+    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
+      <HeaderComponent title={title} open={open} />
+      <CollapsibleContent>
+        <ul className="flex flex-wrap gap-4">
+          <li>
+            <Link href={project.links.content.deployment} target="_blank" rel="noopener noreferrer">
+              <DepoButton bg="var(--textura-roxo-3-hex)" hover="var(--textura-roxo-3-3-hex)" message="Deploy" />
+            </Link>
+          </li>
+          <li>
+            <Link href={project.links.content.frontend} target="_blank" rel="noopener noreferrer">
+              <DepoButton message="Frontend" bg="var(--textura-roxo-4-hex)" hover="var(--textura-roxo-4-4-hex)" />
+            </Link>
+          </li>
+          <li>
+            <Link href={project.links.content.backend} target="_blank" rel="noopener noreferrer">
+              <DepoButton message="Backend" bg="var(--textura-roxo-2-hex)" hover="var(--textura-roxo-2-2-hex)" />
+            </Link>
+          </li>
+        </ul>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function Texts({ title, project, open, setIsOpen }: CollapsibleItemsProps) {
+  return (
+    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
+      <HeaderComponent title={title} open={open} />
+      <CollapsibleContent>
+        <div className="overflow-y-auto max-h-[150px] md:max-h-[200px] prose prose-sm md:prose-base  leading-relaxed">
+          <p className="text-gray-300">{project.description.content}</p>
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+
+function Images({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
+  return (
+    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
+      <HeaderComponent title={title} open={open} />
+      <CollapsibleContent>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {project.skills.content.map((skill) => (
+            <div key={skill.id} className=" rounded-lg p-4 shadow-sm">
+              <div className="flex items-center gap-3 mb-2">
+                <Image
+                  src={skill.image}
+                  alt={skill.title}
+                  title={skill.title}
+                  width={40}
+                  height={40}
+                  className="rounded"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  );
+}
+export const CollapsibleItems = ({
+  title,
+  project,
+  type,
+}: CollapsibleItemsProps & { type: "text" | "badges" | "buttons" | "images" }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  switch (type) {
+    case "text":
+      return <Texts title={title} project={project} open={isOpen} setIsOpen={setIsOpen} />;
+    case "badges":
+      return <Badges title={title} project={project} open={isOpen} setIsOpen={setIsOpen} />;
+    case "buttons":
+      return <Buttons title={title} project={project} open={isOpen} setIsOpen={setIsOpen} />;
+    case "images":
+      return <Images title={title} project={project} open={isOpen} setIsOpen={setIsOpen} />;
+  }
+};

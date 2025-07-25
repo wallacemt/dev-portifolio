@@ -1,4 +1,3 @@
-
 import { Skill } from "./skills";
 
 export interface Project {
@@ -6,15 +5,21 @@ export interface Project {
   ownerId: string;
   id: string;
   title: string;
-  description: string;
-  techs: string[];
+  description: { title: string; content: string };
+  techs: { title: string; content: string[] };
   screenshots: string[];
-  deployment: string;
-  backend: string;
-  frontend: string;
   previewImage: string;
   lastUpdate: Date | null;
-  skills: Skill[];
+  skills: { title: string; content: Skill[] };
+  links: {
+    title: string;
+    content: {
+      deployment: string;
+      backend: string;
+      frontend: string;
+    };
+  };
+  cta: string;
 }
 
 export interface ProjectResponse {
@@ -28,7 +33,6 @@ export interface Meta {
   total: number;
   hasNextPage: boolean;
 }
-
 
 export interface ProjectFilters {
   page?: string;
