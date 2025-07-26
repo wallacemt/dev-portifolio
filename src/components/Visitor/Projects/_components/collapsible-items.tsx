@@ -51,18 +51,30 @@ function Buttons({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
       <CollapsibleContent>
         <ul className="flex flex-wrap gap-4">
           <li>
-            <Link href={project.links.content.deployment} target="_blank" rel="noopener noreferrer">
-              <DepoButton bg="var(--textura-roxo-3-hex)" hover="var(--textura-roxo-3-3-hex)" message="Deploy" />
+            <Link href={project.links.content.deployment.url} target="_blank" rel="noopener noreferrer">
+              <DepoButton
+                bg="var(--textura-roxo-3-hex)"
+                hover="var(--textura-roxo-3-3-hex)"
+                message={project.links.content.deployment.title}
+              />
             </Link>
           </li>
           <li>
-            <Link href={project.links.content.frontend} target="_blank" rel="noopener noreferrer">
-              <DepoButton message="Frontend" bg="var(--textura-roxo-4-hex)" hover="var(--textura-roxo-4-4-hex)" />
+            <Link href={project.links.content.frontend.url} target="_blank" rel="noopener noreferrer">
+              <DepoButton
+                message={project.links.content.frontend.title}
+                bg="var(--textura-roxo-4-hex)"
+                hover="var(--textura-roxo-4-4-hex)"
+              />
             </Link>
           </li>
           <li>
-            <Link href={project.links.content.backend} target="_blank" rel="noopener noreferrer">
-              <DepoButton message="Backend" bg="var(--textura-roxo-2-hex)" hover="var(--textura-roxo-2-2-hex)" />
+            <Link href={project.links.content.backend.url} target="_blank" rel="noopener noreferrer">
+              <DepoButton
+                message={project.links.content.backend.title}
+                bg="var(--textura-roxo-2-hex)"
+                hover="var(--textura-roxo-2-2-hex)"
+              />
             </Link>
           </li>
         </ul>

@@ -1,6 +1,7 @@
 "use client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Project } from "@/types/projects";
+
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
@@ -13,7 +14,6 @@ interface ProjectModalProps {
   setOpen: () => void;
 }
 export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
-
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -23,7 +23,13 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
         >
           <DialogHeader className="">
             <DialogTitle className="text-center font-principal -mb-4 mt-6 md:mt-0 md:mb-0 text-xl md:text-3xl">
-              <BlurText text={project.title} className="text-Destaque flex items-center justify-center" delay={150} animateBy="words" direction="top" />
+              <BlurText
+                text={project.title}
+                className="text-Destaque flex items-center justify-center"
+                delay={150}
+                animateBy="words"
+                direction="top"
+              />
             </DialogTitle>
           </DialogHeader>
           <Separator />
@@ -31,7 +37,7 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
           <div className="flex flex-col relative  min-w-full">
             <DetailsCard />
             <div className="max-w-6xl p-2 mx-auto gap-2 space-y-4">
-              <Carousel className="w-full max-w-4xl mx-auto  ">
+              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 2500 }}>
                 <CarouselContent>
                   {project.screenshots.map((img) => (
                     <CarouselItem key={project.id + img}>
@@ -58,15 +64,7 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
               {project.lastUpdate && (
                 <section className="flex w-fit absolute right-0 bottom-2 items-center gap-2 px-3 py-1 bg-card border border-border rounded-full">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-xs">
-                    {" "}
-                    Última atualização:{" "}
-                    {new Date(project.lastUpdate).toLocaleDateString("pt-BR", {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </span>
+                  <span className="text-xs">{project.lastUpdateText}</span>
                 </section>
               )}
             </div>

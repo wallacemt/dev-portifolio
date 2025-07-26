@@ -14,12 +14,13 @@ export interface Project {
   links: {
     title: string;
     content: {
-      deployment: string;
-      backend: string;
-      frontend: string;
+      deployment: {title:string, url:string};
+      backend:  {title:string, url:string};
+      frontend:  {title:string, url:string};
     };
   };
   cta: string;
+  lastUpdateText:string
 }
 
 export interface ProjectResponse {

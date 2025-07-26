@@ -23,6 +23,7 @@ API.interceptors.response.use(
   }
 );
 
+export const ownerId = process.env.OWNER_ID || "";
 // export const handleToken = (apiInstance: any) => {
 //   const token = Cookies.get("jwtToken");
 //   if (token) {

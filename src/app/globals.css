@@ -186,7 +186,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-2.5rem);
+    transform: translateY(-0.4rem);
   }
   100% {
     transform: translateY(0px);
@@ -214,7 +214,7 @@
 
 @layer utilities {
   .animate-float {
-    animation: float 8s ease-in-out infinite;
+    animation: float 4s ease-in-out infinite;
   }
   .animate-marquee {
     animation: marquee 40s linear infinite;

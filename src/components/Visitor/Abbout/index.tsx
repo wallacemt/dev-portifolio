@@ -61,7 +61,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           width={280}
           height={380}
           alt="Owner image"
-          className="lg:hidden rounded-xl"
+          className="md:hidden rounded-xl"
         />
       </div>
     </section>

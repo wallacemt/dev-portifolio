@@ -26,22 +26,32 @@ export default function ProjectTimelineList({
   const { ref, inView } = useInView();
 
   useEffect(() => {
+    setProjects(initialProjects);
+    setMeta(initialMeta);
+  }, [initialProjects, initialMeta]);
+
+  useEffect(() => {
     if (!inView || !meta.hasNextPage || isLoading) return;
 
     const fetchNext = async () => {
       setIsLoading(true);
-      const res = await getProjects(language, {
-        ...filters,
-        page: String(meta.page + 1),
-      });
+      try {
+        const res = await getProjects(language, {
+          ...filters,
+          page: String(meta.page + 1),
+        });
 
-      setProjects((prev) => [...prev, ...res.projects]);
-      setMeta(res.meta);
-      setIsLoading(false);
+        setProjects((prev) => [...prev, ...res.projects]);
+        setMeta(res.meta);
+      } catch (error) {
+        console.error("Error loading more projects:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchNext();
-  }, [inView, meta, filters, language, isLoading]);
+  }, [inView, meta.hasNextPage, meta.page, filters, language, isLoading]);
 
   return (
     <>
