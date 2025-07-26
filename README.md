@@ -1,123 +1,239 @@
-# 📌 Portfólio de Desenvolvedor
+# 🌟 Portfolio Wallace Santana | FullStack Developer
 
-![License](https://img.shields.io/static/v1?label=license&message=MIT&color=orange) &nbsp;
-![Cargo version](https://img.shields.io/static/v1?label=cargo&message=v0.1.0&color=yellow) &nbsp;
-![Pull request](https://img.shields.io/static/v1?label=PR&message=welcome&color=green)
+[![License](https://img.shields.io/static/v1?label=license&message=MIT&color=orange)](LICENSE)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.4-black?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-<p align="center"> <img src="https://socialify.git.ci/wallacemt/dev-portifolio/image?custom_description=Este+%C3%A9+o+meu+portf%C3%B3lio+pessoal%2C+constru%C3%ADdo+utilizando+React%2C+TailwindCSS+e+v%C3%A1rias+outras+bibliotecas+populares+para+criar+uma+interface+interativa+e+responsiva.+Este+portf%C3%B3lio+tem+como+objetivo+mostrar+minhas+habilidades%2C+projetos+e+servi%C3%A7os%2C+al%C3%A9m+de+fornecer+uma+navega%C3%A7%C3%A3o+fluida+com+anima%C3%A7%C3%B5es+e+scroll+suave.&description=1&font=Source+Code+Pro&forks=1&issues=1&language=1&logo=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2Fdevicons%2Fdevicon%40latest%2Ficons%2Freact%2Freact-original.svg&name=1&owner=1&pattern=Charlie+Brown&pulls=1&stargazers=1&theme=Dark" alt="project-image"></p>
+> **Portfólio moderno e responsivo desenvolvido com Next.js 15 e TypeScript, apresentando projetos, habilidades e experiências profissionais de forma interativa e multilíngue.**
 
-## 🚀 Tecnologias Utilizadas
+## ✨ **Principais Funcionalidades**
 
-<div align='center' id="tecnologias-utilizadas">
-    <img align='center' height='49' width='49' title='React' alt='React' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' title='Tailwind' alt='Tailwind' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' style="filter: invert(1);"  title='Swiper' alt='Swiper' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swiper/swiper-original.svg'/> &nbsp;
-    <img align='center' height='49' width='49' title='Vite' alt='Vite' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg'/> &nbsp;
-    <img align='center' height='70' width='70' title='Docker' alt='docker' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg' /> &nbsp;
-     <img align='center' height='49' width='49' style="filter: invert(1);"  title='FrameMotion' alt='FrameMotion' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/framermotion/framermotion-original-wordmark.svg'/> &nbsp;
-     <img align='center' height='49' width='49' title='JS' alt='JS' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg'/> &nbsp;
-     <img align='center' height='49' width='49' title='json' alt='json' src='https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/json/json-original.svg'/> &nbsp;
-</div>
+- 🌍 **Multilíngue** - Suporte para português e inglês com troca dinâmica
+- 📱 **Responsivo** - Design adaptável para desktop, tablet e mobile
+- 🎨 **Animações Interativas** - Utilizando Framer Motion e GSAP
+- 🔗 **Integração com API** - Conteúdo dinâmico carregado via API externa
+- ⚡ **Performance Otimizada** - Next.js 15 com Turbopack
+- 🎭 **3D Components** - Elementos 3D com Three.js e React Three Fiber
+- 📊 **Loading States** - Estados de carregamento personalizados
+- 🍪 **Persistência** - Preferências salvas em cookies
+- 📈 **SEO Otimizado** - Meta tags e Open Graph configurados
 
-## 📂 Estrutura do Projeto
+---
+
+## 🛠️ **Tecnologias Utilizadas**
+
+### **Frontend**
+
+- **[Next.js 15](https://nextjs.org/)** - Framework React com App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Tipagem estática
+- **[Tailwind CSS 4](https://tailwindcss.com/)** - Framework CSS utilitário
+- **[Framer Motion](https://www.framer.com/motion/)** - Animações e transições
+- **[GSAP](https://gsap.com/)** - Animações complexas
+- **[React Three Fiber](https://docs.pmnd.rs/react-three-fiber)** - Componentes 3D
+
+### **UI/UX**
+
+- **[Radix UI](https://www.radix-ui.com/)** - Componentes acessíveis
+- **[Lucide React](https://lucide.dev/)** - Ícones modernos
+- **[Phosphor Icons](https://phosphoricons.com/)** - Biblioteca de ícones
+- **[React Intersection Observer](https://github.com/thebuilder/react-intersection-observer)** - Observador de scroll
+
+### **Estado e Dados**
+
+- **[Axios](https://axios-http.com/)** - Cliente HTTP
+- **[js-cookie](https://github.com/js-cookie/js-cookie)** - Gerenciamento de cookies
+- **React Context API** - Gerenciamento de estado global
+
+### **Desenvolvimento**
+
+- **[ESLint](https://eslint.org/)** - Linting de código
+- **[Turbopack](https://turbo.build/)** - Bundler ultra-rápido
+
+---
+
+## 📂 **Estrutura do Projeto**
 
 ```
-/public
-  /database                # Banco de dados em formato json com os dados.
-  /fonts                   # Fonts instaladas e utilizadas na aplicação.
-  /images                  # Imagens que sao utilizadas.
-/src
-  /components            # Componentes React reutilizáveis (Home, Sobre, Projetos, etc..)
-  /screens               # Tela principal do portfólio.
-  /locales               # Arquivo json com as traduções utilizadas.
-  App.jsx                # Componente principal
-  i18n.js                # Serviço de tradução.
-  index.css              # Css global.
-  main.jsx               # Ponto de entrada do React
-  routes.jsx             # Rotas utilizadas na aplicação.
-tailwind.config.js     # Configurações do TailwindCSS
-postcss.config.js      # Configuração do PostCSS
-README.md                # Este arquivo
-package.json             # Dependências e scripts do projeto
+📦 portifolio-ws/
+┣ 📂 src/
+┃ ┣ 📂 app/                      # Next.js App Router
+┃ ┃ ┣ 📂 watch/[language]/       # Rotas multilíngues
+┃ ┃ ┃ ┣ 📂 projects/             # Página de projetos
+┃ ┃ ┃ ┣ 📂 skills/               # Página de habilidades
+┃ ┃ ┃ ┣ layout.tsx               # Layout da linguagem
+┃ ┃ ┃ ┗ page.tsx                 # Página inicial
+┃ ┃ ┣ globals.css                # Estilos globais
+┃ ┃ ┣ layout.tsx                 # Root layout
+┃ ┃ ┗ page.tsx                   # Página raiz
+┃ ┣ 📂 blocks/                   # Componentes reutilizáveis
+┃ ┃ ┣ 📂 Backgrounds/            # Componentes de background
+┃ ┃ ┣ 📂 Components/             # Componentes UI
+┃ ┃ ┗ 📂 TextAnimations/         # Animações de texto
+┃ ┣ 📂 components/               # Componentes da aplicação
+┃ ┃ ┣ 📂 ui/                     # Componentes base (Radix)
+┃ ┃ ┗ 📂 Visitor/                # Componentes específicos
+┃ ┃   ┣ 📂 Header/               # Cabeçalho e navegação
+┃ ┃   ┣ 📂 Projects/             # Seção de projetos
+┃ ┃   ┣ 📂 Skills/               # Seção de habilidades
+┃ ┃   ┗ 📂 Footer/               # Rodapé
+┃ ┣ 📂 contexts/                 # Contextos React
+┃ ┃ ┣ LanguageContext.tsx        # Contexto de idioma
+┃ ┃ ┗ OwnerContext.tsx           # Contexto do proprietário
+┃ ┣ 📂 services/                 # Integração com API
+┃ ┃ ┣ ownerApi.ts                # API do proprietário
+┃ ┃ ┣ projects.ts                # API de projetos
+┃ ┃ ┗ skillsApi.ts               # API de habilidades
+┃ ┣ 📂 types/                    # Definições TypeScript
+┃ ┣ 📂 lib/                      # Utilitários
+┃ ┃ ┣ axios.ts                   # Configuração do Axios
+┃ ┃ ┗ utils.ts                   # Funções utilitárias
+┃ ┗ middleware.ts                # Middleware Next.js
+┣ 📂 public/                     # Arquivos estáticos
+┃ ┣ 📂 images/                   # Imagens da aplicação
+┃ ┗ owner.jpeg                   # Foto de perfil
+┣ next.config.ts                 # Configuração Next.js
+┣ tailwind.config.js             # Configuração Tailwind
+┣ tsconfig.json                  # Configuração TypeScript
+┗ package.json                   # Dependências do projeto
 ```
 
-## 📌 Funcionalidades
+---
 
-- **Multilinguagem**: O portfólio suporta múltiplos idiomas utilizando `react-i18next`.
+## ⚙️ **Configuração e Instalação**
 
-- **Animações e Transições**: Animações de scroll e transições suaves com `anime.js` e `framer-motion`.
+### **Pré-requisitos**
 
-- **Seções dinâmicas**: O portfólio é dividido em várias seções que são carregadas dinamicamente.
+- **Node.js** >= 18.x
+- **npm** ou **yarn**
 
-- **Scroll suave**: A navegação suave com `locomotive-scroll` para uma experiência de usuário otimizada.
-
-## 🛠️ Configuração e Execução
-
-### 1️⃣ Clonar o Repositório
+### **1. Clone o Repositório**
 
 ```bash
-git clone https://github.com/wallacemt/dev-portifolio
-```
-
-```bash
+git clone https://github.com/wallacemt/dev-portifolio.git
 cd dev-portifolio
 ```
 
-### 2️⃣ Instalar As Dependencias Da Aplicação
-
-- Usando npm:
-
-  ```bash
-  npm install
-  ```
-
-- Usando yarn:
-  ```bash
-  yarn  install
-  ```
-
-### 3️⃣ Rodar a Aplicação Manualmente (Sem Docker)
+### **2. Instale as Dependências**
 
 ```bash
+# Usando npm
+npm install
+
+# Ou usando yarn
+yarn install
+```
+
+### **3. Configure as Variáveis de Ambiente**
+
+Crie um arquivo `.env.local` na raiz do projeto:
+
+```env
+# URL da API backend
+API_URL=https://sua-api.com
+
+# ID do proprietário do portfolio
+OWNER_ID=seu-owner-id
+```
+
+### **4. Execute o Projeto**
+
+#### **Desenvolvimento**
+
+```bash
+# Com Turbopack (recomendado - mais rápido)
 npm run dev
+
+# Ou modo tradicional
+npx next dev
 ```
 
-### 4️⃣ Ou Rodar a Aplicação com Docker
+#### **Produção**
 
 ```bash
-docker-compose up --build -d
+# Build de produção
+npm run build
+
+# Executar build
+npm start
 ```
 
-`A aplicação estará disponível em` **http://localhost:5173**
+A aplicação estará disponível em **http://localhost:3000**
 
-## 🛠 Contribuição
+---
 
-Ficou interessado em contribuir? Faça um **fork** do repositório, crie uma **branch**, implemente a melhoria e envie um **pull request**. Toda ajuda é bem-vinda!
+## 🌐 **Rotas da Aplicação**
 
-1. **Fork the repository.**
-2. **Clone your forked repository to your local machine.**
-3. **Create a branch for your feature or fix:**
+| Rota                     | Descrição                                     |
+| ------------------------ | --------------------------------------------- |
+| `/`                      | Redirecionamento automático para `/watch/pt/` |
+| `/watch/pt/`             | Página inicial em português                   |
+| `/watch/en/`             | Página inicial em inglês                      |
+| `/watch/[lang]/projects` | Página de projetos                            |
+| `/watch/[lang]/skills`   | Página de habilidades                         |
 
-   ```bash
-   git checkout -b my-new-feature
-   ```
+---
 
-4. **Commit your changes:**
+## 🎯 **Funcionalidades Detalhadas**
 
-   ```bash
-   git commit -m 'Add new feature'
-   ```
+### **🌍 Sistema Multilíngue**
 
-5. **Push your changes to your fork:**
+- Troca dinâmica entre português e inglês
+- Persistência da preferência em cookies
+- Redirecionamento automático baseado na preferência
+- Conteúdo localizado via API
 
-   ```bash
-   git push origin my-new-feature
-   ```
+### **📱 Design Responsivo**
 
-6. **Create a Pull Request.**
+- Layout adaptável para todas as telas
+- Navegação mobile otimizada
+- Componentes que se reorganizam automaticamente
+- Imagens otimizadas para diferentes resoluções
 
-<span id="license"></span>
+### **🎨 Animações e Interações**
 
-# 📜 Licença
+- Animações suaves com Framer Motion
+- Efeitos de scroll e intersecção
+- Hover effects personalizados
+- Loading states animados
 
-`Este projeto está sob a licença MIT.`
+### **🔗 Integração com API**
+
+- Carregamento dinâmico de dados
+- Cache e otimização de requisições
+- Tratamento de erros
+- Estados de loading
+
+---
+
+## 🤝 **Contribuindo**
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. **Fork** o projeto
+2. Crie uma **branch** para sua feature (`git checkout -b feature/nova-feature`)
+3. **Commit** suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. **Push** para a branch (`git push origin feature/nova-feature`)
+5. Abra um **Pull Request**
+
+### **Padrões de Código**
+
+- Use **TypeScript** para tipagem
+- Siga o padrão **ESLint** configurado
+- Componentes devem ser **funcionais** com hooks
+- Mantenha a **responsividade** em mente
+- Documente **APIs** e **funções complexas**
+
+---
+
+## 📄 **Licença**
+
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+---
+
+## 👨‍💻 Autor
+- GitHub: [@wallacemt](https://github.com/wallacemt)
+---
+
+**⭐ Se este projeto te ajudou, considere dar uma estrela!**

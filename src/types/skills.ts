@@ -33,3 +33,8 @@ export interface Skill {
   subSkils: string[];
   ownerId: string;
 }
+
+export interface SkillResponse {
+  skills: Skill[];
+  chooseText: string;
+}

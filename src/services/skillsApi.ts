@@ -1,10 +1,10 @@
 import { API, ownerId } from "@/lib/axios";
-import { Skill } from "@/types/skills";
+import {  SkillResponse } from "@/types/skills";
 
-export const getSkills = async (language: string = "pt"): Promise<Skill[]> => {
+export const getSkills = async (language: string = "pt"): Promise<SkillResponse> => {
   try {
-    const response = await API.get(`/skills/owner/${ownerId}?=language=${language}`);
-    return response.data as Skill[];
+    const response = await API.get(`/skills/owner/${ownerId}?language=${language}`);
+    return response.data as SkillResponse;
   } catch (error) {
     throw error;
   }

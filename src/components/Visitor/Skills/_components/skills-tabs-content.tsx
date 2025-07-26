@@ -9,8 +9,9 @@ import { Separator } from "@/components/ui/separator";
 
 interface SkillTabContentProps {
   skills: Skill[];
+  chooseText?: string; 
 }
-export const SkillsTabContent = ({ skills }: SkillTabContentProps) => {
+export const SkillsTabContent = ({ skills, chooseText }: SkillTabContentProps) => {
   const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
 
   return (
@@ -26,7 +27,7 @@ export const SkillsTabContent = ({ skills }: SkillTabContentProps) => {
                 <SelectValue placeholder="Filtrar por categoria" />
               </SelectTrigger>
               <SelectContent>
-                {activeCategory === "all" && <SelectItem value="all">Escolha uma categoria</SelectItem>}
+                {activeCategory === "all" && <SelectItem value="all">{chooseText || "Escolha uma categoria"}</SelectItem>}
                 {categories.slice(1).map((category) => (
                   <SelectItem key={category} value={category} className="capitalize">
                     {category} ({categoryCount[category]})

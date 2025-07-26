@@ -5,11 +5,11 @@ interface SkillsContentProps {
 }
 
 export default async function SkillsContent({ language }: SkillsContentProps) {
-  const skills = await getSkills(language);
+  const res = await getSkills(language);
 
   return (
     <section className="w-full  md:min-w-screen mx-auto px-4 md:px-12 p-2">
-      <SkillsTabContent skills={skills} />
+      <SkillsTabContent skills={res.skills} chooseText={res.chooseText} />
     </section>
   );
 }

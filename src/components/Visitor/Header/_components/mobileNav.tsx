@@ -6,14 +6,12 @@ import Link from "next/link";
 
 import { usePathname } from "next/navigation";
 import { LanguageSelector } from "./languageSelector";
-import { Language } from "@/types/utilis";
+import {  LenguagesResponse } from "@/types/utilis";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 interface MobileNavProps {
   menuItens: { name: string; path: string }[];
-  languages: {
-    [key: string]: Language;
-  };
+  languages: LenguagesResponse
 }
 export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +73,7 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
         <>
           {languages && (
             <div className=" absolute top-4 left-4">
-              <LanguageSelector translations={languages} />
+              <LanguageSelector translations={languages.translation[0]} />
             </div>
           )}
           {menuItens.map((item, index) => (

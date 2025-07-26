@@ -1,54 +1,15 @@
-"use client";
-import Link from "next/link";
-import { MobileNav } from "./_components/mobileNav";
-import { Separator } from "@/components/ui/separator";
-import { LanguageSelector } from "./_components/languageSelector";
-import { Language, NavbarItem } from "@/types/utilis";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { usePathname } from "next/navigation";
+import { NavItems } from "./_components/navitems";
+import { getAvailableLanguages, getNavbarItems } from "@/services/utilisApi";
 
 interface NavItemsProps {
-  menuItens: NavbarItem[];
-  languages: {
-    [key: string]: Language;
-  };
+  language: string;
 }
-export const Header = ({ menuItens, languages }: NavItemsProps) => {
-  const { language } = useLanguage();
-  const pathName = usePathname();
-  const isHome = pathName === `/watch/${language}`;
+export default async function Header({ language }: NavItemsProps) {
+  const lang = await getAvailableLanguages();
+  const menuItens = await getNavbarItems(language);
   return (
     <header className="min-w-screen max-h-screen z-20 relative">
-      <nav
-        className="nav-glass mt-4 w-full max-w-full lg:max-w-fit mx-auto rounded-full px-6 py-3 flex items-center lg:justify-between gap-4 justify-center backdrop-blur-xs shadow-lg border border-border pointer-events-auto h-12 relative z-30"
-        style={{ userSelect: "none" }}
-      >
-        <Link href="/" role="img" aria-label="Logo">
-          <h1 className="font-principal xl:text-4xl md:text-2xl text-[1.8rem]">
-            Wallace<span className="text-Destaque">.Dev</span>
-          </h1>
-        </Link>
-        <Separator orientation="vertical" className="border-1 border-roxo100/50" />
-        <ul className="hidden lg:flex gap-8 items-center justify-center">
-          {menuItens.map((item, index) => (
-            <Link key={index} href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}>
-              <li
-                className={`hover:text-roxo100 ${pathName.endsWith(item.path) ? "border-b-2 border-roxo100" : ""} ${
-                  isHome && item.path === "/" ? "border-b-2 border-roxo100" : ""
-                } lg:text-lg transition-colors text-neutral10 hover:font-bold hover:border-b-2 font-secundaria`}
-              >
-                {item.name}
-              </li>
-            </Link>
-          ))}
-          {languages && (
-            <li className="flex items-center">
-              <LanguageSelector translations={languages} />
-            </li>
-          )}
-        </ul>
-      </nav>
-      <MobileNav menuItens={menuItens} languages={languages} />
+      <NavItems menuItens={menuItens.itens} languages={lang} language={language} />
     </header>
   );
-};
+}

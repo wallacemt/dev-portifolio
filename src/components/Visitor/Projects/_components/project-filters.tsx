@@ -1,14 +1,13 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getTechsProject } from "@/services/projects";
 import { useDebounce } from "@/utilis/debounce";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, useMemo } from "react";
-export const ProjectFilters = () => {
+export const ProjectFilters = ({ techsList }: { techsList: string[] }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [techsList, setTechList] = useState<string[]>([]);
+const searchParams = useSearchParams();
+
   const [searchValue, setSearchValue] = useState(searchParams.get("search") || "");
 
   const debouncedSearchValue = useDebounce(searchValue, 500);
@@ -30,17 +29,7 @@ export const ProjectFilters = () => {
     updateQueryParam("search", debouncedSearchValue);
   }, [debouncedSearchValue, updateQueryParam]);
 
-  useEffect(() => {
-    const fetchTechs = async () => {
-      try {
-        const res = await getTechsProject();
-        setTechList(res);
-      } catch (error) {
-        console.error("Error fetching techs:", error);
-      }
-    };
-    fetchTechs();
-  }, []);
+  
 
   const memoizedTechOptions = useMemo(
     () =>
