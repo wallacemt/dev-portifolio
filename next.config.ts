@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     API_URL: process.env.API_URL,
     OWNER_ID: process.env.OWNER_ID,
   },
-  allowedDevOrigins: ["192.168.248.203"],
+  allowedDevOrigins: ["192.168.248.204"],
   images: {
     remotePatterns: [
       {

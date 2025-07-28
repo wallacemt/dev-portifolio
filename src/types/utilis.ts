@@ -1,4 +1,3 @@
-
 export interface Language {
   name: string;
   nativeName: string;
@@ -17,4 +16,15 @@ export interface NavbarItem {
 export interface NavbarItens {
   itens: NavbarItem[];
   callText: string;
+}
+
+interface ServicesItem {
+  id:string
+  name: string;
+  description: string;
+  details: string;
+  items: string[];
+}
+export interface ServicesResponse {
+  services: ServicesItem[];
 }

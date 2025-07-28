@@ -1,4 +1,4 @@
-import { LenguagesResponse, NavbarItens } from "@/types/utilis";
+import { LenguagesResponse, NavbarItens, ServicesResponse } from "@/types/utilis";
 import { API } from "@/lib/axios";
 
 export async function getNavbarItems(language = "pt"): Promise<NavbarItens> {
@@ -8,8 +8,8 @@ export async function getNavbarItems(language = "pt"): Promise<NavbarItens> {
   return res.data as NavbarItens;
 }
 
-export async function getServiceItems(language = "pt") {
-  const res = await API.get(`/utilis/services`, {
+export async function getServiceItems(language = "pt"): Promise<ServicesResponse> {
+  const res = await API.get<ServicesResponse>(`/utilis/services`, {
     params: { lenguage: language },
   });
   return res.data;
