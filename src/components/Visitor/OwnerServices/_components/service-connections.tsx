@@ -26,14 +26,7 @@ export function ServiceConnections({ connections, hoveredService, servicePositio
     ? connections.filter((conn) => conn.fromId === hoveredService || conn.toId === hoveredService)
     : [];
 
-  // Debug log when hoveredService changes
-  console.log("ServiceConnections Debug:", {
-    hoveredService,
-    totalConnections: connections.length,
-    visibleConnections: visibleConnections.length,
-    servicePositionsCount: Object.keys(servicePositions).length,
-    visibleConnectionsDetails: visibleConnections.map((c) => `${c.fromId} -> ${c.toId}`),
-  });
+ 
 
   return (
     <svg

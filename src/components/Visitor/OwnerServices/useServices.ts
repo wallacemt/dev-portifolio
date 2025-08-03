@@ -28,12 +28,7 @@ export function useServices() {
         }
       });
 
-      console.log("Updated service positions:", positions);
-      console.log("Total cards found:", cards.length);
-      console.log(
-        "Cards with service-id:",
-        Array.from(cards).map((card) => card.getAttribute("data-service-id"))
-      );
+    
       setServicePositions(positions);
     };
     const timeouts = [100, 300, 500, 1000];
