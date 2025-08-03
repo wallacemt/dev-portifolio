@@ -10,7 +10,7 @@ export default async function Projects({ params, searchParams }: ProjectsProps) 
   const { language } = await params;
   const filters = await searchParams
   return (
-    <Suspense fallback={<ProjectTimelineSkeleton />}>
+    <Suspense fallback={<ProjectTimelineSkeleton />} >
       <ProjectTimeline language={language} filters={filters} />
     </Suspense>
   );

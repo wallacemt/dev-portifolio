@@ -34,7 +34,10 @@ const DevLoader = () => {
   }, []);
 
   return (
-    <div className="bg-roxo700/80 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative">
+    <div
+      className="bg-roxo700/80 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative"
+      style={{ userSelect: "none" }}
+    >
       {[...Array(50)].map((_, i) => {
         const x = Math.random() * 90 + 5;
         const y = Math.random() * 90 + 5;

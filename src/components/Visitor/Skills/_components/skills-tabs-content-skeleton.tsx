@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function SkillsContentSkeleton() {
   return (
-    <section className="w-full md:max-w-6xl   mx-auto px-4 md:px-6 py-4">
+    <section className="w-full  md:min-w-screen mx-auto px-4 md:px-12 p-2">
       <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
         <div className="hidden md:flex gap-2">
           {Array.from({ length: 4 }).map((_, i) => (

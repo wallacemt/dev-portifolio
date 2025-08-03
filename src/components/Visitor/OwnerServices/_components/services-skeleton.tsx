@@ -52,15 +52,12 @@ export function ServiceCardSkeleton() {
 
 export function ServicesSkeleton() {
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
+    <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        {/* Header skeleton */}
         <div className="text-center mb-16">
           <Skeleton className="h-12 w-64 mx-auto mb-4" />
           <Skeleton className="h-6 w-96 mx-auto" />
         </div>
-
-        {/* Services grid skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
           {Array.from({ length: 6 }).map((_, index) => (
             <div
@@ -73,13 +70,6 @@ export function ServicesSkeleton() {
               <ServiceCardSkeleton />
             </div>
           ))}
-        </div>
-
-        {/* Central hub skeleton */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="w-24 h-24 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full border-2 border-white/20 flex items-center justify-center backdrop-blur-sm">
-            <Skeleton className="w-12 h-12 rounded-full" />
-          </div>
         </div>
       </div>
     </section>

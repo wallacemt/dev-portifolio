@@ -9,7 +9,10 @@ export default async function ProjectTimeline({
   language: string;
   filters?: { search?: string; tech?: string; orderBy?: string };
 }) {
-  const response = await getProjects(language, { ...filters, page: "1" });
+  const response = await getProjects(language, { ...filters, page: "1" }).catch((error) => {
+    console.error("Error fetching projects:", error);
+    return { projects: [], meta: { total: 0, page: 1, limit: 1, hasNextPage: false } };
+  });
   const techList = await getTechsProject();
 
   return (
