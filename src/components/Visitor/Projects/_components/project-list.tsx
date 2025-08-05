@@ -56,7 +56,7 @@ export default function ProjectTimelineList({
   return (
     <>
       <ol className="flex flex-col items-start" style={{ listStyle: "none" }}>
-        <li className="mx-auto md:border-s-2 border-roxo100/50">
+        <li className="mx-auto">
           {projects.map((project) => (
             <ProjectCard project={project} key={project.id} />
           ))}

@@ -47,7 +47,7 @@ export function ServicesContent({ services, connections, texts, lan }: ServicesP
           hoveredService={hoveredService}
           servicePositions={servicePositions}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-20 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10 p-4">
           {services.map((service, index) => (
             <div key={service.id} data-service-id={service.id} className="flex">
               <ServiceCard

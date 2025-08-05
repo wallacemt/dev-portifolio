@@ -4,6 +4,7 @@ export interface Project {
   activate: boolean;
   ownerId: string;
   id: string;
+  isMostRecent: boolean;
   title: string;
   description: { title: string; content: string };
   techs: { title: string; content: string[] };
@@ -14,17 +15,21 @@ export interface Project {
   links: {
     title: string;
     content: {
-      deployment: {title:string, url:string};
-      backend:  {title:string, url:string};
-      frontend:  {title:string, url:string};
+      deployment: { title: string; url: string };
+      backend: { title: string; url: string };
+      frontend: { title: string; url: string };
     };
   };
   cta: string;
-  lastUpdateText:string
+  lastUpdateText: string;
 }
 
 export interface ProjectResponse {
   projects: Project[];
+  texts: {
+    title: string;
+    description: string;
+  };
   meta: Meta;
 }
 

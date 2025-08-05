@@ -36,5 +36,5 @@ export interface Skill {
 
 export interface SkillResponse {
   skills: Skill[];
-  chooseText: string;
+  texts: { chooseText: string; title: string; description: string };
 }

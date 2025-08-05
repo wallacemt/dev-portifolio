@@ -5,13 +5,17 @@ import { Camera } from "lucide-react";
 export default function ProjectTimelineSkeleton() {
   return (
     <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8w">
+      <div className="text-center mb-16">
+          <Skeleton className="h-12 w-64 mx-auto mb-4" />
+          <Skeleton className="h-6 w-96 mx-auto" />
+        </div>
       <div className="flex md:flex-row flex-col max-w-xl mx-auto gap-4 mb-6">
         <Skeleton className="w-full md:w-[150px] h-8 rounded-md" />
         <Skeleton className="w-full md:w-[150px] h-8 rounded-md" />
       </div>
       <ol className="flex flex-col items-start" style={{ listStyle: "none" }}>
         {Array.from({ length: 3 }).map((_, i) => (
-          <li className="mx-auto border-s-2 p-1 border-roxo100/50" key={i}>
+          <li className="mx-auto " key={i}>
             <div className="mb-16 max-w-full md:ms-2 relative mx-auto ">
               <div className="flex flex-col  gap-2 md:max-w-[90%] mx-auto">
                 <div className="flex gap-2 ">

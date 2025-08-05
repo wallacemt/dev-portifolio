@@ -1,11 +1,10 @@
 "use client";
 import { Project } from "@/types/projects";
 import Image from "next/image";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { DepoButton } from "@/components/ui/depo-btn";
 import { useState } from "react";
 import { ProjectModal } from "./project-modal-view";
+import { Badge } from "@/components/ui/badge";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
@@ -21,12 +20,10 @@ export default function ProjectCard({ project }: { project: Project }) {
           <div className="flex gap-2 ">
             <span className=" flex items-center justify-center w-5 h-5 animate-pulse bg-roxo100 rounded-full -start-2 ring-4 ring-neutral-900" />
             <time className="block text-sm text-gray-400 mb-2">
-              {project.lastUpdate
-                ? format(new Date(project.lastUpdate), "MMMM yyyy", { locale: ptBR })
-                : "Data desconhecida"}
+              {project.lastUpdate ? project.lastUpdateText : "Data desconhecida"}
             </time>
           </div>
-          <div className="flex md:flex-row flex-col items-center justify-center">
+          <div className="flex md:flex-row relative flex-col items-center justify-center">
             <Image
               src={project.previewImage}
               alt={project.title}
@@ -34,6 +31,11 @@ export default function ProjectCard({ project }: { project: Project }) {
               height={400}
               className=" md:w-[60%] h-[100%] hover:scale-105 ease-in-out duration-300  rounded-md"
             />
+            {project.isMostRecent && (
+              <div className="absolute top-4 left-4">
+                <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">Mais Recente</Badge>
+              </div>
+            )}
             <div className="flex flex-col justify-between border-neutral-800 rounded-lg p-6 bg-gradient-to-b from-roxo700 to-roxo500 shadow-md transition-all hover:shadow-[0_0_5px_rgba(0,229,255,0.2)]">
               <h3 className="text-xl font-medium text-white font-principal">{project.title}</h3>
               <p className="text-sm text-gray-300 mt-2 mb-4 leading-relaxed tracking-wide">

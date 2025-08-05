@@ -1,13 +1,22 @@
 import { getSkills } from "@/services/skillsApi";
-import { SkillsTabContent } from "./_components/skills-tabs-content";
+import { SkillsContent } from "./_components/skills-content";
 interface SkillsContentProps {
   language: string;
 }
 
-export default async function SkillsContent({ language }: SkillsContentProps) {
+export const revalidate = 30;
+
+export async function Skills({ language }: SkillsContentProps) {
   const res = await getSkills(language).catch((error) => {
     console.error("Error fetching skills:", error);
-    return { skills: [], chooseText: "" };
+    return {
+      skills: [],
+      texts: {
+        title: language === "pt" ? "Error ao carregar Habilidades" : "Error fetch skills",
+        description: language === "pt" ? "Recarregue a pagina e tente novamente" : "Try-again",
+        chooseText: "",
+      },
+    };
   });
   if (!res.skills || res.skills.length === 0) {
     return (
@@ -19,7 +28,7 @@ export default async function SkillsContent({ language }: SkillsContentProps) {
   }
   return (
     <section className="w-full  md:min-w-screen mx-auto px-4 md:px-12 p-2">
-      <SkillsTabContent skills={res.skills} chooseText={res.chooseText} />
+      <SkillsContent res={res} />
     </section>
   );
 }

@@ -3,6 +3,8 @@ import { ServicesContent } from "./_components/services-content";
 interface ServicesProps {
   language: string;
 }
+
+export const revalidate = 60;
 export async function Services({ language }: ServicesProps) {
   const response = await getService(language).catch((err) => {
     console.error(err);

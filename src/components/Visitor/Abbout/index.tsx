@@ -8,7 +8,7 @@ interface AbboutProps {
   owner: OwnerResponse;
   language: string;
 }
-
+export const revalidate = 60;
 export const Abbout = ({ owner, language }: AbboutProps) => {
   return (
     <section
@@ -56,13 +56,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           showTooltip={true}
           displayOverlayContent={true}
         />
-        <Image 
-          src={owner.avatar}
-          width={280}
-          height={380}
-          alt="Owner image"
-          className="md:hidden rounded-xl"
-        />
+        <Image src={owner.avatar} width={280} height={380} alt="Owner image" className="md:hidden rounded-xl" />
       </div>
     </section>
   );
