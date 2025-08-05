@@ -55,8 +55,8 @@ export function ServicesSkeleton() {
     <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8 relative overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <Skeleton className="h-12 w-64 mx-auto mb-4" />
-          <Skeleton className="h-6 w-96 mx-auto" />
+          <Skeleton className="h-12 w-60 mx-auto mb-4" />
+          <Skeleton className="h-6 w-70 mx-auto" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
           {Array.from({ length: 6 }).map((_, index) => (

@@ -6,8 +6,8 @@ export default function ProjectTimelineSkeleton() {
   return (
     <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8w">
       <div className="text-center mb-16">
-          <Skeleton className="h-12 w-64 mx-auto mb-4" />
-          <Skeleton className="h-6 w-96 mx-auto" />
+          <Skeleton className="h-12 w-60 mx-auto mb-4" />
+          <Skeleton className="h-6 w-70 mx-auto" />
         </div>
       <div className="flex md:flex-row flex-col max-w-xl mx-auto gap-4 mb-6">
         <Skeleton className="w-full md:w-[150px] h-8 rounded-md" />

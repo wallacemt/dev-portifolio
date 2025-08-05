@@ -12,22 +12,29 @@ interface FormationStatsProps {
     institutionsCount: number;
     certificatesCount: number;
   };
-  language: string;
+  texts: {
+    stats: {
+      formations: string;
+      studyHours: string;
+      institution: string;
+      certificaos: string;
+    };
+  };
 }
 
-export function FormationStats({ stats, language }: FormationStatsProps) {
+export function FormationStats({ stats, texts }: FormationStatsProps) {
   const statsData = [
     {
       icon: <Award className="w-6 h-6" />,
       value: stats.total,
-      label: language === "pt" ? "Formações" : "Formations",
+      label: texts.stats.formations,
       color: "from-blue-500 to-blue-600",
       bgColor: "bg-blue-500/10",
     },
     {
       icon: <Clock className="w-6 h-6" />,
       value: stats.totalWorkload,
-      label: language === "pt" ? "Horas de Estudo" : "Study Hours",
+      label: texts.stats.studyHours,
       color: "from-green-500 to-green-600",
       bgColor: "bg-green-500/10",
       suffix: "h",
@@ -35,14 +42,14 @@ export function FormationStats({ stats, language }: FormationStatsProps) {
     {
       icon: <Building className="w-6 h-6" />,
       value: stats.institutionsCount,
-      label: language === "pt" ? "Instituições" : "Institutions",
+      label: texts.stats.institution,
       color: "from-purple-500 to-purple-600",
       bgColor: "bg-purple-500/10",
     },
     {
       icon: <ExternalLink className="w-6 h-6" />,
       value: stats.certificatesCount,
-      label: language === "pt" ? "Certificados" : "Certificates",
+      label: texts.stats.certificaos,
       color: "from-orange-500 to-orange-600",
       bgColor: "bg-orange-500/10",
     },

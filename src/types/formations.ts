@@ -16,5 +16,12 @@ export interface FormationResponse {
   texts: {
     title: string;
     description: string;
+    certificationText: string;
+    stats: {
+      formations:string;
+      studyHours: string;
+      institution: string;
+      certificaos: string;
+    };
   };
 }

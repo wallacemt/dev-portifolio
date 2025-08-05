@@ -55,7 +55,7 @@ export const FormationsContent = ({ formations, language }: FormationsContentPro
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <FormationStats stats={getFormationStats(formations.formations)} language={language} />
+          <FormationStats stats={getFormationStats(formations.formations)} texts={formations.texts} />
         </motion.div>
         <div className="relative">
           <div className="relative z-10 space-y-8 pt-8">
@@ -64,6 +64,7 @@ export const FormationsContent = ({ formations, language }: FormationsContentPro
                 <FormationCard
                   formation={formation}
                   index={index}
+                  texts={formations.texts}
                   isActive={formation.id === activeFormation}
                   onHover={handleFormationHover}
                   language={language}

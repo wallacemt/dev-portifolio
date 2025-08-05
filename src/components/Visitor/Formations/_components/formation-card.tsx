@@ -10,6 +10,7 @@ import Image from "next/image";
 
 interface FormationCardProps {
   formation: Formation;
+  texts: {certificationText: string};
   index: number;
   isActive?: boolean;
   onHover?: (formationId: string | null) => void;
@@ -36,7 +37,7 @@ const formationTypeIcons = {
   default: <Calendar className="w-4 h-4" />,
 };
 
-export function FormationCard({ formation, index, isActive = false, onHover, language }: FormationCardProps) {
+export function FormationCard({ formation, index, texts, isActive = false, onHover, language }: FormationCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString(language === "pt" ? "pt-BR" : "en-US", {
@@ -200,7 +201,7 @@ export function FormationCard({ formation, index, isActive = false, onHover, lan
                   whileTap={{ scale: 0.95 }}
                 >
                   <ExternalLink className="w-4 h-4" />
-                  {language === "pt" ? "Certificado" : "Certificate"}
+                  {texts.certificationText}
                 </motion.a>
               </div>
             )}

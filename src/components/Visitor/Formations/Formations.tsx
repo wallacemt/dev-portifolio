@@ -17,6 +17,13 @@ export async function Formations({ language }: FormationsProps) {
       texts: {
         title: language === "pt" ? "Erro ao carregar formações" : "Error fetch formations",
         description: language === "pt" ? "Recarregue a pagina e tente novamente" : "Try-again",
+        certificationText: language === "pt" ? "Ver Certificado" : "Show Certification",
+        stats: {
+          formations: language === "pt" ? "Formações" : "Formations",
+          studyHours: language === "pt" ? "Horas de Estudo" : "Study Hours",
+          institution: language === "pt" ? "Instituição" : "Institution",
+          certificaos: language === "pt" ? "Certificados" : "Certificates",
+        },
       },
     };
   });

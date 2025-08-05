@@ -11,7 +11,7 @@ export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6" }: DepoB
   const StyledWrapper = styled.div`
     .Btn-Container {
       display: flex;
-      width: 170px;
+      width: 100%;
       height: fit-content;
       background-color: ${bg};
       border-radius: 40px;
@@ -36,7 +36,7 @@ export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6" }: DepoB
       border: 3px solid #2f0559;
     }
     .text {
-      width: calc(170px - 45px);
+      width: 100%;
       height: 100%;
       display: flex;
       align-items: center;
