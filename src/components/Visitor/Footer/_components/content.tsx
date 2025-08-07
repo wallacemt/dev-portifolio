@@ -6,6 +6,7 @@ import {
   MailboxIcon,
   DiscordLogoIcon,
   DevicesIcon,
+  RobotIcon,
 } from "@phosphor-icons/react";
 import Link from "next/link";
 import GitHubCalendar from "react-github-calendar";
@@ -41,6 +42,12 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
       label: "Discord",
       title: "wallacemt",
     },
+    {
+      href: "/owner",
+      icon: RobotIcon,
+      label: "Owner",
+      title: "wallacemt",
+    },
   ];
   const currentYear = new Date().getFullYear();
   return (
@@ -64,19 +71,32 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
         />
         <div className="flex flex-col gap-4 items-center jubustify-center">
           <div className="flex flex-wrap gap-3">
-            {social.map(({ href, icon: Icon, label, title }, idx) => (
-              <Link
-                key={idx}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-lg bg-card hover:bg-purple-primary/10 border border-border hover:border-purple-primary/30 transition-all group"
-                aria-label={label}
-                title={title}
-              >
-                <Icon size={22} className="text-muted-foreground group-hover:text-purple-primary" />
-              </Link>
-            ))}
+            {social.map(({ href, icon: Icon, label, title }, idx) =>
+              label != "Owner" ? (
+                <Link
+                  key={idx}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-card hover:bg-purple-primary/10 border border-border hover:border-purple-primary/30 transition-all group"
+                  aria-label={label}
+                  title={title}
+                >
+                  <Icon size={22} className="text-muted-foreground group-hover:text-purple-primary" />
+                </Link>
+              ) : (
+                <Link
+                  key={idx}
+                  href={href}
+             
+                  className="p-2 rounded-lg bg-card hover:bg-purple-primary/10 border border-border hover:border-purple-primary/30 transition-all group opacity-0 hover:opacity-100"
+                  aria-label={label}
+                  title={title}
+                >
+                  <Icon size={22} className="text-muted-foreground group-hover:text-purple-primary" />
+                </Link>
+              )
+            )}
           </div>
 
           <div className="flex items-center gap-2 text-sm mt-6 text-muted-foreground">

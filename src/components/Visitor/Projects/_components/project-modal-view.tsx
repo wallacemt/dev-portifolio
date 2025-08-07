@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { DetailsCard } from "./details-card";
 import { CollapsibleItems } from "./collapsible-items";
-import BlurText from "@/blocks/TextAnimations/BlurText/BlurText";
+import BlurText from "@/components/blocks/TextAnimations/BlurText/BlurText";
 interface ProjectModalProps {
   project: Project;
   open: boolean;

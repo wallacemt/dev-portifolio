@@ -1,5 +1,5 @@
-import TiltedCard from "@/blocks/Components/TiltedCard/TiltedCard";
-import BlurText from "@/blocks/TextAnimations/BlurText/BlurText";
+import TiltedCard from "@/components/blocks/Components/TiltedCard/TiltedCard";
+import BlurText from "@/components/blocks/TextAnimations/BlurText/BlurText";
 import { OwnerResponse } from "@/types/owner";
 import { Download } from "lucide-react";
 import Image from "next/image";

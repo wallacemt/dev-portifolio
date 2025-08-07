@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function WatchError({ error }: { error: Error }) {
   const isApiError = error.message === "API_ERROR";
-
+  console.error("Error occurred:", error);
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4 text-center overflow-hidden">
       <Image
@@ -28,7 +28,7 @@ export default function WatchError({ error }: { error: Error }) {
           ) : (
             <>
               <h1 className="text-2xl font-bold">Algo deu errado</h1>
-              {error.message && <p className="mt-2 text-sm  text-red-900">{error.message}</p>}
+              {error.message && <p className="mt-2 text-sm  text-red-900 truncate">{error.message}</p>}
             </>
           )}
         </h1>

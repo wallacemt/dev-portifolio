@@ -1,6 +1,6 @@
 "use client";
 
-import CountUp from "@/blocks/TextAnimations/CountUp/CountUp";
+import CountUp from "@/components/blocks/TextAnimations/CountUp/CountUp";
 import { motion } from "framer-motion";
 import { Award, Clock, Building, ExternalLink } from "lucide-react";
 

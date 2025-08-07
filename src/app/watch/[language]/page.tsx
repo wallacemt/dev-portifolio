@@ -9,7 +9,7 @@ export default async function HomePage({ params }: { params: Promise<{ language:
       <Abbout owner={ownerRes} language={language} />
     );
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw new Error("API_ERROR");
   }
 }
