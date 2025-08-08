@@ -1,5 +1,6 @@
 "use client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useOwner } from "@/contexts/OwnerContext";
 import { Code, GitBranch, ScanQrCode, Variable } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,12 +8,13 @@ import { useEffect, useState } from "react";
 export const PageLoader = ({ children }: { children: React.ReactNode }) => {
   const [loaded, setLoaded] = useState(false);
   const { isLoading, language } = useLanguage();
+  const { isLoading: isOwnerLoading } = useOwner();
   useEffect(() => {
     const timeout = setTimeout(() => setLoaded(true), 600);
     return () => clearTimeout(timeout);
   }, [language]);
 
-  if (isLoading || !loaded) {
+  if (isLoading || isOwnerLoading || !loaded) {
     return <DevLoader />;
   }
 
@@ -34,63 +36,68 @@ const DevLoader = () => {
   }, []);
 
   return (
-    <div
-      className="bg-roxo700/80 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative"
-      style={{ userSelect: "none" }}
-    >
-      {[...Array(50)].map((_, i) => {
-        const x = Math.random() * 90 + 5;
-        const y = Math.random() * 90 + 5;
-        return (
-          <div key={i} className={`binary-code animate-pulse absolute`} style={{ top: `${y}%`, left: `${x}%` }}>
-            {[1010101, 1100110, 1001001, 1110001, 1011010][Math.floor(Math.random() * 5)].toString()}
-          </div>
-        );
-      })}
+    <>
+      <div
+        className="bg-roxo700/80 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative"
+        style={{ userSelect: "none" }}
+      >
+        {[...Array(50)].map((_, i) => {
+          const x = Math.random() * 90 + 5;
+          const y = Math.random() * 90 + 5;
+          return (
+            <div
+              key={i + Math.random().toString(36).substr(2, 9)}
+              className={`binary-code animate-pulse absolute`}
+              style={{ top: `${y}%`, left: `${x}%` }}
+            >
+              {[1010101, 1100110, 1001001, 1110001, 1011010][Math.floor(Math.random() * 5)].toString()}
+            </div>
+          );
+        })}
 
-      <div className="relative code-bracket flex flex-col items-center justify-center p-12 ">
-        <div className="flex items-center mb-8 floating">
-          <p className="text-4xl md:text-6xl font-bold font-principal text-center">
-            Wallace<span className="text-Destaque">.Dev</span>
-          </p>
+        <div className="relative code-bracket flex flex-col items-center justify-center p-12 ">
+          <div className="flex items-center mb-8 floating">
+            <p className="text-4xl md:text-6xl font-bold font-principal text-center">
+              Wallace<span className="text-Destaque">.Dev</span>
+            </p>
+          </div>
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[100%] md:max-w-76 mb-8 overflow-hidden border-2 border-Destaque/20 hover:border-Destaque transition-colors relative ">
+            <div className="flex items-center mb-4">
+              <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <div className="ml-4 text-gray-400 text-sm">@wallaceDev: ~$ terminal</div>
+            </div>
+
+            <div className="font-mono text-xs text-blue-400 mb-2 ">
+              &gt; checking deployment nodes{" "}
+              <span className="inline-block w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
+            </div>
+            <div className="font-mono text-xs text-purple-400 mb-2 ">
+              &gt; verifying smart contracts <span className="text-gray-400 text-[0.60rem]">[████░░░] 40%</span>
+            </div>
+            <div className="font-mono text-xs text-yellow-400 ">
+              &gt; compiling security protocols <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
+            </div>
+            <div className="font-mono text-xs text-cyan-400 mt-4">
+              &gt; going to <span className="bg-gray-900 font-bold text-white mx-2">{pathname}</span>
+              <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
+            </div>
+            <div className="font-mono text-xs text-green-400 mb-2 typing">
+              $ loading services and fetching data from API...
+            </div>
+          </div>
+
+          <div className="flex space-x-6">
+            <ScanQrCode className="text-yellow-500 text-2xl pulse" />
+            <Code className="text-purple-400 text-2xl pulse" />
+            <Variable className="text-blue-400 text-2xl pulse" />
+            <GitBranch className="text-green-400 text-2xl pulse" />
+          </div>
         </div>
-        <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[100%] md:max-w-76 mb-8 overflow-hidden border-2 border-Destaque/20 hover:border-Destaque transition-colors relative ">
-          <div className="flex items-center mb-4">
-            <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            <div className="ml-4 text-gray-400 text-sm">@wallaceDev: ~$ terminal</div>
-          </div>
 
-          <div className="font-mono text-xs text-blue-400 mb-2 ">
-            &gt; checking deployment nodes{" "}
-            <span className="inline-block w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
-          </div>
-          <div className="font-mono text-xs text-purple-400 mb-2 ">
-            &gt; verifying smart contracts <span className="text-gray-400 text-[0.60rem]">[████░░░] 40%</span>
-          </div>
-          <div className="font-mono text-xs text-yellow-400 ">
-            &gt; compiling security protocols <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
-          </div>
-          <div className="font-mono text-xs text-cyan-400 mt-4">
-            &gt; going to <span className="bg-gray-900 font-bold text-white mx-2">{pathname}</span>
-            <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
-          </div>
-          <div className="font-mono text-xs text-green-400 mb-2 typing">
-            $ loading services and fetching data from API...
-          </div>
-        </div>
-
-        <div className="flex space-x-6">
-          <ScanQrCode className="text-yellow-500 text-2xl pulse" />
-          <Code className="text-purple-400 text-2xl pulse" />
-          <Variable className="text-blue-400 text-2xl pulse" />
-          <GitBranch className="text-green-400 text-2xl pulse" />
-        </div>
-      </div>
-
-      {/* Inline styles */}
-      <style>{`
+        {/* Inline styles */}
+        <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }
@@ -154,6 +161,7 @@ const DevLoader = () => {
           user-select: none;
         }
       `}</style>
-    </div>
+      </div>
+    </>
   );
 };

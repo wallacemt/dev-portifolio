@@ -12,6 +12,7 @@ import { loginOwner } from "@/services/authApi";
 import { useOwner } from "@/contexts/OwnerContext";
 import { Loader2, Mail, Lock, User, LogIn } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
@@ -24,7 +25,7 @@ export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
   const { login } = useOwner();
-  
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -41,7 +42,7 @@ export function LoginForm() {
     try {
       const result = await loginOwner(data.email, data.password);
       login(result.token, result.owner);
-      return;
+      return router.push("/owner/dashboard");
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {

@@ -1,8 +1,9 @@
-import axios from "axios";
-// import Cookies from "js-cookie";
+import axios, { AxiosInstance } from "axios";
+import Cookies from "js-cookie";
 
+export const baseURL = process.env.API_URL || "http://localhost:8081";
 export const API = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -24,10 +25,10 @@ API.interceptors.response.use(
 );
 
 export const ownerId = process.env.OWNER_ID || "";
-// export const handleToken = (apiInstance: any) => {
-//   const token = Cookies.get("jwtToken");
-//   if (token) {
-//     return (apiInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`);
-//   }
-//   return;
-// };
+export const handleToken = (apiInstance: AxiosInstance) => {
+  const token = Cookies.get("authToken");
+  if (token) {
+    return (apiInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`);
+  }
+  return;
+};

@@ -8,29 +8,36 @@ import { useRouter } from "next/navigation";
 interface OwnerContext {
   owner: OwnerResponse;
   setOwner: (owner: OwnerResponse) => void;
-
   login: (token: string, ownerData: OwnerResponse) => void;
   logout: () => void;
   isLoading: boolean;
+  error: string | null;
+  handleOwner: () => Promise<OwnerResponse>;
   isVerifySecret: boolean;
   handleVerifySecret: () => void;
+  clearError: () => void;
 }
 
 const OwnerContext = createContext<OwnerContext>({
   owner: {} as OwnerResponse,
   setOwner: () => {},
-
   login: () => {},
   logout: () => {},
   isLoading: true,
+  error: null,
   isVerifySecret: true,
+  handleOwner: async () => {
+    return {} as OwnerResponse;
+  },
   handleVerifySecret: () => {},
+  clearError: () => {},
 });
 
 export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
   const [owner, setOwner] = useState<OwnerResponse>({} as OwnerResponse);
-  const [isVerifySecret, setIsVerifySecred] = useState(false);
+  const [isVerifySecret, setIsVerifySecret] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   useEffect(() => {
     const token = cookieUtils.getAuthToken();
@@ -38,7 +45,7 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
       handleOwner();
     }
     setIsLoading(false);
-  }, [owner]);
+  }, []);
 
   const login = (token: string, ownerData: OwnerResponse) => {
     cookieUtils.setAuthToken(token);
@@ -47,31 +54,46 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     cookieUtils.removeAuthToken();
-    setOwner({} as OwnerResponse);
     router.push("/owner/auth");
+    setIsVerifySecret(false);
   };
 
-  const handleOwner = async () => {
+  const handleOwner = async (): Promise<OwnerResponse> => {
+    setIsLoading(true);
+    setError(null);
     try {
       const owner = await getOwner();
-      return setOwner(owner);
+      setOwner(owner);
+      return owner;
     } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Error fetching owner data";
+      setError(errorMessage);
       console.error("Error fetching owner data:", err);
-      return logout();
+      logout();
+      throw err;
+    } finally {
+      setIsLoading(false);
     }
   };
-  const handleVerifySecret = () => setIsVerifySecred(!isVerifySecret);
+
+  const clearError = () => {
+    setError(null);
+  };
+
+  const handleVerifySecret = () => setIsVerifySecret(!isVerifySecret);
   return (
     <OwnerContext.Provider
       value={{
         owner,
         setOwner,
-
         login,
         logout,
         isLoading,
+        error,
         isVerifySecret,
+        handleOwner,
         handleVerifySecret,
+        clearError,
       }}
     >
       {children}

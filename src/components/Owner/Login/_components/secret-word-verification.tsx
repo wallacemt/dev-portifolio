@@ -11,6 +11,7 @@ import { verifySecretWord } from "@/services/ownerApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useOwner } from "@/contexts/OwnerContext";
+import Link from "next/link";
 
 export function SecretWordVerification() {
   const [secretWord, setSecretWord] = useState("");
@@ -116,6 +117,11 @@ export function SecretWordVerification() {
                   </>
                 )}
               </Button>
+              <Link href={"/"}>
+                <Button className="w-full bg-gradient-to-r from-roxo300 to-roxo100 hover:from-roxo500 hover:to-roxo300 text-white font-medium cursor-pointer">
+                  Voltar
+                </Button>
+              </Link>
             </form>
           </motion.div>
         </CardContent>
