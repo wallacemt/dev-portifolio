@@ -1,16 +1,37 @@
-"use client";
+import { DashboardContent } from "./_components/dashboard-content";
+import { analyticsSummary, analyticsRealTime } from "@/services/analytics";
+import { AnalyticsSummaryResponse, AnalyticsRealTimeResponse } from "@/types/analytics";
 
-import { useOwner } from "@/contexts/OwnerContext";
+interface DashboardData {
+  summary: AnalyticsSummaryResponse | null;
+  realTime: AnalyticsRealTimeResponse | null;
+  error: string | null;
+}
 
-export function Dashboard() {
-  const { logout } = useOwner();
+//aqui fica a logica de fazer a requisicao da api, com server side
+export async function Dashboard() {
+  let data: DashboardData = {
+    summary: null,
+    realTime: null,
+    error: null,
+  };
+
+  try {
+    const [summaryData, realTimeData] = await Promise.all([analyticsSummary(), analyticsRealTime()]);
+
+    data = {
+      summary: summaryData,
+      realTime: realTimeData,
+      error: null,
+    };
+  } catch (error) {
+    console.error("Error loading dashboard data:", error);
+    data.error = error instanceof Error ? error.message : "Erro ao carregar dados";
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold mb-4">Owner Dashboard</h1>
-      <p className="text-gray-600">Welcome to your dashboard!</p>
-      <button onClick={logout} className="mt-4 px-4 py-2 bg-red-500 text-white rounded">
-        Logout
-      </button>
-    </div>
+    <>
+      <DashboardContent initialData={data} />
+    </>
   );
 }

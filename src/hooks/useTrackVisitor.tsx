@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 export const usePortfolioAnalytics = () => {
   const pathName = usePathname();
   const config: AnalyticsConfig = {
-    enabled: process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true",
+    enabled: process.env.ANALYTICS_ENABLED === "true",
   };
   const sessionIdRef = useRef<string>("");
   const pageStartTimeRef = useRef<number>(0);

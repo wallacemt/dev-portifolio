@@ -118,7 +118,10 @@ export function SecretWordVerification() {
                 )}
               </Button>
               <Link href={"/"}>
-                <Button className="w-full bg-gradient-to-r from-roxo300 to-roxo100 hover:from-roxo500 hover:to-roxo300 text-white font-medium cursor-pointer">
+                <Button
+                  disabled={isLoading}
+                  className="w-full bg-gradient-to-r from-roxo700 to-roxo500 hover:from-roxo500 hover:to-roxo300 text-white font-medium cursor-pointer"
+                >
                   Voltar
                 </Button>
               </Link>

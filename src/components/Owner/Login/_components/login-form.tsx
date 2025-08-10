@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,10 +21,34 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
+const OverlayLoading = () => {
+  const [loadingMessages, setLoadingMessages] = useState(0);
+  const messages = [
+    "Carregando dados...",
+    "Verificando suas credenciais...",
+    "Preparando seu painel...",
+    "Quase lá, só mais um momento...",
+    "Estamos quase prontos para você!",
+  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoadingMessages((prev) => (prev + 1) % messages.length);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+  return (
+    <div className="w-full h-full absolute backdrop-blur-xs z-20 flex-col border-2 flex items-center justify-center inset-0 rounded-md">
+      <span className="border-t-4  animate-spin border-roxo100 rounded-full w-12 h-12"></span>
+      <p className="font-principal text-xl animate-pulse">{messages[loadingMessages]}</p>
+    </div>
+  );
+};
+
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
-  const { login } = useOwner();
+
+  const { login, isLoading: isOwnerLoading } = useOwner();
   const router = useRouter();
   const {
     register,
@@ -42,14 +66,14 @@ export function LoginForm() {
     try {
       const result = await loginOwner(data.email, data.password);
       login(result.token, result.owner);
-      return router.push("/owner/dashboard");
+      Promise.resolve(router.push("/owner/dashboard", { scroll: false })).finally(() => {
+        setIsLoading(false);
+      });
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {
         setLoginError(error.message);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -59,8 +83,9 @@ export function LoginForm() {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col gap-6 h-full"
+      className="flex flex-col gap-6 h-full relative"
     >
+      {isOwnerLoading || (isLoading && <OverlayLoading />)}
       <Card className="overflow-hidden h-full p-0 bg-card/50 backdrop-blur-sm border-roxo300/20">
         <CardContent className="grid p-0 md:grid-cols-2 h-full">
           {/* Form Section */}
@@ -176,10 +201,10 @@ export function LoginForm() {
               >
                 <Button
                   type="submit"
-                  disabled={isLoading || !isValid}
+                  disabled={isLoading || isOwnerLoading || !isValid}
                   className="w-full bg-gradient-to-r from-roxo300 to-roxo100 hover:from-roxo500 hover:to-roxo300 text-white font-medium transition-all duration-200 transform hover:scale-105"
                 >
-                  {isLoading ? (
+                  {isLoading || isOwnerLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Entrando...
@@ -227,7 +252,7 @@ export function LoginForm() {
             <div className="absolute inset-0 bg-gradient-to-br from-roxo500/40 via-roxo300/30 to-roxo100/40" />
 
             {/* Animated geometric shapes */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className={` absolute inset-0 overflow-hidden`}>
               {[...Array(3)].map((_, i) => (
                 <motion.div
                   key={i}
@@ -252,7 +277,7 @@ export function LoginForm() {
             </div>
 
             {/* Floating particles */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 opacity-50">
               {[...Array(8)].map((_, i) => (
                 <motion.div
                   key={i}

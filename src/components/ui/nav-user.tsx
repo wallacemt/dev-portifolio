@@ -55,8 +55,8 @@ function NavUserError({ onRetry }: { onRetry: () => void }) {
 
 function NavUserContent() {
   const { isMobile } = useSidebar();
-  
-  const { owner, logout, isLoading: contextLoading, error: contextError, clearError } = useOwner();
+
+  const { handleOwner, owner, logout, isLoading: contextLoading, error: contextError, clearError } = useOwner();
   const [isLoading, setIsLoading] = useState(contextLoading);
   const [error, setError] = useState<string | null>(contextError);
   const [ownerData, setOwnerData] = useState<OwnerResponse | null>(null);
@@ -65,13 +65,34 @@ function NavUserContent() {
     setIsLoading(contextLoading);
     setError(contextError);
   }, [contextLoading, contextError]);
-
-  useEffect(() => {
-    if (owner && owner.id) {
-      setOwnerData(owner);
-      setIsLoading(false);
+  const fetchOwnerData = async () => {
+    try {
+      setIsLoading(true);
+      const data = await handleOwner();
+      setOwnerData(data);
       setError(null);
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Erro desconhecido");
+      }
+    } finally {
+      setIsLoading(false);
     }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      if (owner && owner.id) {
+        setOwnerData(owner);
+        setIsLoading(false);
+        setError(null);
+      } else {
+        await fetchOwnerData();
+      }
+    };
+
+    fetchData();
   }, [owner]);
 
   const handleLogout = async () => {

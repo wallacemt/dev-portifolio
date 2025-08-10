@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ProjectModal } from "./project-modal-view";
 import { Badge } from "@/components/ui/badge";
 
+
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
 
@@ -24,6 +25,7 @@ export default function ProjectCard({ project }: { project: Project }) {
             </time>
           </div>
           <div className="flex md:flex-row relative flex-col items-center justify-center">
+         
             <Image
               src={project.previewImage}
               alt={project.title}
@@ -33,7 +35,9 @@ export default function ProjectCard({ project }: { project: Project }) {
             />
             {project.isMostRecent && (
               <div className="absolute top-4 left-4">
-                <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">Mais Recente</Badge>
+                <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">
+                  Mais Recente
+                </Badge>
               </div>
             )}
             <div className="flex flex-col justify-between border-neutral-800 rounded-lg p-6 bg-gradient-to-b from-roxo700 to-roxo500 shadow-md transition-all hover:shadow-[0_0_5px_rgba(0,229,255,0.2)]">

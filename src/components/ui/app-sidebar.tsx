@@ -12,10 +12,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Code, HandPlatter, School, SmartphoneCharging } from "lucide-react";
-import { IconDashboard } from "@tabler/icons-react";
+import { Code, HandPlatter, List, Plus, School, SmartphoneCharging } from "lucide-react";
+import { IconCircleDashedLetterV, IconDashboard } from "@tabler/icons-react";
 import Link from "next/link";
 import { Separator } from "./separator";
+import { useOwner } from "@/contexts/OwnerContext";
+import { cookieUtils } from "@/lib/cookies";
+import { usePathname } from "next/navigation";
 
 const data = {
   navMain: [
@@ -23,31 +26,89 @@ const data = {
       title: "Dashboard",
       url: "/owner/dashboard",
       icon: IconDashboard,
+      items: [
+        {
+          title: "Análise detalhada",
+          url: "/owner/dashboard/analyze",
+          icon: IconCircleDashedLetterV,
+        },
+      ],
     },
     {
       title: "Projetos",
       url: "/owner/projects",
       icon: Code,
+      items: [
+        {
+          title: "Ver todos",
+          url: "/owner/projects/all",
+          icon: List,
+        },
+        {
+          title: "Adicionar novo",
+          url: "/owner/projects/add",
+          icon: Plus,
+        },
+      ],
     },
     {
       title: "Habilidades",
       url: "/owner/skills",
       icon: SmartphoneCharging,
+      items: [
+        {
+          title: "Ver todos",
+          url: "/owner/skills/all",
+          icon: List,
+        },
+        {
+          title: "Adicionar novo",
+          url: "/owner/skills/add",
+          icon: Plus,
+        },
+      ],
     },
     {
       title: "Formações",
       url: "/owner/education",
       icon: School,
+      items: [
+        {
+          title: "Ver todos",
+          url: "/owner/education/all",
+          icon: List,
+        },
+        {
+          title: "Adicionar novo",
+          url: "/owner/education/add",
+          icon: Plus,
+        },
+      ],
     },
     {
       title: "Serviços",
       url: "/owner/services",
+
       icon: HandPlatter,
+      items: [
+        {
+          title: "Ver todos",
+          url: "/owner/services/all",
+          icon: List,
+        },
+        {
+          title: "Adicionar novo",
+          url: "/owner/services/add",
+          icon: Plus,
+        },
+      ],
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathName = usePathname();
+  if (pathName.endsWith("auth")) return null;
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>

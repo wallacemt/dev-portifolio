@@ -16,6 +16,7 @@ interface OwnerContext {
   isVerifySecret: boolean;
   handleVerifySecret: () => void;
   clearError: () => void;
+  isAuthenticated?: boolean;
 }
 
 const OwnerContext = createContext<OwnerContext>({
@@ -31,6 +32,7 @@ const OwnerContext = createContext<OwnerContext>({
   },
   handleVerifySecret: () => {},
   clearError: () => {},
+  isAuthenticated: false,
 });
 
 export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
@@ -38,13 +40,18 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
   const [isVerifySecret, setIsVerifySecret] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticate] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    const token = cookieUtils.getAuthToken();
-    if (token) {
-      handleOwner();
-    }
-    setIsLoading(false);
+    const fetchInit = () => {
+      const token = cookieUtils.getAuthToken();
+      if (token) {
+        setIsAuthenticate(true);
+        handleOwner();
+      }
+      setIsLoading(false);
+    };
+    fetchInit();
   }, []);
 
   const login = (token: string, ownerData: OwnerResponse) => {
@@ -94,6 +101,7 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
         handleOwner,
         handleVerifySecret,
         clearError,
+        isAuthenticated,
       }}
     >
       {children}

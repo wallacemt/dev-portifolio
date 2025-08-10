@@ -1,9 +1,11 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const lang = request.cookies.get("preferredLanguage")?.value || "pt";
   const token = request.cookies.get("authToken")?.value;
   const pathname = request.nextUrl.pathname;
+
   if (pathname === "/") {
     const url = request.nextUrl.clone();
     url.pathname = `/watch/${lang}`;

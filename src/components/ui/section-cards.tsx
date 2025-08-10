@@ -1,102 +1,183 @@
-import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react"
+import { IconTrendingDown, IconTrendingUp, IconActivity, IconRefresh } from "@tabler/icons-react";
+import { Users, Eye, Clock, TrendingUp } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { AnalyticsSummaryResponse, AnalyticsRealTimeResponse } from "@/types/analytics";
 
-export function SectionCards() {
+interface DashboardData {
+  summary: AnalyticsSummaryResponse | null;
+  realTime: AnalyticsRealTimeResponse | null;
+  error: string | null;
+}
+
+interface SectionCardsProps {
+  data: DashboardData;
+  isLoading: boolean;
+  onRefresh: () => Promise<void>;
+}
+
+export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) {
+  const formatNumber = (num: number) => {
+    return new Intl.NumberFormat("pt-BR").format(num);
+  };
+
+  const getChangeColor = (change: number) => {
+    if (change > 0) return "text-green-600";
+    if (change < 0) return "text-red-600";
+    return "text-gray-600";
+  };
+
+  const getChangeIcon = (change: number) => {
+    return change >= 0 ? IconTrendingUp : IconTrendingDown;
+  };
+
+  if (data.error) {
+    return (
+      <div className="px-4 lg:px-6">
+        <Card className="bg-red-50 border-red-200">
+          <CardHeader>
+            <CardTitle className="text-red-800">Erro ao carregar dados</CardTitle>
+            <CardDescription className="text-red-600">{data.error}</CardDescription>
+          </CardHeader>
+          <CardFooter>
+            <Button onClick={onRefresh} disabled={isLoading}>
+              <IconRefresh className="w-4 h-4 mr-2" />
+              Tentar novamente
+            </Button>
+          </CardFooter>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      <Card className="@container/card bg-[var(--textura-roxo-3-hex)] ">
+    <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      {/* Visitantes Hoje */}
+      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            Visitantes Hoje
+          </CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            {isLoading ? <Skeleton className="h-8 w-20" /> : formatNumber(data.summary?.today.visitors ?? 0)}
           </CardTitle>
           <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
+            {isLoading ? (
+              <Skeleton className="h-6 w-16" />
+            ) : data.summary ? (
+              <Badge variant="outline" className={getChangeColor(data.summary.today.change)}>
+                {data.summary.today.change >= 0 ? (
+                  <IconTrendingUp className="w-3 h-3 mr-1" />
+                ) : (
+                  <IconTrendingDown className="w-3 h-3 mr-1" />
+                )}
+                {Math.abs(data.summary.today.change)}%
+              </Badge>
+            ) : null}
+          </CardAction>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            {isLoading ? (
+              <Skeleton className="h-4 w-32" />
+            ) : data.summary && data.summary.today.change >= 0 ? (
+              <>
+                Crescimento hoje <IconTrendingUp className="size-4" />
+              </>
+            ) : (
+              <>
+                Queda hoje <IconTrendingDown className="size-4" />
+              </>
+            )}
+          </div>
+          <div className="text-muted-foreground">Comparado com ontem</div>
+        </CardFooter>
+      </Card>
+
+      {/* Visitantes Esta Semana */}
+      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+        <CardHeader>
+          <CardDescription className="flex items-center gap-2">
+            <TrendingUp className="w-4 h-4" />
+            Esta Semana
+          </CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {isLoading ? <Skeleton className="h-8 w-20" /> : formatNumber(data.summary?.week.visitors ?? 0)}
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            {isLoading ? (
+              <Skeleton className="h-4 w-32" />
+            ) : (
+              <>
+                Acumulado semanal <TrendingUp className="size-4" />
+              </>
+            )}
+          </div>
+          <div className="text-muted-foreground">Total de visitantes únicos</div>
+        </CardFooter>
+      </Card>
+
+      {/* Visitantes Este Mês */}
+      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+        <CardHeader>
+          <CardDescription className="flex items-center gap-2">
+            <Eye className="w-4 h-4" />
+            Este Mês
+          </CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            {isLoading ? <Skeleton className="h-8 w-20" /> : formatNumber(data.summary?.month.visitors ?? 0)}
+          </CardTitle>
+        </CardHeader>
+        <CardFooter className="flex-col items-start gap-1.5 text-sm">
+          <div className="line-clamp-1 flex gap-2 font-medium">
+            {isLoading ? (
+              <Skeleton className="h-4 w-32" />
+            ) : (
+              <>
+                Tendência mensal <TrendingUp className="size-4" />
+              </>
+            )}
+          </div>
+          <div className="text-muted-foreground">Crescimento consistente</div>
+        </CardFooter>
+      </Card>
+
+      {/* Visitantes Ativos */}
+      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+        <CardHeader>
+          <CardDescription className="flex items-center gap-2">
+            <IconActivity className="w-4 h-4" />
+            Ativos Agora
+          </CardDescription>
+          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-green-600">
+            {isLoading ? <Skeleton className="h-8 w-20" /> : formatNumber(data.realTime?.activeVisitors ?? 0)}
+          </CardTitle>
+          <CardAction>
+            <Badge variant="outline" className="text-green-600 border-green-300">
+              <IconActivity className="w-3 h-3 mr-1" />
+              Tempo real
             </Badge>
           </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <IconTrendingUp className="size-4" />
+            {isLoading ? (
+              <Skeleton className="h-4 w-32" />
+            ) : (
+              <>
+                Navegando agora <IconActivity className="size-4" />
+              </>
+            )}
           </div>
-          <div className="text-muted-foreground">
-            Visitors for the last 6 months
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card bg-[var(--textura-roxo-3-hex)]">
-        <CardHeader>
-          <CardDescription>New Customers</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingDown />
-              -20%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm ">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <IconTrendingDown className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Acquisition needs attention
-          </div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card bg-[var(--textura-roxo-3-hex)]">
-        <CardHeader>
-          <CardDescription>Active Accounts</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            45,678
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +12.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Engagement exceed targets</div>
-        </CardFooter>
-      </Card>
-      <Card className="@container/card">
-        <CardHeader>
-          <CardDescription>Growth Rate</CardDescription>
-          <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            4.5%
-          </CardTitle>
-          <CardAction>
-            <Badge variant="outline">
-              <IconTrendingUp />
-              +4.5%
-            </Badge>
-          </CardAction>
-        </CardHeader>
-        <CardFooter className="flex-col items-start gap-1.5 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance increase <IconTrendingUp className="size-4" />
-          </div>
-          <div className="text-muted-foreground">Meets growth projections</div>
+          <div className="text-muted-foreground">Usuários online simultaneamente</div>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
