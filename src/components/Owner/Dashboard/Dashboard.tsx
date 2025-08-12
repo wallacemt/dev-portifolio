@@ -15,7 +15,6 @@ export async function Dashboard() {
     realTime: null,
     error: null,
   };
-  await simulateDelay(40000);
   try {
     const [summaryData, realTimeData] = await Promise.all([analyticsSummary(), analyticsRealTime()]);
 
