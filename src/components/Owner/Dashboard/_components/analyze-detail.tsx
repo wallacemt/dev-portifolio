@@ -27,6 +27,7 @@ import { analyticsDashboard, analyticsUpdateDaily } from "@/services/analytics";
 import { AnalyticsResponse } from "@/types/analytics";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SiteHeader } from "@/components/ui/site-header";
 
 export function AnalyzeDetail() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -130,23 +131,16 @@ export function AnalyzeDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header */}
+    <div>
+      <div className="max-w-7xl mx-auto space-y-6 p-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-between"
         >
           <div className="flex items-center space-x-4">
-            <Link href="/owner/dashboard">
-              <Button variant="outline" size="sm">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Voltar
-              </Button>
-            </Link>
             <div>
-              <h1 className="text-3xl font-bold">Análise Detalhada</h1>
+              <SiteHeader title="Análise Detalhada" icon={<CalendarIcon className="w-5 h-5" />} />
               <p className="text-muted-foreground">Métricas completas de analytics do portfólio</p>
             </div>
           </div>
@@ -161,10 +155,8 @@ export function AnalyzeDetail() {
             </Button>
           </div>
         </motion.div>
-
-        {/* Date Range Picker */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <Card>
+          <Card className="bg-roxo300">
             <CardHeader>
               <CardTitle className="text-lg flex items-center">
                 <CalendarIcon className="w-5 h-5 mr-2" />
