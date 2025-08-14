@@ -8,12 +8,13 @@ interface AbboutProps {
   owner: OwnerResponse;
   language: string;
 }
-export const revalidate = 60;
+
 export const Abbout = ({ owner, language }: AbboutProps) => {
   return (
     <section
       className="w-full lg:w-screen mx-auto flex flex-col lg:flex-row items-center justify-center gap-10"
       style={{ userSelect: "none" }}
+ 
     >
       <div className="flex flex-col md:text-left  md:max-w-xl">
         <h1 className="text-2xl md:text-4xl font-bold mb-3 font-principal">

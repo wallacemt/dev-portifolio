@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChartAreaInteractive } from "@/components/ui/chart-area-interactive";
 import { SectionCards } from "@/components/ui/section-cards";
 import { SiteHeader } from "@/components/ui/site-header";
@@ -8,7 +8,6 @@ import { analyticsSummary, analyticsRealTime } from "@/services/analytics";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MoveRight, RefreshCcw } from "lucide-react";
-import { DashboardSkeleton } from "./dashboard-skeleton";
 
 interface DashboardData {
   summary: AnalyticsSummaryResponse | null;
@@ -44,15 +43,7 @@ export const DashboardContent = ({ initialData }: DashboardContentProps) => {
     }
   };
 
-  // Se está carregando e não há dados iniciais, mostra o skeleton completo
-  if (isLoading && !data.summary && !data.realTime) {
-    return (
-      <>
-        <SiteHeader title="Dashboard" />
-        <DashboardSkeleton />
-      </>
-    );
-  }
+  
 
   return (
     <>

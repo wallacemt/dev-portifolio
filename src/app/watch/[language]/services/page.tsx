@@ -1,7 +1,7 @@
 import { ServicesSkeleton } from "@/components/Visitor/OwnerServices/_components/services-skeleton";
 import { Services } from "@/components/Visitor/OwnerServices/Services";
 import { Suspense } from "react";
-
+export const revalidate = 60;
 interface OwnerServicesProps {
   params: Promise<{ language: string }>;
 }

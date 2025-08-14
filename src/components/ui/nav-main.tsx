@@ -36,10 +36,10 @@ export function NavMain({
   const pathName = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2">
+      <SidebarGroupContent className="flex flex-col gap-2 text-2xl">
         <SidebarMenu>
           {items.map((item) =>
-            item.items?.length! > 0 ? (
+            item.items && item.items.length > 0 ? (
               <Collapsible
                 key={item.title}
                 asChild

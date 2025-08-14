@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
   Monitor,
   Smartphone,
@@ -28,26 +27,31 @@ import { AnalyticsResponse } from "@/types/analytics";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/ui/site-header";
+import { type DateRange } from "react-day-picker";
+import { addDays } from "date-fns";
+import { AnalyzeDetailSkeleton } from "./analyze-detail-skeleton";
 
 export function AnalyzeDetail() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [dateRange, setDateRange] = useState<{
-    from: Date;
-    to: Date;
-  }>({
-    from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), // 30 dias atrás
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: addDays(new Date(), -30),
     to: new Date(),
   });
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const loadAnalyticsData = async () => {
+  const loadAnalyticsData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const analyticsData = await analyticsDashboard(dateRange.to, dateRange.from);
+      if (!dateRange?.from || !dateRange?.to) {
+        setError("Selecione um período válido para análise");
+        return;
+      }
+
+      const analyticsData = await analyticsDashboard(dateRange.from, dateRange.to);
       setData(analyticsData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao carregar dados");
@@ -55,14 +59,14 @@ export function AnalyzeDetail() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [dateRange]);
 
   const updateDailyAnalytics = async () => {
     try {
       setIsUpdating(true);
       const today = new Date().toISOString().split("T")[0];
       await analyticsUpdateDaily(today);
-      await loadAnalyticsData(); // Recarregar dados após atualização
+      await loadAnalyticsData();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erro ao atualizar dados diários");
       console.error("Error updating daily analytics:", err);
@@ -71,11 +75,11 @@ export function AnalyzeDetail() {
     }
   };
 
-  useEffect(() => {
-    loadAnalyticsData();
-  }, [dateRange]);
-
   const formatNumber = (num: number) => {
+    if (num === 0) return num;
+    console.log(num + "=");
+    console.log(new Intl.NumberFormat("pt-BR").format(num));
+
     return new Intl.NumberFormat("pt-BR").format(num);
   };
 
@@ -89,24 +93,13 @@ export function AnalyzeDetail() {
     return `${minutes}m ${remainingSeconds}s`;
   };
 
-  const formatDateForInput = (date: Date) => {
-    return date.toISOString().split("T")[0];
+  const handleDateRangeChange = (newRange: DateRange | undefined) => {
+    setDateRange(newRange);
   };
 
-  const handleDateChange = (type: "from" | "to", value: string) => {
-    const newDate = new Date(value);
-    setDateRange((prev) => ({
-      ...prev,
-      [type]: newDate,
-    }));
-  };
-
-  const setQuickDateRange = (days: number) => {
-    setDateRange({
-      from: new Date(Date.now() - days * 24 * 60 * 60 * 1000),
-      to: new Date(),
-    });
-  };
+  if (isLoading && !data) {
+    return <AnalyzeDetailSkeleton />;
+  }
 
   if (error) {
     return (
@@ -138,13 +131,11 @@ export function AnalyzeDetail() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center justify-between"
         >
-          <div className="flex items-center space-x-4">
-            <div>
-              <SiteHeader title="Análise Detalhada" icon={<CalendarIcon className="w-5 h-5" />} />
-              <p className="text-muted-foreground">Métricas completas de analytics do portfólio</p>
-            </div>
+          <div className="flex items-center flex-col space-x-4">
+            <SiteHeader title="Análise Detalhada" icon={<CalendarIcon className="w-5 h-5" />} />
+            <p className="text-white pl-8 hidden md:block">Métricas completas de analytics do portfólio</p>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center flex-col md:flex-row gap-2 space-x-2">
             <Button onClick={updateDailyAnalytics} disabled={isUpdating} variant="outline" size="sm">
               <RefreshCw className={cn("w-4 h-4 mr-2", isUpdating && "animate-spin")} />
               {isUpdating ? "Atualizando..." : "Atualizar Dados"}
@@ -156,7 +147,7 @@ export function AnalyzeDetail() {
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <Card className="bg-roxo300">
+          <Card className="bg-roxo500  w-fit flex justify-center mx-auto">
             <CardHeader>
               <CardTitle className="text-lg flex items-center">
                 <CalendarIcon className="w-5 h-5 mr-2" />
@@ -164,51 +155,46 @@ export function AnalyzeDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col lg:flex-row gap-4 items-end">
-                <div className="grid grid-cols-2 gap-4 flex-1">
-                  <div className="space-y-2">
-                    <Label htmlFor="date-from">Data inicial</Label>
-                    <Input
-                      id="date-from"
-                      type="date"
-                      value={formatDateForInput(dateRange.from)}
-                      onChange={(e) => handleDateChange("from", e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="date-to">Data final</Label>
-                    <Input
-                      id="date-to"
-                      type="date"
-                      value={formatDateForInput(dateRange.to)}
-                      onChange={(e) => handleDateChange("to", e.target.value)}
-                    />
+              <div className="flex  flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <DateRangePicker
+                    value={dateRange}
+                    onChange={handleDateRangeChange}
+                    placeholder="Selecione o período para análise"
+                    maxDays={365}
+                    minDate={new Date(2020, 0, 1)}
+                    maxDate={new Date()}
+                  />
+                  <div className="flex gap-2">
+                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -7), to: new Date() })}>
+                      7 dias
+                    </Button>
+                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -30), to: new Date() })}>
+                      30 dias
+                    </Button>
+                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -90), to: new Date() })}>
+                      90 dias
+                    </Button>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setQuickDateRange(7)}>
-                    7 dias
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setQuickDateRange(30)}>
-                    30 dias
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setQuickDateRange(90)}>
-                    90 dias
-                  </Button>
-                </div>
+                {dateRange?.from && dateRange?.to && (
+                  <div className="text-sm text-muted-foreground">
+                    Período selecionado:{" "}
+                    {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} dias
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
         </motion.div>
 
-        {/* Overview Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
         >
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center">
                 <Users className="w-4 h-4 mr-2 text-blue-500" />
@@ -224,7 +210,7 @@ export function AnalyzeDetail() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center">
                 <Eye className="w-4 h-4 mr-2 text-green-500" />
@@ -240,7 +226,7 @@ export function AnalyzeDetail() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center">
                 <TrendingUp className="w-4 h-4 mr-2 text-purple-500" />
@@ -256,7 +242,7 @@ export function AnalyzeDetail() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center">
                 <Clock className="w-4 h-4 mr-2 text-orange-500" />
@@ -273,15 +259,13 @@ export function AnalyzeDetail() {
           </Card>
         </motion.div>
 
-        {/* Device Breakdown & Top Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
-          {/* Device Breakdown */}
-          <Card>
+          <Card className="@container/card bg-gradient-to-b from-roxo500 to-card shadow-xs">
             <CardHeader>
               <CardTitle>Dispositivos</CardTitle>
             </CardHeader>
@@ -302,17 +286,17 @@ export function AnalyzeDetail() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                      <div className="w-8 h-8 bg-roxo100/40 rounded flex items-center justify-center">
                         <Monitor className="w-4 h-4 text-blue-600" />
                       </div>
                       <span className="font-medium">Desktop</span>
                     </div>
                     <div className="text-right">
-                      <div className="font-semibold">{formatNumber(data.deviceBreakdown.dasktop)}</div>
+                      <div className="font-semibold">{formatNumber(data.deviceBreakdown.desktop)}</div>
                       <div className="text-sm text-muted-foreground">
                         {calculatePercentage(
-                          data.deviceBreakdown.dasktop,
-                          data.deviceBreakdown.dasktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
+                          data.deviceBreakdown.desktop,
+                          data.deviceBreakdown.desktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
                         )}
                         %
                       </div>
@@ -321,7 +305,7 @@ export function AnalyzeDetail() {
 
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-green-100 rounded flex items-center justify-center">
+                      <div className="w-8 h-8 bg-roxo100/40 rounded flex items-center justify-center">
                         <Smartphone className="w-4 h-4 text-green-600" />
                       </div>
                       <span className="font-medium">Mobile</span>
@@ -331,7 +315,7 @@ export function AnalyzeDetail() {
                       <div className="text-sm text-muted-foreground">
                         {calculatePercentage(
                           data.deviceBreakdown.mobile,
-                          data.deviceBreakdown.dasktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
+                          data.deviceBreakdown.desktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
                         )}
                         %
                       </div>
@@ -340,7 +324,7 @@ export function AnalyzeDetail() {
 
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-purple-100 rounded flex items-center justify-center">
+                      <div className="w-8 h-8 bg-roxo100/10 rounded flex items-center justify-center">
                         <Tablet className="w-4 h-4 text-purple-600" />
                       </div>
                       <span className="font-medium">Tablet</span>
@@ -350,7 +334,7 @@ export function AnalyzeDetail() {
                       <div className="text-sm text-muted-foreground">
                         {calculatePercentage(
                           data.deviceBreakdown.tablet,
-                          data.deviceBreakdown.dasktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
+                          data.deviceBreakdown.desktop + data.deviceBreakdown.mobile + data.deviceBreakdown.tablet
                         )}
                         %
                       </div>
@@ -364,7 +348,7 @@ export function AnalyzeDetail() {
           </Card>
 
           {/* Top Pages */}
-          <Card>
+          <Card className="@container/card bg-gradient-to-b from-roxo500 to-card shadow-xs">
             <CardHeader>
               <CardTitle>Páginas Mais Visitadas</CardTitle>
             </CardHeader>
@@ -395,16 +379,13 @@ export function AnalyzeDetail() {
             </CardContent>
           </Card>
         </motion.div>
-
-        {/* Countries & Browsers */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
         >
-          {/* Top Countries */}
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Globe className="w-5 h-5 mr-2" />
@@ -436,8 +417,7 @@ export function AnalyzeDetail() {
             </CardContent>
           </Card>
 
-          {/* Top Browser */}
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader>
               <CardTitle>Navegador Principal</CardTitle>
             </CardHeader>
@@ -448,12 +428,14 @@ export function AnalyzeDetail() {
                   <Skeleton className="h-4 w-12" />
                 </div>
               ) : data?.topBrowsers ? (
-                <div className="flex justify-between items-center">
-                  <div className="text-lg font-medium">{data.topBrowsers.browser}</div>
-                  <Badge variant="outline" className="text-lg">
-                    {formatNumber(data.topBrowsers.visitors)}
-                  </Badge>
-                </div>
+                data.topBrowsers.map((browser) => (
+                  <div className="flex justify-between items-center" key={browser.browser}>
+                    <div className="text-lg font-medium">{browser.browser}</div>
+                    <Badge variant="outline" className="text-lg">
+                      {formatNumber(browser.visitors)}
+                    </Badge>
+                  </div>
+                ))
               ) : (
                 <p className="text-muted-foreground text-center py-4">Nenhum navegador encontrado</p>
               )}
@@ -461,9 +443,8 @@ export function AnalyzeDetail() {
           </Card>
         </motion.div>
 
-        {/* Bounce Rate */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
-          <Card>
+          <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
             <CardHeader>
               <CardTitle>Taxa de Rejeição</CardTitle>
             </CardHeader>

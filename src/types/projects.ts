@@ -48,3 +48,32 @@ export interface ProjectFilters {
   orderBy?: string;
   search?: string;
 }
+export interface ProjectAdd {
+  title: string;
+  description: string;
+  techs: string[];
+  screenshots: string[];
+  deployment: string;
+  backend?: string;
+  frontend?: string;
+  previewImage: string;
+}
+
+export interface ProjectAddResponse {
+  message: string;
+  projectCreated: {
+    id: string;
+    title: string;
+    description: string;
+    techs: string[];
+    screenshots: string[];
+    deployment: string;
+    backend: string;
+    frontend: string;
+    previewImage: string;
+    lastUpdate: Date;
+    ownerId: string;
+    activate: boolean;
+  };
+}
+export type ProjectUpdate = Partial<ProjectAdd>;

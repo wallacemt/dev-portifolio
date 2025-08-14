@@ -30,12 +30,13 @@ const OverlayLoading = () => {
     "Quase lá, só mais um momento...",
     "Estamos quase prontos para você!",
   ];
+
   useEffect(() => {
     const interval = setInterval(() => {
       setLoadingMessages((prev) => (prev + 1) % messages.length);
     }, 1500);
     return () => clearInterval(interval);
-  }, []);
+  }, [messages.length]);
   return (
     <div className="w-full h-full absolute backdrop-blur-xs z-20 flex-col border-2 flex items-center justify-center inset-0 rounded-md">
       <span className="border-t-4  animate-spin border-roxo100 rounded-full w-12 h-12"></span>

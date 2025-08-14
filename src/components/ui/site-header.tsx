@@ -15,7 +15,7 @@ export function SiteHeader({ title, icon }: SiteProps) {
         <p className="flex items-center font-semibold gap-2 text-xl text-popover-foreground">
           {icon && <span>{icon}</span>}
           <span className={`font-principal`}>{title}</span>
-        </p>
+        </p> 
       </div>
     </header>
   );

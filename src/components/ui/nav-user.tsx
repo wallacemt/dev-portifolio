@@ -65,23 +65,23 @@ function NavUserContent() {
     setIsLoading(contextLoading);
     setError(contextError);
   }, [contextLoading, contextError]);
-  const fetchOwnerData = async () => {
-    try {
-      setIsLoading(true);
-      const data = await handleOwner();
-      setOwnerData(data);
-      setError(null);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("Erro desconhecido");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
   useEffect(() => {
+    const fetchOwnerData = async () => {
+      try {
+        setIsLoading(true);
+        const data = await handleOwner();
+        setOwnerData(data);
+        setError(null);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Erro desconhecido");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
     const fetchData = async () => {
       if (owner && owner.id) {
         setOwnerData(owner);
@@ -93,7 +93,8 @@ function NavUserContent() {
     };
 
     fetchData();
-  }, [owner]);
+  }, [owner] 
+);
 
   const handleLogout = async () => {
     try {

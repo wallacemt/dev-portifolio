@@ -1,16 +1,19 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import Cookies from "js-cookie";
-import { AnalyticsConfig, TrackVisitorPage, TrackVisitorRequest } from "@/types/analytics";
+import { TrackVisitorPage, TrackVisitorRequest } from "@/types/analytics";
 import { postTrackVisitor, postTrackVisitorPageView } from "@/services/analytics";
 import { baseURL, ownerId } from "@/lib/axios";
 import { usePathname } from "next/navigation";
 
 export const usePortfolioAnalytics = () => {
   const pathName = usePathname();
-  const config: AnalyticsConfig = {
-    enabled: process.env.ANALYTICS_ENABLED === "true",
-  };
+  const config = useMemo(
+    () => ({
+      enabled: process.env.ANALYTICS_ENABLED === "true",
+    }),
+    []
+  );
   const sessionIdRef = useRef<string>("");
   const pageStartTimeRef = useRef<number>(0);
   const lastPageRef = useRef<string>("");
@@ -55,30 +58,33 @@ export const usePortfolioAnalytics = () => {
     }
   }, []);
 
-  const trackVisitor = useCallback(async () => {
-    if (!config.enabled || typeof window === "undefined") return;
-    try {
-      //@ts-expect-error navigator.userAgentData
-      const platform = navigator.userAgentData ? navigator.userAgentData.platform : "unknown";
-      const { country, city } = await getGeoLocation();
-      const browser = getBorrowserInfo();
-      const device = getDeviceType();
-      const trackingData: TrackVisitorRequest = {
-        sessionId: sessionIdRef.current!,
-        userAgent: navigator.userAgent,
-        device,
-        referrer: document.referrer || "direct",
-        landingPage: window.location.href,
-        os: platform,
-        city,
-        country,
-        browser,
-      };
-      await postTrackVisitor(trackingData);
-    } catch (error) {
-      console.error("❌ Error tracking visitor:", error);
-    }
-  }, [config, getDeviceType]);
+  const trackVisitor = useCallback(
+    async () => {
+      if (!config.enabled || typeof window === "undefined") return;
+      try {
+        //@ts-expect-error navigator.userAgentData
+        const platform = navigator.userAgentData ? navigator.userAgentData.platform : "unknown";
+        const { country, city } = await getGeoLocation();
+        const browser = getBorrowserInfo();
+        const device = getDeviceType();
+        const trackingData: TrackVisitorRequest = {
+          sessionId: sessionIdRef.current!,
+          userAgent: navigator.userAgent,
+          device,
+          referrer: document.referrer || "direct",
+          landingPage: window.location.href,
+          os: platform,
+          city,
+          country,
+          browser,
+        };
+        await postTrackVisitor(trackingData);
+      } catch (error) {
+        console.error("❌ Error tracking visitor:", error);
+      }
+    },
+    [config, getDeviceType] 
+  );
 
   const trackPageView = useCallback(
     async (page?: string) => {
@@ -110,26 +116,29 @@ export const usePortfolioAnalytics = () => {
     trackPageView();
   }, [config.enabled, trackVisitor, trackPageView]);
 
-  useEffect(() => {
-    if (!config.enabled || typeof window === "undefined") return;
+  useEffect(
+    () => {
+      if (!config.enabled || typeof window === "undefined") return;
 
-    const handleBeforeUnload = () => {
-      const timeSpent = pageStartTimeRef.current ? Date.now() - pageStartTimeRef.current : 0;
+      const handleBeforeUnload = () => {
+        const timeSpent = pageStartTimeRef.current ? Date.now() - pageStartTimeRef.current : 0;
 
-      navigator.sendBeacon(
-        `${baseURL}/analytics/${ownerId}/track-pageview`,
-        JSON.stringify({
-          sessionId: sessionIdRef.current,
-          page: pathName,
-          timeSpent,
-          isExit: true,
-        })
-      );
-    };
+        navigator.sendBeacon(
+          `${baseURL}/analytics/${ownerId}/track-pageview`,
+          JSON.stringify({
+            sessionId: sessionIdRef.current,
+            page: pathName,
+            timeSpent,
+            isExit: true,
+          })
+        );
+      };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [config, pathName]);
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    },
+    [config, pathName] 
+  );
 
   return {
     trackVisitor,
@@ -138,7 +147,7 @@ export const usePortfolioAnalytics = () => {
   };
 };
 
-export const AnalyticsProvider = ({ children }: { children: React.ReactNode; }) => {
+export const AnalyticsProvider = ({ children }: { children: React.ReactNode }) => {
   usePortfolioAnalytics();
   return <>{children}</>;
 };

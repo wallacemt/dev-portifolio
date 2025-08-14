@@ -35,6 +35,7 @@ export const ProjectsContent = ({ response, language, techList, filters }: Proje
         >
           {response.texts.description}
         </motion.p>
+    
       </motion.div>
       <ProjectFilters techsList={techList} />
       <ProjectTimelineList

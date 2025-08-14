@@ -1,7 +1,7 @@
+
 import { DashboardContent } from "./_components/dashboard-content";
 import { analyticsSummary, analyticsRealTime } from "@/services/analytics";
 import { AnalyticsSummaryResponse, AnalyticsRealTimeResponse } from "@/types/analytics";
-import { simulateDelay } from "@/utilis/simulate-dalay";
 
 interface DashboardData {
   summary: AnalyticsSummaryResponse | null;

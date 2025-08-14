@@ -28,7 +28,7 @@ interface AnalyticsOverview {
   avgTimeSpent: number;
 }
 interface AnalyticsBreakDown {
-  dasktop: number;
+  desktop: number;
   mobile: number;
   tablet: number;
 }
@@ -51,7 +51,7 @@ export interface AnalyticsResponse {
   dayliStats: DailyStats[];
   topPages: { page: string; views: number }[];
   topCountries: { country: string; visitors: number }[];
-  topBrowsers: { browser: string; visitors: number };
+  topBrowsers: { browser: string; visitors: number }[];
 }
 
 export interface AnalyticsSummaryResponse {

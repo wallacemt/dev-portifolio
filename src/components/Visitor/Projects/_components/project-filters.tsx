@@ -1,12 +1,14 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDebounce } from "@/utilis/debounce";
+import { RefreshCcwDot } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState, useMemo } from "react";
 export const ProjectFilters = ({ techsList }: { techsList: string[] }) => {
   const router = useRouter();
-const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
   const [searchValue, setSearchValue] = useState(searchParams.get("search") || "");
 
@@ -28,8 +30,6 @@ const searchParams = useSearchParams();
   useEffect(() => {
     updateQueryParam("search", debouncedSearchValue);
   }, [debouncedSearchValue, updateQueryParam]);
-
-  
 
   const memoizedTechOptions = useMemo(
     () =>
@@ -61,6 +61,13 @@ const searchParams = useSearchParams();
           {memoizedTechOptions}
         </SelectContent>
       </Select>
+      <Button
+        variant={"outline"}
+        onClick={() => updateQueryParam("tech", "all")}
+        className="flex items-center gap-2 cursor-pointer"
+      >
+        <RefreshCcwDot />
+      </Button>
     </div>
   );
 };

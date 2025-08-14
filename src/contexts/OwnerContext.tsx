@@ -52,7 +52,8 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
       setIsLoading(false);
     };
     fetchInit();
-  }, []);
+  }, []
+);
 
   const login = (token: string, ownerData: OwnerResponse) => {
     cookieUtils.setAuthToken(token);

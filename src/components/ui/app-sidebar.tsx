@@ -16,8 +16,6 @@ import { Code, HandPlatter, List, Plus, School, SmartphoneCharging } from "lucid
 import { IconCircleDashedLetterV, IconDashboard } from "@tabler/icons-react";
 import Link from "next/link";
 import { Separator } from "./separator";
-import { useOwner } from "@/contexts/OwnerContext";
-import { cookieUtils } from "@/lib/cookies";
 import { usePathname } from "next/navigation";
 
 const data = {
@@ -41,7 +39,7 @@ const data = {
       items: [
         {
           title: "Ver todos",
-          url: "/owner/projects/all",
+          url: "/owner/projects?state=all",
           icon: List,
         },
         {

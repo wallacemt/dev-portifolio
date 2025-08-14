@@ -1,5 +1,5 @@
 import { IconTrendingDown, IconTrendingUp, IconActivity, IconRefresh } from "@tabler/icons-react";
-import { Users, Eye, Clock, TrendingUp } from "lucide-react";
+import { Users, Eye, TrendingUp } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,10 +30,6 @@ export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) 
     return "text-gray-600";
   };
 
-  const getChangeIcon = (change: number) => {
-    return change >= 0 ? IconTrendingUp : IconTrendingDown;
-  };
-
   if (data.error) {
     return (
       <div className="px-4 lg:px-6">
@@ -55,8 +51,7 @@ export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) 
 
   return (
     <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
-      {/* Visitantes Hoje */}
-      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+      <Card className="@container/card bg-gradient-to-t from-roxo100/15 to-card shadow-xs">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <Users className="w-4 h-4" />
@@ -99,7 +94,7 @@ export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) 
       </Card>
 
       {/* Visitantes Esta Semana */}
-      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+      <Card className="@container/card bg-gradient-to-t from-roxo100/25 to-card shadow-xs">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4" />
@@ -124,7 +119,7 @@ export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) 
       </Card>
 
       {/* Visitantes Este Mês */}
-      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+      <Card className="@container/card bg-gradient-to-t from-roxo100/35 to-card shadow-xs">
         <CardHeader>
           <CardDescription className="flex items-center gap-2">
             <Eye className="w-4 h-4" />
@@ -149,21 +144,15 @@ export function SectionCards({ data, isLoading, onRefresh }: SectionCardsProps) 
       </Card>
 
       {/* Visitantes Ativos */}
-      <Card className="@container/card bg-gradient-to-t from-primary/5 to-card shadow-xs">
+      <Card className="@container/card bg-gradient-to-t from-roxo100/45 to-card shadow-xs">
         <CardHeader>
-          <CardDescription className="flex items-center gap-2">
+          <CardDescription className="flex items-center gap-2 text-sm">
             <IconActivity className="w-4 h-4" />
             Ativos Agora
           </CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl text-green-600">
             {isLoading ? <Skeleton className="h-8 w-20" /> : formatNumber(data.realTime?.activeVisitors ?? 0)}
           </CardTitle>
-          <CardAction>
-            <Badge variant="outline" className="text-green-600 border-green-300">
-              <IconActivity className="w-3 h-3 mr-1" />
-              Tempo real
-            </Badge>
-          </CardAction>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1.5 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">

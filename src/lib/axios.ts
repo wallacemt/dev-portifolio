@@ -1,5 +1,5 @@
-import axios, { AxiosInstance } from "axios";
-import Cookies from "js-cookie";
+import axios from "axios";
+
 import { cookieUtils } from "./cookies";
 
 export const baseURL = process.env.API_URL || "http://localhost:8081";
@@ -28,13 +28,23 @@ API.interceptors.response.use(
 
 export const ownerId = process.env.OWNER_ID || "";
 
-export const handleToken = (apiInstance: AxiosInstance) => {
-  const token = cookieUtils.getAuthToken();
-  if (token) {
-    apiInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    return token;
-  } else {
-    delete apiInstance.defaults.headers.common["Authorization"];
-    return null;
+export const setupAuth = async () => {
+  let token = cookieUtils.getAuthToken();
+  if (!token && typeof window === "undefined") {
+    try {
+      token = await cookieUtils.getServerAuthToken();
+    } catch (error) {
+      throw new Error(`Erro ao obter token de autenticação no servidor: ${error}`);
+    }
   }
+  if (token) {
+    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete API.defaults.headers.common["Authorization"];
+  }
+
+  if (!token) {
+    throw new Error("Token de autenticação não encontrado");
+  }
+  return token;
 };

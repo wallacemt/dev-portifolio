@@ -238,8 +238,3 @@ Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) par
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela!**
 
-2. [ ] -> Criar função que armazena e resgata dados salvo em cache do navegador, especificando o tipo do dado ex : imagem, texto etc...;
-
-1. [ ] -> Refatorar design e estrutura do dashboard e dos details;
-
-3. [ ] -> Criar estrutura De Crud dos elementos, ex component reutilizável de lista de elementos, e edição, passando somente as diferenças entre eles.
