@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,8 @@ import { postProject } from "@/services/projects";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import Image from "next/image";
+import { Skill } from "@/types/skills";
+import { getSkills } from "@/services/skillsApi";
 
 interface ProjectAddProps {
   onSuccess?: () => void;
@@ -53,7 +55,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const techs = watch("techs") || [];
   const screenshots = watch("screenshots") || [];
   const previewImage = watch("previewImage");
-
+  const [skills, setSkills] = useState<Skill[]>([]);
   const addTech = () => {
     if (techInput.trim() && !techs.includes(techInput.trim())) {
       setValue("techs", [...techs, techInput.trim()]);
@@ -87,6 +89,14 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
     });
   };
 
+  async function fetchSkills() {
+    try {
+      const data = await getSkills();
+      return setSkills(data.skills);
+    } catch (_error) {
+      return [];
+    }
+  }
   const onSubmit: SubmitHandler<ProjectAddFormData> = async (data) => {
     try {
       setIsLoading(true);
@@ -102,7 +112,9 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       setIsLoading(false);
     }
   };
-
+  useEffect(() => {
+    fetchSkills();
+  }, []);
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
       <CardContent className="space-y-6">
@@ -157,38 +169,27 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
 
           <div className="space-y-2">
             <Label>Tecnologias *</Label>
-            <div className="flex gap-2">
-              <Input
-                value={techInput}
-                onChange={(e) => {
-                  const formattedValue = e.target.value
-                    .split(",")
-                    .map((tech) =>
-                      tech
-                        .trim()
-                        .replace(/\"/g, "")
-                        .replace(/ teste/g, "")
-                    )
-                    .filter((tech) => tech !== "");
 
-                  if (formattedValue.length > 0) {
-                    setValue("techs", [...techs, ...formattedValue]);
-                    setTechInput("");
-                  }
-                  setTechInput(e.target.value);
-                }}
-                placeholder="Digite uma tecnologia"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === ",") {
-                    e.preventDefault();
-                    addTech();
-                  }
-                }}
-              />
-              <Button type="button" onClick={addTech}>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
+            {skills && skills.length > 0 && (
+              <div className="bg-roxo600/60 p-4 rounded-md max-w-full h-54 flex flex-col items-center justify-center">
+                <p className="text-white self-start font-semibold">Suas Skills</p>
+                <div className="flex  gap-2 mt-2 overflow-x-auto">
+                  {skills.map((skill) => (
+                    <div
+                      key={skill.id}
+                      className="bg-roxo300/40 flex flex-col cursor-pointer  items-center gap-1 rounded-md px-2 py-1 text-sm font-medium"
+                      onClick={() => {
+                        setTechInput(skill.title);
+                        addTech();
+                      }}
+                    >
+                      <Image src={skill.image} width={100} height={200} alt={skill.title} />
+                      <p>{skill.title}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <div className="flex flex-wrap gap-2 mt-2">
               {techs.map((tech) => (
                 <div
