@@ -11,6 +11,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { ChevronRight, LucideIcon } from "lucide-react";
@@ -34,25 +35,34 @@ export function NavMain({
   }[];
 }) {
   const pathName = usePathname();
+  const side = useSidebar();
   return (
     <SidebarGroup>
-      <SidebarGroupContent className="flex flex-col gap-2 text-2xl">
+      <SidebarGroupContent className="flex flex-col gap-2 ">
         <SidebarMenu>
           {items.map((item) =>
             item.items && item.items.length > 0 ? (
               <Collapsible
                 key={item.title}
                 asChild
-                defaultOpen={item.url === "/owner/dashboard" ? false : true}
-                className="group/collapsible"
+                defaultOpen={item.url === "/owner/dashboard" ? true : false}
+                className="group/collapsible "
               >
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={item.title} className={` ${pathName === item.url && "bg-roxo300"}`}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      className={` ${
+                        pathName === item.url && "bg-roxo300/80"
+                      } flex  items-center justify-center font-principal text-lg lg:text-2xl`}
+                      size={"lg"}
+                    >
                       {item.icon && <item.icon />}
-                      <span>{item.title}</span>
+                      <span className={`${side.state == "collapsed" ? "hidden" : ""}`}>{item.title}</span>
                       <ChevronRight
-                        className={`ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90`}
+                        className={`${
+                          side.state == "collapsed" ? "hidden" : ""
+                        } ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90`}
                       />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>

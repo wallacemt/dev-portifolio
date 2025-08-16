@@ -19,7 +19,7 @@ export interface NavbarItens {
 }
 
 interface ServicesItem {
-  id:string
+  id: string;
   name: string;
   description: string;
   details: string;
@@ -28,3 +28,8 @@ interface ServicesItem {
 export interface ServicesResponse {
   services: ServicesItem[];
 }
+
+export type CrudState = Promise<{
+  state: "edit" | "all" | "create";
+  id?: string;
+}>;

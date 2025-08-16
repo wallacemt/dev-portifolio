@@ -26,7 +26,7 @@ export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6" }: DepoB
       background-color: ${hover};
     }
     .icon-Container {
-      width: 45px;
+      width: 60px;
       height: 45px;
       background-color: #d629d9;
       display: flex;

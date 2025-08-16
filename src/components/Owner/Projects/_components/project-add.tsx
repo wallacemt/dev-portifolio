@@ -12,10 +12,12 @@ import { X, Plus, Loader2, Eye } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import Image from "next/image";
 import { Skill } from "@/types/skills";
 import { getSkills } from "@/services/skillsApi";
+import Link from "next/link";
+import { PreviewImage } from "@/utilis/preview-image";
+import z from "zod";
 
 interface ProjectAddProps {
   onSuccess?: () => void;
@@ -23,7 +25,7 @@ interface ProjectAddProps {
 
 export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [techInput, setTechInput] = useState("");
+  const [searchTech, setSearchTech] = useState("");
   const [screenshotInput, setScreenshotInput] = useState("");
   const [imageLoadingStates, setImageLoadingStates] = useState<{ [key: string]: boolean }>({});
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
@@ -56,10 +58,10 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const screenshots = watch("screenshots") || [];
   const previewImage = watch("previewImage");
   const [skills, setSkills] = useState<Skill[]>([]);
-  const addTech = () => {
-    if (techInput.trim() && !techs.includes(techInput.trim())) {
-      setValue("techs", [...techs, techInput.trim()]);
-      setTechInput("");
+
+  const addTech = (tech: string) => {
+    if (tech.trim() && !techs.includes(tech.trim())) {
+      setValue("techs", [...techs, tech.trim()]);
     }
   };
 
@@ -92,9 +94,10 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   async function fetchSkills() {
     try {
       const data = await getSkills();
-      return setSkills(data.skills);
-    } catch (_error) {
-      return [];
+      setSkills(data.skills || []);
+    } catch (err) {
+      console.error(err);
+      setSkills([]);
     }
   }
   const onSubmit: SubmitHandler<ProjectAddFormData> = async (data) => {
@@ -115,11 +118,16 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   useEffect(() => {
     fetchSkills();
   }, []);
+
+  const filteredSkills = searchTech.trim()
+    ? skills.filter((skill) => skill.title.toLowerCase().includes(searchTech.trim().toLowerCase()))
+    : skills;
+
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
       <CardContent className="space-y-6">
-        {previewImage && (
-          <div className=" mx-auto max-w-2xl">
+        {previewImage && z.string().url().safeParse(previewImage).success && (
+          <div className="mx-auto max-w-2xl">
             <p className="text-sm mb-4 font-principal">Preview Image:</p>
             <div
               className="relative w-full h-40 rounded-md overflow-hidden border group cursor-pointer"
@@ -167,41 +175,57 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
           </div>
 
+          {/* Tecnologias - UI/UX melhorado */}
           <div className="space-y-2">
             <Label>Tecnologias *</Label>
-
-            {skills && skills.length > 0 && (
-              <div className="bg-roxo600/60 p-4 rounded-md max-w-full h-54 flex flex-col items-center justify-center">
-                <p className="text-white self-start font-semibold">Suas Skills</p>
-                <div className="flex  gap-2 mt-2 overflow-x-auto">
-                  {skills.map((skill) => (
-                    <div
-                      key={skill.id}
-                      className="bg-roxo300/40 flex flex-col cursor-pointer  items-center gap-1 rounded-md px-2 py-1 text-sm font-medium"
-                      onClick={() => {
-                        setTechInput(skill.title);
-                        addTech();
-                      }}
-                    >
-                      <Image src={skill.image} width={100} height={200} alt={skill.title} />
-                      <p>{skill.title}</p>
-                    </div>
-                  ))}
-                </div>
+            <div className="flex flex-col gap-2 max-h-60 overflow-auto w bg-roxo600/60 p-4 rounded-md">
+              <div className="flex flex-col  md:items-center gap-2">
+                <Input
+                  type="text"
+                  value={searchTech}
+                  onChange={(e) => setSearchTech(e.target.value)}
+                  placeholder="Pesquise por tecnologia..."
+                  className="md:w-1/2"
+                />
+                <span className="text-xs text-roxo100">Selecione uma skill abaixo ou pesquise</span>
               </div>
-            )}
-            <div className="flex flex-wrap gap-2 mt-2">
-              {techs.map((tech) => (
-                <div
-                  key={tech}
-                  className="bg-gray-800 flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium"
-                >
-                  {tech}
-                  <X className="h-4 w-4 cursor-pointer" onClick={() => removeTech(tech)} />
-                </div>
-              ))}
+              <div className="flex flex-wrap gap-2 mt-2 min-h-[60px]">
+                {filteredSkills.length > 0 ? (
+                  filteredSkills.map((skill) => (
+                    <button
+                      type="button"
+                      key={skill.id}
+                      className={`bg-roxo300/40 ${
+                        techs.includes(skill.title) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                      } flex flex-col items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow hover:bg-roxo400/60 transition  border border-roxo200`}
+                      onClick={() => addTech(skill.title)}
+                    >
+                      <Image src={skill.image} width={62} height={62} alt={skill.title} className="rounded" />
+                      <span>{skill.title}</span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="flex flex-col items-center w-full py-4">
+                    <span className="text-roxo100 text-sm">Nenhuma skill encontrada.</span>
+                    <Link href="/owner/skills/add" className="mt-2 text-roxo200 underline hover:text-roxo100 text-xs">
+                      Adicionar nova skill
+                    </Link>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {techs.map((tech) => (
+                  <div
+                    key={tech}
+                    className="bg-gray-800 flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow"
+                  >
+                    {tech}
+                    <X className="h-4 w-4 cursor-pointer" onClick={() => removeTech(tech)} />
+                  </div>
+                ))}
+              </div>
+              {errors.techs && <p className="text-sm text-red-500 mt-2">{errors.techs.message}</p>}
             </div>
-            {errors.techs && <p className="text-sm text-red-500">{errors.techs.message}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -309,33 +333,5 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
         <PreviewImage previewImage={previewModalImage} setPreviewModalImage={setPreviewModalImage} />
       )}
     </Card>
-  );
-}
-
-function PreviewImage({
-  previewImage,
-  setPreviewModalImage,
-}: {
-  previewImage: string;
-  setPreviewModalImage: (image: string) => void;
-}) {
-  return (
-    <Dialog open={!!previewImage} onOpenChange={() => setPreviewModalImage("")}>
-      <DialogContent className="flex flex-col">
-        <DialogHeader>
-          <p className="text-xl font-principal text-roxo100 mb-2">Preview:</p>
-        </DialogHeader>
-        <div className="mt-2">
-          <Image
-            src={previewImage}
-            height={500}
-            width={500}
-            alt="Preview em tamanho completo"
-            className="max-w-full max-h-full object-contain rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
-        </div>
-      </DialogContent>
-    </Dialog>
   );
 }

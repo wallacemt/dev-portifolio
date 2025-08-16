@@ -1,3 +1,9 @@
+export const SkillTypeValues = {
+  Framework: "framework" as const,
+  ProgrammingLanguage: "programmingLanguage" as const,
+  Technology: "technology" as const,
+} as const;
+
 export enum StackType {
   Frontend = "frontend",
   Backend = "backend",
@@ -38,3 +44,22 @@ export interface SkillResponse {
   skills: Skill[];
   texts: { chooseText: string; title: string; description: string };
 }
+
+export interface SkillTypesResponse {
+  SkillTypeValues: {
+    [key: string]: SkillType;
+  };
+  StackTypeValues: {
+    [key: string]: StackType;
+  };
+}
+
+export interface SkillAdd {
+  title: string;
+  image: string;
+  stack: StackType;
+  type: SkillType;
+  subSkils: string[];
+}
+
+export type SkillUpdate = Partial<SkillAdd>;

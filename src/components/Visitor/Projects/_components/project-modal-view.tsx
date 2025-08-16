@@ -37,7 +37,7 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
           <div className="flex flex-col relative  min-w-full">
             <DetailsCard />
             <div className="max-w-6xl p-2 mx-auto gap-2 space-y-4">
-              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 2500 }}>
+              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 4500 }}>
                 <CarouselContent>
                   {project.screenshots.map((img) => (
                     <CarouselItem key={project.id + img}>

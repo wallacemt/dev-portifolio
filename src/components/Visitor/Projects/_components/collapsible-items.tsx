@@ -27,10 +27,10 @@ function HeaderComponent({ title, open }: Omit<CollapsibleItemsProps, "project">
   );
 }
 
-function Badges({ title, project, open, setIsOpen }: CollapsibleItemsProps) {
+function Badges({ title, project, setIsOpen }: CollapsibleItemsProps) {
   return (
-    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
-      <HeaderComponent title={title} open={open} />
+    <Collapsible  defaultOpen={false} onOpenChange={setIsOpen} className="space-y-2">
+      <HeaderComponent title={title} open={false} />
       <CollapsibleContent>
         <div className="flex flex-wrap gap-2">
           {project.techs.content.map((tech) => (
@@ -51,31 +51,37 @@ function Buttons({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
       <CollapsibleContent>
         <ul className="flex flex-wrap gap-4">
           <li>
-            <Link href={project.links.content.deployment.url} target="_blank" rel="noopener noreferrer">
-              <DepoButton
-                bg="var(--textura-roxo-3-hex)"
-                hover="var(--textura-roxo-3-3-hex)"
-                message={project.links.content.deployment.title}
-              />
-            </Link>
+            {project.links.content.deployment.url && (
+              <Link href={project.links.content.deployment.url} target="_blank" rel="noopener noreferrer">
+                <DepoButton
+                  bg="var(--textura-roxo-3-hex)"
+                  hover="var(--textura-roxo-3-3-hex)"
+                  message={project.links.content.deployment.title}
+                />
+              </Link>
+            )}
           </li>
           <li>
-            <Link href={project.links.content.frontend.url} target="_blank" rel="noopener noreferrer">
-              <DepoButton
-                message={project.links.content.frontend.title}
-                bg="var(--textura-roxo-4-hex)"
-                hover="var(--textura-roxo-4-4-hex)"
-              />
-            </Link>
+            {project.links.content.frontend.url && (
+              <Link href={project.links.content.frontend.url} target="_blank" rel="noopener noreferrer">
+                <DepoButton
+                  message={project.links.content.frontend.title}
+                  bg="var(--textura-roxo-4-hex)"
+                  hover="var(--textura-roxo-4-4-hex)"
+                />
+              </Link>
+            )}
           </li>
           <li>
-            <Link href={project.links.content.backend.url} target="_blank" rel="noopener noreferrer">
-              <DepoButton
-                message={project.links.content.backend.title}
-                bg="var(--textura-roxo-2-hex)"
-                hover="var(--textura-roxo-2-2-hex)"
-              />
-            </Link>
+            {project.links.content.backend.url && (
+              <Link href={project.links.content.backend.url} target="_blank" rel="noopener noreferrer">
+                <DepoButton
+                  message={project.links.content.backend.title}
+                  bg="var(--textura-roxo-2-hex)"
+                  hover="var(--textura-roxo-2-2-hex)"
+                />
+              </Link>
+            )}
           </li>
         </ul>
       </CollapsibleContent>
@@ -98,21 +104,15 @@ function Texts({ title, project, open, setIsOpen }: CollapsibleItemsProps) {
 
 function Images({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
   return (
-    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-2">
+    <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-4 h-full">
       <HeaderComponent title={title} open={open} />
-      <CollapsibleContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <CollapsibleContent className=" w-full overflow-auto  ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 ">
           {project.skills.content.map((skill) => (
-            <div key={skill.id} className=" rounded-lg p-4 shadow-sm">
-              <div className="flex items-center gap-3 mb-2">
-                <Image
-                  src={skill.image}
-                  alt={skill.title}
-                  title={skill.title}
-                  width={40}
-                  height={40}
-                  className="rounded"
-                />
+            <div key={skill.id} className=" rounded-lg shadow-sm">
+              <div className="flex flex-col flex-wrap items-center gap-2 mb-2">
+                <Image src={skill.image} alt={skill.title} title={skill.title} width={120} height={0} />
+                <p>{skill.title}</p>
               </div>
             </div>
           ))}

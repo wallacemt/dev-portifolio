@@ -6,6 +6,7 @@ interface SkillsContentProps {
 
 export const revalidate = 30;
 
+
 export async function Skills({ language }: SkillsContentProps) {
   const res = await getSkills(language).catch((error) => {
     console.error("Error fetching skills:", error);

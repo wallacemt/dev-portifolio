@@ -2,15 +2,9 @@ import { getAllProjects } from "@/services/projects";
 import type { Project } from "@/types/projects";
 import { ProjectsClientManager } from "./ProjectsClientManager";
 import { notFound } from "next/navigation";
+import { CrudState } from "@/types/utilis";
 
-interface ProjectsPageCRUDProps {
-  state: Promise<{
-    state: "edit" | "all" | "create";
-    id?: string;
-  }>;
-}
-
-export async function ProjectsPageCRUD({ state }: ProjectsPageCRUDProps) {
+export async function ProjectsPageCRUD({ state }: { state: CrudState }) {
   const { projects } = await getAllProjects();
   const { state: projectState, id } = await state;
 
