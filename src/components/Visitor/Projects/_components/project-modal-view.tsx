@@ -43,6 +43,7 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
                     <CarouselItem key={project.id + img}>
                       <Image
                         src={img}
+                        title={project.title}
                         alt={project.title}
                         width={1200}
                         height={1200}

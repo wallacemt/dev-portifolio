@@ -11,16 +11,17 @@ import { Label } from "@/components/ui/label";
 import { X, Plus, Loader2, Eye, Trash } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
-import { SkillTypeValues, StackType } from "@/types/skills";
+import { Skill, SkillTypeValues, StackType } from "@/types/skills";
 import { postSkill } from "@/services/skillsApi";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type SkillAddFormData, skillSchema } from "@/lib/validations/skills";
 
 import { PreviewImage } from "@/utilis/preview-image";
 import z from "zod";
+import { Switch } from "@/components/ui/switch";
 
 interface ProjectAddProps {
-  onSuccess?: () => void;
+  onSuccess?: (redirect: boolean) => void;
 }
 
 export function SkillAdd({ onSuccess }: ProjectAddProps) {
@@ -28,16 +29,17 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
   const [subSkillInput, setSubSkillInput] = useState("");
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
   const [jsonInput, setJsonInput] = useState("");
+  const [isFinishRedirect, setIsFinishRedirect] = useState(false);
   const [jsonError, setJsonError] = useState("");
   const fillFormFromJson = () => {
     setJsonError("");
     try {
-      const obj = JSON.parse(jsonInput);
-      if (obj.nome) setValue("title", obj.nome);
-      if (obj.icon) setValue("image", obj.icon);
-      if (obj.stack) setValue("stack", obj.stack);
-      if (obj.type) setValue("type", obj.type);
-      if (Array.isArray(obj.habilidades)) setValue("subSkils", obj.habilidades);
+      const obj: Skill = JSON.parse(jsonInput);
+      if (obj.title) setValue("title", obj.title);
+      if (obj.image) setValue("image", obj.image);
+      if (obj.stack) setValue("stack", obj.stack.toLowerCase());
+      if (obj.type) setValue("type", obj.type.toLowerCase());
+      if (Array.isArray(obj.subSkils)) setValue("subSkils", obj.subSkils);
       toast.success("Campos preenchidos pelo JSON!");
       setJsonInput("");
     } catch (err) {
@@ -53,6 +55,7 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
       stack: "",
       type: "",
       subSkils: [],
+      image: "",
     },
   });
 
@@ -89,7 +92,7 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
       toast.success("Skill adicionada com sucesso!");
       reset();
       setJsonInput("");
-      onSuccess?.();
+      onSuccess?.(isFinishRedirect);
     } catch (error) {
       console.error("Erro ao criar habilidade:", error);
       toast.error(error instanceof Error ? error.message : "Erro ao criar habilidade. Tente novamente.");
@@ -101,7 +104,11 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
       <CardContent className={`space-y-6 ${isLoading && "blur-xs"}`}>
-        <div className="space-y-2 mb-4">
+        <div className="space-y-2 mb-4 flex flex-col">
+          <div className="flex self-end items-center space-x-2">
+            <Switch id="redirect" checked={isFinishRedirect} onCheckedChange={setIsFinishRedirect} />
+            <Label htmlFor="redirect">Redirecionar após adicionar</Label>
+          </div>
           <Label htmlFor="jsonInput">Preencher por JSON</Label>
           <Textarea
             id="jsonInput"
@@ -118,7 +125,6 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
             {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
           </div>
         </div>
-
         {screenshot && z.string().url().safeParse(screenshot).success && (
           <div className="mx-auto flex flex-col items-center justify-center w-full">
             <p className="text-sm mb-4 font-principal">Preview Image:</p>

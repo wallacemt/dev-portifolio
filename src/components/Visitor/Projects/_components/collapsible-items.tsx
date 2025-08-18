@@ -29,7 +29,7 @@ function HeaderComponent({ title, open }: Omit<CollapsibleItemsProps, "project">
 
 function Badges({ title, project, setIsOpen }: CollapsibleItemsProps) {
   return (
-    <Collapsible  defaultOpen={false} onOpenChange={setIsOpen} className="space-y-2">
+    <Collapsible defaultOpen={false} onOpenChange={setIsOpen} className="space-y-2">
       <HeaderComponent title={title} open={false} />
       <CollapsibleContent>
         <div className="flex flex-wrap gap-2">

@@ -1,6 +1,6 @@
 import { API, ownerId, setupAuth, SimpleResponse } from "@/lib/axios";
-import { SkillAddFormData } from "@/lib/validations/skills";
-import type { Skill, SkillResponse, SkillUpdate } from "@/types/skills";
+import { SkillAddFormData, SkillUpdateFormData } from "@/lib/validations/skills";
+import type { Skill, SkillResponse } from "@/types/skills";
 
 export const getSkills = async (language: string = "pt"): Promise<SkillResponse> => {
   try {
@@ -32,24 +32,27 @@ export const postSkill = async (data: SkillAddFormData): Promise<Skill> => {
   }
 };
 
-export const putSKill = async (id: string, data: SkillUpdate): Promise<Skill> => {
+export const putSKill = async (id: string, data: SkillUpdateFormData): Promise<Skill> => {
   try {
     setupAuth();
+    console.log(data);
     const res = await API.put(`/skills/private/${id}/update`, data);
     return res.data as Skill;
   } catch (error) {
-    console.error("Error puting project:", error);
-    throw error;
+    throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error edit skill"
+    );
   }
 };
 
-export const deleteProject = async (id: string): Promise<SimpleResponse> => {
+export const deleteSkill = async (id: string): Promise<SimpleResponse> => {
   try {
     setupAuth();
     const res = await API.delete(`/skills/private/${id}/delete`);
     return res.data as SimpleResponse;
   } catch (error) {
-    console.error("Error puting project:", error);
-    throw error;
+    throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error remove skill"
+    );
   }
 };

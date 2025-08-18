@@ -18,18 +18,21 @@ import { getSkills } from "@/services/skillsApi";
 import Link from "next/link";
 import { PreviewImage } from "@/utilis/preview-image";
 import z from "zod";
+import { Switch } from "@/components/ui/switch";
 
 interface ProjectAddProps {
-  onSuccess?: () => void;
+  onSuccess?: (redirect: boolean) => void;
 }
 
 export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTech, setSearchTech] = useState("");
   const [screenshotInput, setScreenshotInput] = useState("");
+  const [jsonInput, setJsonInput] = useState("");
   const [imageLoadingStates, setImageLoadingStates] = useState<{ [key: string]: boolean }>({});
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
-
+  const [isFinishRedirect, setIsFinishRedirect] = useState(false);
+  const [jsonError, setJsonError] = useState("");
   const form = useForm<ProjectAddFormData>({
     resolver: zodResolver(projectAddSchema),
     defaultValues: {
@@ -58,6 +61,35 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const screenshots = watch("screenshots") || [];
   const previewImage = watch("previewImage");
   const [skills, setSkills] = useState<Skill[]>([]);
+
+  const fillFormFromJson = () => {
+    setJsonError("");
+    try {
+      const obj: {
+        nome: string;
+        technologys: string[];
+        descricao: string;
+        screenshots: string[];
+        deployment: string;
+        frontend: string;
+        backend: string;
+        previewImage: string;
+      } = JSON.parse(jsonInput);
+      if (obj.nome) setValue("title", obj.nome);
+      if (obj.previewImage) setValue("previewImage", obj.previewImage.trim());
+      if (Array.isArray(obj.technologys)) setValue("techs", obj.technologys);
+      if (obj.descricao) setValue("description", obj.descricao);
+      if (Array.isArray(obj.screenshots)) setValue("screenshots", obj.screenshots);
+      if (obj.deployment) setValue("deployment", obj.deployment);
+      if (obj.frontend) setValue("frontend", obj.frontend);
+      if (obj.backend) setValue("backend", obj.backend);
+      toast.success("Campos preenchidos pelo JSON!");
+      setJsonInput("");
+    } catch (err) {
+      console.error(err);
+      setJsonError("JSON inválido. Verifique o formato.");
+    }
+  };
 
   const addTech = (tech: string) => {
     if (tech.trim() && !techs.includes(tech.trim())) {
@@ -107,7 +139,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       await postProject(data);
       toast.success("Projeto criado com sucesso!");
       reset();
-      onSuccess?.();
+      onSuccess?.(isFinishRedirect);
     } catch (error) {
       console.error("Erro ao criar projeto:", error);
       toast.error(error instanceof Error ? error.message : "Erro ao criar projeto. Tente novamente.");
@@ -125,7 +157,28 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
 
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
-      <CardContent className="space-y-6">
+      <CardContent className={`space-y-6 ${isLoading && "blur-xs"}`}>
+        <div className="space-y-2 mb-4 flex flex-col">
+          <div className="flex self-end items-center space-x-2">
+            <Switch id="redirect" checked={isFinishRedirect} onCheckedChange={setIsFinishRedirect} />
+            <Label htmlFor="redirect">Redirecionar após adicionar</Label>
+          </div>
+          <Label htmlFor="jsonInput">Preencher por JSON</Label>
+          <Textarea
+            id="jsonInput"
+            value={jsonInput}
+            onChange={(e) => setJsonInput(e.target.value)}
+            placeholder="Cole aqui o JSON da skill..."
+            rows={5}
+            className="font-mono"
+          />
+          <div className="flex gap-2 mt-2">
+            <Button type="button" onClick={fillFormFromJson} variant="secondary">
+              Preencher campos
+            </Button>
+            {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
+          </div>
+        </div>
         {previewImage && z.string().url().safeParse(previewImage).success && (
           <div className="mx-auto max-w-2xl">
             <p className="text-sm mb-4 font-principal">Preview Image:</p>
@@ -187,6 +240,17 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                   placeholder="Pesquise por tecnologia..."
                   className="md:w-1/2"
                 />
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {techs.map((tech) => (
+                    <div
+                      key={tech}
+                      className="bg-gray-800 flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow"
+                    >
+                      {tech}
+                      <X className="h-4 w-4 cursor-pointer" onClick={() => removeTech(tech)} />
+                    </div>
+                  ))}
+                </div>
                 <span className="text-xs text-roxo100">Selecione uma skill abaixo ou pesquise</span>
               </div>
               <div className="flex flex-wrap gap-2 mt-2 min-h-[60px]">
@@ -201,7 +265,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                       onClick={() => addTech(skill.title)}
                     >
                       <Image src={skill.image} width={62} height={62} alt={skill.title} className="rounded" />
-                      <span>{skill.title}</span>
+                      <span className="truncate w-20">{skill.title}</span>
                     </button>
                   ))
                 ) : (
@@ -213,17 +277,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                   </div>
                 )}
               </div>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {techs.map((tech) => (
-                  <div
-                    key={tech}
-                    className="bg-gray-800 flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow"
-                  >
-                    {tech}
-                    <X className="h-4 w-4 cursor-pointer" onClick={() => removeTech(tech)} />
-                  </div>
-                ))}
-              </div>
+
               {errors.techs && <p className="text-sm text-red-500 mt-2">{errors.techs.message}</p>}
             </div>
           </div>
@@ -327,8 +381,13 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
           </div>
         </form>
       </CardContent>
+      {isLoading && (
+        <div className="flex flex-col items-center justify-center absolute inset-0">
+          <span className="w-18 h-18  rounded-full animate-spin border-t-6 border-t-roxo100"></span>
+          <p className="font-principal text-2xl ">Carregando</p>
+        </div>
+      )}
 
-      {/* Modal de Preview da Imagem */}
       {previewModalImage && (
         <PreviewImage previewImage={previewModalImage} setPreviewModalImage={setPreviewModalImage} />
       )}

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { ProjectModal } from "./project-modal-view";
 import { Badge } from "@/components/ui/badge";
 
-
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
 
@@ -25,7 +24,6 @@ export default function ProjectCard({ project }: { project: Project }) {
             </time>
           </div>
           <div className="flex md:flex-row relative flex-col items-center justify-center">
-         
             <Image
               src={project.previewImage}
               alt={project.title}
@@ -46,7 +44,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                 {project.description.content.slice(0, 100).concat("...")}
               </p>
               <div className="flex overflow-x-auto snap-x mb-4">
-                <div className="overflow-hidden w-full ">
+                <div className="overflow-hidden w-[60%] mx-auto ">
                   <div
                     className={`flex space-x-4 ${project.skills.content.length > 2 && "animate-marquee"}`}
                     onMouseEnter={(e) => (e.currentTarget.style.animationPlayState = "paused")}
@@ -60,7 +58,7 @@ export default function ProjectCard({ project }: { project: Project }) {
                         alt={sk.title}
                         height={100}
                         width={100}
-                        className="w-14 h-14 rounded-full"
+                        className="w-14 h-14 rounded-lg"
                       />
                     ))}
                   </div>

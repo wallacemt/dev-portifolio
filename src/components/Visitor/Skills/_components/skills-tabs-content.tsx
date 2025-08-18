@@ -92,7 +92,7 @@ export const SkillsTabContent = ({ skills, chooseText }: SkillTabContentProps) =
                     skill.subSkils.map((subSkill, index) => (
                       <Badge
                         key={index}
-                        className={`text-sm text-white font-bold font-sec rounded-full ${
+                        className={`text-sm text-white font-bold font-sec rounded-full truncate max-w-20 ${
                           index % 2 === 0 ? "bg-[var(--textura-roxo-3-3-hex)]" : "bg-[var(--textura-roxo-2-hex)]"
                         }`}
                       >

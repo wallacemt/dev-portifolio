@@ -2,6 +2,11 @@ export const SkillTypeValues = {
   Framework: "framework" as const,
   ProgrammingLanguage: "programmingLanguage" as const,
   Technology: "technology" as const,
+  DataBase: "database" as const,
+  Lib: "lib" as const,
+  Bundler: "bundler" as const,
+  Cloud: "cloud" as const,
+  Docs: "docs" as const
 } as const;
 
 export enum StackType {
@@ -9,7 +14,7 @@ export enum StackType {
   Backend = "backend",
   Mobile = "mobile",
   Design = "design",
-  DevOps = "devOps",
+  DevOps = "devops",
   Other = "other",
 }
 

@@ -92,8 +92,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
       onSuccess();
       onClose();
     } catch (error) {
-      console.error("Erro ao atualizar projeto:", error);
-      toast.error("Erro ao atualizar projeto. Tente novamente.");
+      toast.error((error as { message: string }).message || "Erro ao atualizar Projeto. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -113,7 +112,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
           <DialogTitle>Editar Projeto: {project?.title}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className={`flex-1 overflow-y-auto p-4 ${isLoading && "blur-xs"}`}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-1">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
@@ -205,10 +204,16 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
             </div>
 
             <div className="flex justify-end gap-4 pt-4 border-t">
-              <Button type="button" variant="outline" onClick={handleClose} disabled={isLoading}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+                disabled={isLoading}
+                className="cursor-pointer disabled:cursor-not-allowed"
+              >
                 Cancelar
               </Button>
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="cursor-pointer disabled:cursor-not-allowed">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -224,6 +229,12 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
             </div>
           </form>
         </div>
+        {isLoading && (
+          <div className="flex flex-col w-40 h-40 mx-auto translate-y-1/2 items-center justify-center absolute inset-0">
+            <span className="w-18 h-18  rounded-full animate-spin border-t-6 border-t-roxo100"></span>
+            <p className="font-principal text-2xl ">Carregando</p>
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

@@ -11,7 +11,7 @@ interface skillsAllContentProps {
   onUpdate: () => void;
 }
 
-export function SkillsAllContent({ skills }: skillsAllContentProps) {
+export function SkillsAllContent({ skills, onUpdate }: skillsAllContentProps) {
   const [editingSkill, setEditingSkill] = useState<Skill | null>(null);
 
   const handleEdit = (skill: Skill) => {
@@ -22,9 +22,9 @@ export function SkillsAllContent({ skills }: skillsAllContentProps) {
     setEditingSkill(null);
   };
 
-  // const handleUpdateSuccess = () => {
-  //   onUpdate();
-  // };
+  const handleUpdateSuccess = () => {
+    onUpdate();
+  };
 
   if (skills.length === 0) {
     return (
@@ -42,14 +42,11 @@ export function SkillsAllContent({ skills }: skillsAllContentProps) {
       </div>
     );
   }
-
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
         {skills.map((skill) => (
-          <SkillCrudCard key={skill.id} skill={skill} onEdit={handleEdit} 
-          // onUpdate={handleUpdateSuccess}
-           />
+          <SkillCrudCard key={skill.id} skill={skill} onEdit={handleEdit} onUpdate={handleUpdateSuccess} />
         ))}
       </div>
 
@@ -57,7 +54,7 @@ export function SkillsAllContent({ skills }: skillsAllContentProps) {
         skill={editingSkill}
         isOpen={!!editingSkill}
         onClose={handleCloseEdit}
-        // onSuccess={handleUpdateSuccess}
+        onSuccess={handleUpdateSuccess}
       />
     </>
   );

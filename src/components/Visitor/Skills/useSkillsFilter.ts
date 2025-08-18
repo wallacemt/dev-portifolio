@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Skill, StackType } from "@/types/skills";
 
+
 export function useSkillsFilter(skills: Skill[]) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
 

@@ -21,7 +21,7 @@ export default async function OwnerLayout({ children }: Props) {
             } as React.CSSProperties
           }
         >
-          <Toaster richColors position="top-right" expand />
+          <Toaster richColors position="top-right" expand closeButton />
           <div className="fixed inset-0 z-[-1]">
             <DarkVeil speed={1.4} hueShift={0} noiseIntensity={0.02} warpAmount={0} />
           </div>

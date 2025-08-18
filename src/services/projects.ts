@@ -21,7 +21,7 @@ export const getProjects = async (language: string = "pt", filters?: ProjectFilt
     }
 
     queryParams.set("language", language);
-    queryParams.set("limit", "5");
+    queryParams.set("limit", "4");
     queryParams.set("activate", "true");
 
     const response = await API.get(`/projects/owner/${ownerId}?${queryParams.toString()}`);
@@ -68,8 +68,9 @@ export const putProject = async (id: string, data: ProjectUpdate): Promise<Proje
     const res = await API.put(`/projects/private/${id}/update`, data);
     return res.data as ProjectAddResponse;
   } catch (error) {
-    console.error("Error puting project:", error);
-    throw error;
+   throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error creating project"
+    );
   }
 };
 
@@ -79,8 +80,9 @@ export const putProjectHandleActivate = async (id: string): Promise<ProjectAddRe
     const res = await API.put(`/projects/private/${id}/handle-activate`);
     return res.data as ProjectAddResponse;
   } catch (error) {
-    console.error("Error puting project:", error);
-    throw error;
+   throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error edit project"
+    );
   }
 };
 
@@ -90,7 +92,8 @@ export const deleteProject = async (id: string): Promise<SimpleResponse> => {
     const res = await API.delete(`/projects/private/${id}/delete`);
     return res.data as SimpleResponse;
   } catch (error) {
-    console.error("Error puting project:", error);
-    throw error;
+     throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error remove project"
+    );
   }
 };

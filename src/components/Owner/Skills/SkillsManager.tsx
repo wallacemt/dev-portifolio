@@ -7,7 +7,8 @@ import { Skill } from "@/types/skills";
 import { SkillsAllContent } from "./_components/skills-all-content";
 import { SkillEditModal } from "./_components/skills-edit-modal";
 import { SkillAdd } from "./_components/skill-add";
- 
+import Link from "next/link";
+
 interface ProjectsClientManagerProps {
   skills: Skill[];
   currentState: "edit" | "all" | "create";
@@ -29,8 +30,10 @@ export function SkillsManager({ skills, currentState, editSkill }: ProjectsClien
     router.push(`/owner/skills?${params.toString()}`);
   };
 
-  const handleCreateSuccess = () => {
-    handleNavigate("all");
+  const handleCreateSuccess = (redirect: boolean) => {
+    if (redirect) {
+      handleNavigate("all");
+    }
     handleUpdate();
   };
 
@@ -38,16 +41,18 @@ export function SkillsManager({ skills, currentState, editSkill }: ProjectsClien
     handleNavigate("all");
   };
 
-  // const handleEditSuccess = () => {
-  //   handleNavigate("all");
-  //   handleUpdate();
-  // };
+  const handleEditSuccess = () => {
+    handleNavigate("all");
+    handleUpdate();
+  };
 
   if (currentState === "create") {
     return (
       <div className="container mx-auto py-4 px-6">
         <div className="mb-8">
-          <SiteHeader title="Adicionar nova Skill" icon={<Plus className="h-6 w-6" />} />
+          <Link href={"/owner/skills?state=all"}>
+            <SiteHeader title="Adicionar nova Skill" icon={<Plus className="h-6 w-6" />} />
+          </Link>
           <p className="text-white pl-6 mt-2">Preencha os dados para adiciona nova skill.</p>
         </div>
 
@@ -59,9 +64,7 @@ export function SkillsManager({ skills, currentState, editSkill }: ProjectsClien
   if (currentState === "edit" && editSkill) {
     return (
       <div className="container mx-auto py-8">
-        <SkillEditModal skill={editSkill} isOpen={true} onClose={handleEditClose} 
-        // onSuccess={handleEditSuccess}
-         />
+        <SkillEditModal skill={editSkill} isOpen={true} onClose={handleEditClose} onSuccess={handleEditSuccess} />
         <SkillsAllContent skills={skills} onUpdate={handleUpdate} />
       </div>
     );
@@ -71,13 +74,15 @@ export function SkillsManager({ skills, currentState, editSkill }: ProjectsClien
     <div className="container mx-auto py-4 px-4">
       <div className="mb-8 flex justify-between items-center">
         <div className="flex flex-col justify-center">
-          <SiteHeader title="Gerenciar Skills" icon={<SmartphoneCharging className="h-6 w-6" />} />
+          <Link href={"/owner/skills?state=all"}>
+            <SiteHeader title="Gerenciar Skills" icon={<SmartphoneCharging className="h-6 w-6" />} />
+          </Link>
           <p className="text-white font-semibold pl-8 text-sm">Gerencie suas skills: criar, editar, e excluir.</p>
         </div>
 
         <Button onClick={() => handleNavigate("create")}>
           <Plus className="mr-2 h-4 w-4" />
-          Novo Projeto
+          Adicionar Skill
         </Button>
       </div>
 
