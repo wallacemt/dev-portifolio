@@ -217,7 +217,7 @@
     animation: float 4s ease-in-out infinite;
   }
   .animate-marquee {
-    animation: marquee 40s linear infinite;
+    animation: marquee 10s linear infinite;
     display: flex;
     gap: 0.2rem;
     align-items: center;

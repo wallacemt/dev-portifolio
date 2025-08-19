@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     OWNER_ID: process.env.OWNER_ID,
     ANALYTICS_ENABLED: process.env.ANALYTICS_ENABLED,
   },
-  allowedDevOrigins: ["192.168.248.204"],
+  allowedDevOrigins: ["192.168.248.200"],
   images: {
     remotePatterns: [
       {

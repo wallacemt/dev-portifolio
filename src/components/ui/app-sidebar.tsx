@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Code, HandPlatter, List, Plus, School, SmartphoneCharging } from "lucide-react";
+import { Code, List, Plus, School, SmartphoneCharging } from "lucide-react";
 import { IconCircleDashedLetterV, IconDashboard } from "@tabler/icons-react";
 import Link from "next/link";
 import { Separator } from "./separator";
@@ -76,30 +76,12 @@ const data = {
       items: [
         {
           title: "Ver todos",
-          url: "/owner/education/all",
+          url: "/owner/education?state=all",
           icon: List,
         },
         {
           title: "Adicionar novo",
-          url: "/owner/education/add",
-          icon: Plus,
-        },
-      ],
-    },
-    {
-      title: "Serviços",
-      url: "/owner/services",
-
-      icon: HandPlatter,
-      items: [
-        {
-          title: "Ver todos",
-          url: "/owner/services/all",
-          icon: List,
-        },
-        {
-          title: "Adicionar novo",
-          url: "/owner/services/add",
+          url: "/owner/education?state=create",
           icon: Plus,
         },
       ],

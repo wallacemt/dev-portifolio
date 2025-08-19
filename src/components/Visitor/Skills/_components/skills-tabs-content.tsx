@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 
 interface SkillTabContentProps {
   skills: Skill[];
-  chooseText?: string; 
+  chooseText?: string;
 }
 export const SkillsTabContent = ({ skills, chooseText }: SkillTabContentProps) => {
   const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
@@ -27,7 +27,9 @@ export const SkillsTabContent = ({ skills, chooseText }: SkillTabContentProps) =
                 <SelectValue placeholder="Filtrar por categoria" />
               </SelectTrigger>
               <SelectContent>
-                {activeCategory === "all" && <SelectItem value="all">{chooseText || "Escolha uma categoria"}</SelectItem>}
+                {activeCategory === "all" && (
+                  <SelectItem value="all">{chooseText || "Escolha uma categoria"}</SelectItem>
+                )}
                 {categories.slice(1).map((category) => (
                   <SelectItem key={category} value={category} className="capitalize">
                     {category} ({categoryCount[category]})
@@ -84,19 +86,21 @@ export const SkillsTabContent = ({ skills, chooseText }: SkillTabContentProps) =
                   />
                 </div>
                 <span className="text-xl font-principal text-center">{skill.title}</span>
-                <Badge className="text-xs text-roxo100 bg-transparent border border-gray-700 absolute top-2 left-1 capitalize">{skill.type}</Badge>
+                <Badge className="text-xs text-roxo100 bg-transparent border border-gray-700 absolute top-2 left-1 capitalize">
+                  {skill.type}
+                </Badge>
                 <Separator className="my-4" />
-                <div className="h-20 flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
+                <div className="h-20  flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
                   {skill.subSkils &&
                     skill.subSkils.length > 0 &&
                     skill.subSkils.map((subSkill, index) => (
                       <Badge
                         key={index}
-                        className={`text-sm text-white font-bold font-sec rounded-full truncate max-w-20 ${
+                        className={`text-sm text-white font-bold font-sec rounded-full truncate ${
                           index % 2 === 0 ? "bg-[var(--textura-roxo-3-3-hex)]" : "bg-[var(--textura-roxo-2-hex)]"
                         }`}
                       >
-                        {subSkill}
+                        {subSkill.length <= 45 ? subSkill : subSkill.slice(0, 45).concat("...")}
                       </Badge>
                     ))}
                 </div>

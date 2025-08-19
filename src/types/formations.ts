@@ -1,3 +1,15 @@
+export const FormationTypeValues = {
+  Tecnologo: "technologist" as const,
+  Tecnico: "technical" as const,
+  Bootcamp: "bootcamp" as const,
+  Curso: "course" as const,
+  Certificado: "certificate" as const,
+  PosGraduacao: "posGraduation" as const,
+  Outro: "other" as const,
+} as const;
+
+export type FormationType = (typeof FormationTypeValues)[keyof typeof FormationTypeValues];
+
 export interface Formation {
   id: string;
   title: string;
@@ -9,6 +21,7 @@ export interface Formation {
   description: string;
   type: string;
   certificationUrl: string;
+  concluded: boolean;
 }
 
 export interface FormationResponse {
@@ -18,7 +31,7 @@ export interface FormationResponse {
     description: string;
     certificationText: string;
     stats: {
-      formations:string;
+      formations: string;
       studyHours: string;
       institution: string;
       certificaos: string;

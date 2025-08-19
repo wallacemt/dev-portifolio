@@ -6,7 +6,10 @@ export const SkillTypeValues = {
   Lib: "lib" as const,
   Bundler: "bundler" as const,
   Cloud: "cloud" as const,
-  Docs: "docs" as const
+  Docs: "docs" as const,
+  PackageManager: "packageManager" as const,
+  Orm: "orm" as const,
+  ArtificialIntelligence: "AI" as const
 } as const;
 
 export enum StackType {

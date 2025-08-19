@@ -28,8 +28,8 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [subSkillInput, setSubSkillInput] = useState("");
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
-  const [jsonInput, setJsonInput] = useState("");
   const [isFinishRedirect, setIsFinishRedirect] = useState(false);
+  const [jsonInput, setJsonInput] = useState("");
   const [jsonError, setJsonError] = useState("");
   const fillFormFromJson = () => {
     setJsonError("");
