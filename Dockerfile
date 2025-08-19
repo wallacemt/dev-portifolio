@@ -1,15 +1,9 @@
-FROM node:22.13.1
-
+FROM node:22-alpine3.21  
 WORKDIR /app
-
-COPY package.json yarn.lock ./
-
-RUN yarn install --frozen-lockfile
-
+COPY package.json tsconfig.json ./
+RUN npm install
 COPY . .
+RUN npm run build
 
-RUN yarn build
-
-EXPOSE 5173
-
-CMD ["yarn",  "preview"]
+EXPOSE 3000
+CMD ["npm", "run", "start"]
