@@ -25,7 +25,7 @@ export const postFormation = async (data: FormationAddFormData): Promise<Formati
 export const putFormation = async (id: string, data: FormationUpdateFormData): Promise<Formation> => {
   try {
     setupAuth();
-    const res = await API.put(`/formations/private/update/${id}`, data);
+    const res = await API.put(`/formations/private/${id}/update`, data);
     return res.data as Formation;
   } catch (error) {
     throw new Error(
@@ -42,6 +42,18 @@ export const deleteFormation = async (id: string): Promise<SimpleResponse> => {
   } catch (error) {
     throw new Error(
       (error as { response: { data: { error: string } } }).response?.data?.error || "Error removing formation"
+    );
+  }
+};
+
+export const concludedFormation = async (id: string): Promise<SimpleResponse> => {
+  try {
+    setupAuth();
+    const res = await API.post(`/formations/private/${id}/conclude`);
+    return res.data as SimpleResponse;
+  } catch (error) {
+    throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Error concluding formation"
     );
   }
 };

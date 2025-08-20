@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Calendar, Clock, ExternalLink, Award, MapPin } from "lucide-react";
+import { Calendar, Clock, ExternalLink, Award, MapPin, Check } from "lucide-react";
 import { Formation } from "@/types/formations";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 interface FormationCardProps {
   formation: Formation;
-  texts: {certificationText: string};
+  texts: { certificationText: string; inProgress: string; conclude: string };
   index: number;
   isActive?: boolean;
   onHover?: (formationId: string | null) => void;
@@ -18,19 +18,19 @@ interface FormationCardProps {
 }
 
 const formationTypeColors = {
-  graduation: "from-blue-500 to-blue-600",
+  technologist: "from-blue-700 to-blue-800",
   postgraduate: "from-purple-500 to-purple-600",
-  course: "from-green-500 to-green-600",
+  tecnico: "from-green-700 to-green-800",
   certification: "from-orange-500 to-orange-600",
   workshop: "from-pink-500 to-pink-600",
-  bootcamp: "from-indigo-500 to-indigo-600",
+  bootcamp: "from-indigo-700 to-indigo-800",
   default: "from-gray-500 to-gray-600",
 };
 
 const formationTypeIcons = {
-  graduation: <Award className="w-4 h-4" />,
+  technologist: <Award className="w-4 h-4" />,
   postgraduate: <Award className="w-4 h-4" />,
-  course: <Calendar className="w-4 h-4" />,
+  tecnico: <Calendar className="w-4 h-4" />,
   certification: <ExternalLink className="w-4 h-4" />,
   workshop: <Clock className="w-4 h-4" />,
   bootcamp: <MapPin className="w-4 h-4" />,
@@ -189,9 +189,8 @@ export function FormationCard({ formation, index, texts, isActive = false, onHov
               </div>
             </div>
 
-            {/* Certificate button */}
-            {formation.certificationUrl && (
-              <div className="flex-shrink-0 flex items-start">
+            <div className="flex-shrink-0 flex items-start">
+              {formation.certificationUrl && (
                 <motion.a
                   href={formation.certificationUrl}
                   target="_blank"
@@ -203,8 +202,38 @@ export function FormationCard({ formation, index, texts, isActive = false, onHov
                   <ExternalLink className="w-4 h-4" />
                   {texts.certificationText}
                 </motion.a>
-              </div>
-            )}
+              )}
+              {!formation.certificationUrl && !formation.concluded && (
+                <motion.a
+                  href={formation.certificationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 opacity-50 cursor-not-allowed"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <>
+                    <Clock className="w-4 h-4" />
+                    {texts.inProgress}
+                  </>
+                </motion.a>
+              )}
+              {!formation.certificationUrl && formation.concluded && (
+                <motion.a
+                  href={formation.certificationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 opacity-70 cursor-not-allowed"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <>
+                    <Check className="w-4 h-4" />
+                    {texts.conclude}
+                  </>
+                </motion.a>
+              )}
+            </div>
           </div>
 
           {/* Hover glow effect */}

@@ -64,7 +64,7 @@ export const FormationsContent = ({ formations, language }: FormationsContentPro
                 <FormationCard
                   formation={formation}
                   index={index}
-                  texts={formations.texts}
+                  texts={formations.texts.formationStatsText}
                   isActive={formation.id === activeFormation}
                   onHover={handleFormationHover}
                   language={language}

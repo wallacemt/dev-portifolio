@@ -9,7 +9,9 @@ export const SkillTypeValues = {
   Docs: "docs" as const,
   PackageManager: "packageManager" as const,
   Orm: "orm" as const,
-  ArtificialIntelligence: "AI" as const
+  ArtificialIntelligence: "AI" as const,
+  ContainerTool: "containerTool" as const,
+  Testing: "test" as const
 } as const;
 
 export enum StackType {

@@ -1,6 +1,6 @@
 "use client";
 
-import { IconCreditCard, IconDotsVertical, IconLogout, IconNotification, IconUserCircle } from "@tabler/icons-react";
+import {  IconDotsVertical, IconLogout, IconUserCircle } from "@tabler/icons-react";
 import { Suspense, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -16,6 +16,7 @@ import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/c
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOwner } from "@/contexts/OwnerContext";
 import { OwnerResponse } from "@/types/owner";
+import Link from "next/link";
 
 function NavUserSkeleton() {
   return (
@@ -93,8 +94,7 @@ function NavUserContent() {
     };
 
     fetchData();
-  }, [owner] 
-);
+  }, [owner]);
 
   const handleLogout = async () => {
     try {
@@ -162,18 +162,12 @@ function NavUserContent() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
+              <Link href={"/owner/account"}>
+                <DropdownMenuItem>
+                  <IconUserCircle />
+                  Account
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>

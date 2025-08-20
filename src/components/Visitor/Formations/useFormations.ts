@@ -36,7 +36,10 @@ export function useFormations() {
   };
 
   const getFormationStats = (formations: Formation[]) => {
-    const totalWorkload = formations.reduce((sum, formation) => sum + (formation.workload || 0), 0);
+    const totalWorkload = formations.reduce(
+      (sum, formation) => sum + ((formation.concluded && formation.workload) || 0),
+      0
+    );
     const typesCount = Object.keys(getFormationsByType(formations)).length;
     const institutionsCount = new Set(formations.map((f) => f.institution)).size;
     const certificatesCount = formations.filter((f) => f.certificationUrl).length;

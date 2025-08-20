@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Edit, Trash2, Calendar, Loader2, ExternalLink, Clock, Building } from "lucide-react";
-import { deleteFormation } from "@/services/formationApi";
+import { concludedFormation, deleteFormation } from "@/services/formationApi";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import Image from "next/image";
@@ -41,6 +41,17 @@ export function FormationCrudCard({ formation, onEdit, onUpdate }: FormationCrud
     return new Date(dateString).toLocaleDateString("pt-BR");
   };
 
+  async function formationConclude() {
+    if (formation.concluded) return;
+    try {
+      await concludedFormation(formation.id);
+      toast.success("Formação concluída com sucesso!");
+      onUpdate();
+    } catch (error) {
+      console.error("Erro ao concluir formação:", error);
+      toast.error("Erro ao concluir formação.");
+    }
+  }
   const getFormationTypeLabel = (type: string) => {
     const typeLabels: Record<string, string> = {
       technologist: "Tecnólogo",
@@ -110,7 +121,13 @@ export function FormationCrudCard({ formation, onEdit, onUpdate }: FormationCrud
               <span>Carga horária: {formation.workload}h</span>
             </div>
           </div>
-          <Button className="w-full">{formation.concluded ? "Finalizado" : "Concluir"}</Button>
+
+          <Button
+            className={`w-full ${formation.concluded ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+            onClick={formationConclude}
+          >
+            {formation.concluded ? "Finalizado" : "Concluir"}
+          </Button>
 
           <Button
             variant="outline"
@@ -119,7 +136,14 @@ export function FormationCrudCard({ formation, onEdit, onUpdate }: FormationCrud
             asChild
             disabled={!formation.certificationUrl || formation.certificationUrl === null}
           >
-            <a href={formation.certificationUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              href={formation.certificationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex items-center justify-center ${
+                !formation.certificationUrl ? "cursor-not-allowed opacity-50" : ""
+              }`}
+            >
               <ExternalLink className="h-4 w-4 mr-1" />
               Ver Certificado
             </a>

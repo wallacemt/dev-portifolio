@@ -61,8 +61,10 @@ export default function RootLayout({
       data-lt-installed="true"
       className={`${aclonica.variable} ${lato.variable} ${roboto.variable} ${monoT.variable}`}
     >
-      <TopLoadingBar />
-      <body className={`antialiased`}>{children}</body>
+      <body className={`antialiased`}>
+        <TopLoadingBar />
+        {children}
+      </body>
     </html>
   );
 }

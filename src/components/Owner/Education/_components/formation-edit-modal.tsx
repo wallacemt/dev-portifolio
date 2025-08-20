@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { Formation, FormationTypeValues } from "@/types/formations";
 import { FormationUpdateFormData, formationSchemaOptional } from "@/lib/validations/formations";
 import { putFormation } from "@/services/formationApi";
+import { Calendar22 } from "@/components/ui/calendar-22";
 
 interface FormationEditModalProps {
   formation: Formation | null;
@@ -71,6 +72,7 @@ export function FormationEditModal({ formation, isOpen, onClose, onSuccess }: Fo
 
     try {
       setIsLoading(true);
+
       await putFormation(formation.id, data);
       toast.success("Formação atualizada com sucesso!");
       onSuccess();
@@ -136,14 +138,20 @@ export function FormationEditModal({ formation, isOpen, onClose, onSuccess }: Fo
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="initialDate">Data Inicial</Label>
-                <Input id="initialDate" type="date" {...register("initialDate", { valueAsDate: true })} />
+                <Calendar22
+                  title="Data Inicial"
+                  initialDate={formation?.initialDate ? new Date(formation.initialDate) : new Date()}
+                  onChange={(date) => setValue("initialDate", date || new Date(), { shouldValidate: true })}
+                />
                 {errors.initialDate && <p className="text-sm text-red-500">{errors.initialDate.message}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="endDate">Data Final</Label>
-                <Input id="endDate" type="date" {...register("endDate", { valueAsDate: true })} />
+                <Calendar22
+                  title="Data Final"
+                  initialDate={formation?.endDate ? new Date(formation.endDate) : new Date()}
+                  onChange={(date) => setValue("endDate", date || new Date(), { shouldValidate: true })}
+                />
                 {errors.endDate && <p className="text-sm text-red-500">{errors.endDate.message}</p>}
               </div>
             </div>

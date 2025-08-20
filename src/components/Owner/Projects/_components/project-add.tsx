@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Plus, Loader2, Eye } from "lucide-react";
+import { X, Plus, Loader2, Eye, RefreshCcw } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
@@ -124,12 +124,15 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   };
 
   async function fetchSkills() {
+    setIsLoading(true);
     try {
       const data = await getSkills();
       setSkills(data.skills || []);
     } catch (err) {
       console.error(err);
       setSkills([]);
+    } finally {
+      setIsLoading(false);
     }
   }
   const onSubmit: SubmitHandler<ProjectAddFormData> = async (data) => {
@@ -228,18 +231,30 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
           </div>
 
-          {/* Tecnologias - UI/UX melhorado */}
           <div className="space-y-2">
             <Label>Tecnologias *</Label>
             <div className="flex flex-col gap-2 max-h-60 overflow-auto w bg-roxo600/60 p-4 rounded-md">
               <div className="flex flex-col  md:items-center gap-2">
-                <Input
-                  type="text"
-                  value={searchTech}
-                  onChange={(e) => setSearchTech(e.target.value)}
-                  placeholder="Pesquise por tecnologia..."
-                  className="md:w-1/2"
-                />
+                <div className="w-full flex items-center gap-2 justify-center">
+                  <Input
+                    type="text"
+                    value={searchTech}
+                    onChange={(e) => setSearchTech(e.target.value)}
+                    placeholder="Pesquise por tecnologia..."
+                    className="md:w-1/2"
+                  />
+                  <Button
+                    variant="secondary"
+                    size={"icon"}
+                    type="button"
+                    onClick={async () => {
+                      setSearchTech("");
+                      await fetchSkills();
+                    }}
+                  >
+                    <RefreshCcw />
+                  </Button>
+                </div>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {techs.map((tech) => (
                     <div

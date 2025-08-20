@@ -71,7 +71,7 @@ export function LoginForm() {
         setIsLoading(false);
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       if (error instanceof Error) {
         setLoginError(error.message);
       }

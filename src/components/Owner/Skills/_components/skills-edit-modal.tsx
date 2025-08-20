@@ -60,7 +60,7 @@ export function SkillEditModal({ skill, isOpen, onClose, onSuccess }: SkillEditM
 
   const onSubmit = async (data: SkillUpdateFormData) => {
     if (!skill) return;
-    console.log(data);
+
     try {
       setIsLoading(true);
       await putSKill(skill.id, data);

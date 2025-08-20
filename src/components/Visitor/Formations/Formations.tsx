@@ -11,13 +11,17 @@ export async function Formations({ language }: FormationsProps) {
   await simulateDelay(3000);
 
   const formations = await getFormations(language).catch((error) => {
-    console.log(error);
+    console.error("Error fetching formations:", error);
     return {
       formations: [],
       texts: {
         title: language === "pt" ? "Erro ao carregar formações" : "Error fetch formations",
         description: language === "pt" ? "Recarregue a pagina e tente novamente" : "Try-again",
-        certificationText: language === "pt" ? "Ver Certificado" : "Show Certification",
+        formationStatsText: {
+          inProgress: "",
+          certificationText: "",
+          conclude: "",
+        },
         stats: {
           formations: language === "pt" ? "Formações" : "Formations",
           studyHours: language === "pt" ? "Horas de Estudo" : "Study Hours",

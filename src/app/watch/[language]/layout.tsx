@@ -23,7 +23,7 @@ export default async function LanguageLayout({ children, params }: Props) {
             <div className="fixed inset-0 z-[-1]">
               <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
             </div>
-
+            
             <main className="p-6 container flex-1">{children}</main>
             <Footer language={language} />
           </PageLoader>

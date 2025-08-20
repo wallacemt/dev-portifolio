@@ -18,6 +18,7 @@ import { ownerId } from "@/lib/axios";
 import Image from "next/image";
 import z from "zod";
 import { FormationTypeValues } from "@/types/formations";
+import { Calendar22 } from "@/components/ui/calendar-22";
 
 interface FormationAddProps {
   onSuccess?: (redirect: boolean) => void;
@@ -68,9 +69,7 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
       initialDate: new Date(),
       endDate: new Date(),
       description: "",
-      type: "",
       certificationUrl: undefined,
-      concluded: false,
       ownerId: ownerId,
     },
   });
@@ -174,14 +173,20 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="initialDate">Data Inicial *</Label>
-              <Input id="initialDate" type="date" {...register("initialDate", { valueAsDate: true })} />
+              <Calendar22
+                title="Data Inicial"
+                initialDate={watch("initialDate")}
+                onChange={(date) => setValue("initialDate", date || new Date(), { shouldValidate: true })}
+              />
               {errors.initialDate && <p className="text-sm text-red-500">{errors.initialDate.message}</p>}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="endDate">Data Final *</Label>
-              <Input id="endDate" type="date" {...register("endDate", { valueAsDate: true })} />
+              <Calendar22
+                title="Data Final"
+                initialDate={watch("endDate")}
+                onChange={(date) => setValue("endDate", date || new Date(), { shouldValidate: true })}
+              />
               {errors.endDate && <p className="text-sm text-red-500">{errors.endDate.message}</p>}
             </div>
           </div>
@@ -221,12 +226,7 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
             />
             {errors.certificationUrl && <p className="text-sm text-red-500">{errors.certificationUrl.message}</p>}
           </div>
-          <div className="space-y-4">
-            <div className="flex self-end items-center space-x-2">
-              <Label htmlFor="redirect">Formação concluida?</Label>
-              <Switch id="redirect" checked={watch("concluded")} onCheckedChange={(e) => setValue("concluded", e)} />
-            </div>
-          </div>
+
           <div className="flex justify-end gap-4">
             <Button type="button" variant="outline" onClick={() => reset()} disabled={isLoading}>
               Limpar

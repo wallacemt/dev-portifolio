@@ -29,7 +29,11 @@ export interface FormationResponse {
   texts: {
     title: string;
     description: string;
-    certificationText: string;
+    formationStatsText: {
+      inProgress: string;
+      certificationText: string;
+      conclude: string;
+    };
     stats: {
       formations: string;
       studyHours: string;

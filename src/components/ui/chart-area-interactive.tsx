@@ -113,7 +113,6 @@ export function ChartAreaInteractive({ data, isLoading }: ChartAreaInteractivePr
       </Card>
     );
   }
-  console.log(data);
   return (
     <Card className="@container/card bg-roxo500">
       <CardHeader>

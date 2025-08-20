@@ -77,9 +77,7 @@ export function AnalyzeDetail() {
 
   const formatNumber = (num: number) => {
     if (num === 0) return num;
-    console.log(num + "=");
-    console.log(new Intl.NumberFormat("pt-BR").format(num));
-
+  
     return new Intl.NumberFormat("pt-BR").format(num);
   };
 

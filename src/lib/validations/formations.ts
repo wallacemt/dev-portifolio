@@ -1,3 +1,4 @@
+
 import z from "zod";
 
 export const formationSchema = z.object({
@@ -6,15 +7,16 @@ export const formationSchema = z.object({
   image: z.string().url({ message: "A URL da imagem deve ser válida" }),
   workload: z.number().positive({ message: "A carga horária deve ser um número positivo" }),
   initialDate: z.date({
-    error: () => ({ message: "A data inicial deve ser uma data válida" }),
+    message: "A data inicial deve ser uma data válida",
   }),
   endDate: z.date({
-    error: () => ({ message: "A data final deve ser uma data válida" }),
+    message: "A data final deve ser uma data válida",
   }),
   description: z.string().min(10, { message: "A descrição deve ter pelo menos 10 caracteres" }),
   type: z.string().min(2, { message: "O tipo deve ter pelo menos 2 caracteres" }),
-  certificationUrl: z.string().optional(),
-  concluded: z.boolean(),
+  certificationUrl: z.string().optional().refine((val) => !val || z.string().url().safeParse(val).success, {
+    message: "A URL da certificação deve ser válida",
+  }),
   ownerId: z.string().min(1, { message: "O id do owner deve ser válido" }),
 });
 export const formationSchemaOptional = formationSchema.partial();

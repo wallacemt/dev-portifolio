@@ -4,7 +4,10 @@ export interface Project {
   activate: boolean;
   ownerId: string;
   id: string;
-  isMostRecent: boolean;
+  isMostRecent: {
+    isRecent: boolean;
+    text: string;
+  };
   title: string;
   description: { title: string; content: string };
   techs: { title: string; content: string[] };

@@ -1,5 +1,5 @@
-import { API, ownerId } from "@/lib/axios";
-import { OwnerResponse } from "@/types/owner";
+import { API, ownerId, setupAuth } from "@/lib/axios";
+import { OwnerDataOptionalRequest, OwnerResponse } from "@/types/owner";
 
 export const getOwner = async (language: string = "pt"): Promise<OwnerResponse> => {
   try {
@@ -19,5 +19,15 @@ export const verifySecretWord = async (secretWord: string): Promise<{ message: s
     throw new Error(
       (error as { response: { data: { error: string } } }).response?.data?.error || "Erro ao verificar palavra secreta"
     );
+  }
+};
+
+export const updateOwner = async (data: OwnerDataOptionalRequest): Promise<OwnerResponse> => {
+  try {
+    setupAuth();
+    const response = await API.put(`/owner/private/update`, data);
+    return response.data as OwnerResponse;
+  } catch (error) {
+    throw error;
   }
 };

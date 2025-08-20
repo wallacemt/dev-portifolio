@@ -7,13 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X, Plus, Loader2, Save } from "lucide-react";
+import { X, Plus, Loader2, Save, RefreshCcw } from "lucide-react";
 import { projectUpdateSchema, ProjectUpdateFormData } from "@/lib/validations/project";
 import { putProject } from "@/services/projects";
 import { Project } from "@/types/projects";
 import { toast } from "sonner";
+import { Skill } from "@/types/skills";
+import { getSkills } from "@/services/skillsApi";
+import Image from "next/image";
+import Link from "next/link";
 
 interface ProjectEditModalProps {
   project: Project | null;
@@ -24,9 +27,9 @@ interface ProjectEditModalProps {
 
 export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: ProjectEditModalProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [techInput, setTechInput] = useState("");
   const [screenshotInput, setScreenshotInput] = useState("");
-
+  const [searchTech, setSearchTech] = useState("");
+  const [skills, setSkills] = useState<Skill[]>([]);
   const {
     register,
     handleSubmit,
@@ -54,10 +57,9 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
     }
   }, [project, isOpen, setValue]);
 
-  const addTech = () => {
-    if (techInput.trim() && !techs.includes(techInput.trim())) {
-      setValue("techs", [...techs, techInput.trim()]);
-      setTechInput("");
+  const addTech = (tech: string) => {
+    if (tech.trim() && !techs.includes(tech.trim())) {
+      setValue("techs", [...techs, tech.trim()]);
     }
   };
 
@@ -97,13 +99,32 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
       setIsLoading(false);
     }
   };
+  async function fetchSkills() {
+    setIsLoading(true);
+    try {
+      const data = await getSkills();
+      setSkills(data.skills || []);
+    } catch (err) {
+      console.error(err);
+      setSkills([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
+  useEffect(() => {
+    fetchSkills();
+  }, []);
   const handleClose = () => {
     reset();
-    setTechInput("");
     setScreenshotInput("");
     onClose();
   };
+  const filteredSkills = searchTech.trim()
+    ? skills.filter((skill) => skill.title.toLowerCase().includes(searchTech.trim().toLowerCase()))
+    : skills;
+
+ 
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
@@ -135,27 +156,69 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
             </div>
 
             <div className="space-y-2">
-              <Label>Tecnologias</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={techInput}
-                  onChange={(e) => setTechInput(e.target.value)}
-                  placeholder="Digite uma tecnologia"
-                  onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addTech())}
-                />
-                <Button type="button" onClick={addTech}>
-                  <Plus className="h-4 w-4" />
-                </Button>
+              <Label>Tecnologias *</Label>
+              <div className="flex flex-col gap-2 max-h-60 overflow-auto w bg-roxo600/60 p-4 rounded-md">
+                <div className="flex flex-col  md:items-center gap-2">
+                  <div className="w-full flex items-center gap-2 justify-center">
+                    <Input
+                      type="text"
+                      value={searchTech}
+                      onChange={(e) => setSearchTech(e.target.value)}
+                      placeholder="Pesquise por tecnologia..."
+                      className="md:w-1/2"
+                    />
+                    <Button
+                      variant="secondary"
+                      size={"icon"}
+                      type="button"
+                      onClick={async () => {
+                        setSearchTech("");
+                        await fetchSkills();
+                      }}
+                    >
+                      <RefreshCcw />
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {techs.map((tech) => (
+                      <div
+                        key={tech}
+                        className="bg-gray-800 flex items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow"
+                      >
+                        {tech}
+                        <X className="h-4 w-4 cursor-pointer" onClick={() => removeTech(tech)} />
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-xs text-roxo100">Selecione uma skill abaixo ou pesquise</span>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2 min-h-[60px]">
+                  {filteredSkills.length > 0 ? (
+                    filteredSkills.map((skill) => (
+                      <button
+                        type="button"
+                        key={skill.id}
+                        className={`bg-roxo300/40 ${
+                          techs.includes(skill.title.toLowerCase()) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                        } flex flex-col items-center gap-1 rounded-md px-2 py-1 text-sm font-medium shadow hover:bg-roxo400/60 transition  border border-roxo200`}
+                        onClick={() => addTech(skill.title.toLowerCase())}
+                      >
+                        <Image src={skill.image} width={62} height={62} alt={skill.title} className="rounded" />
+                        <span className="truncate w-20">{skill.title}</span>
+                      </button>
+                    ))
+                  ) : (
+                    <div className="flex flex-col items-center w-full py-4">
+                      <span className="text-roxo100 text-sm">Nenhuma skill encontrada.</span>
+                      <Link href="/owner/skills/add" className="mt-2 text-roxo200 underline hover:text-roxo100 text-xs">
+                        Adicionar nova skill
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {errors.techs && <p className="text-sm text-red-500 mt-2">{errors.techs.message}</p>}
               </div>
-              <div className="flex flex-wrap gap-2 mt-2">
-                {techs.map((tech) => (
-                  <Badge key={tech} variant="secondary" className="flex items-center gap-1">
-                    {tech}
-                    <X className="h-3 w-3 cursor-pointer" onClick={() => removeTech(tech)} />
-                  </Badge>
-                ))}
-              </div>
-              {errors.techs && <p className="text-sm text-red-500">{errors.techs.message}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -191,12 +254,24 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex flex-wrap gap-4">
                 {screenshots.map((screenshot, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span className="text-sm flex-1 truncate">{screenshot}</span>
-                    <Button type="button" variant="outline" size="sm" onClick={() => removeScreenshot(screenshot)}>
-                      <X className="h-3 w-3" />
+                  <div key={index} className="flex relative items-center">
+                    <Image
+                      src={screenshot}
+                      width={120}
+                      height={120}
+                      alt={`Screenshot ${index + 1}`}
+                      className="rounded"
+                    />
+                    <Button
+                      type="button"
+                      className="absolute top-2 rounded-full right-0 w-6 h-6"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => removeScreenshot(screenshot)}
+                    >
+                      <X className="h-2 w-2" />
                     </Button>
                   </div>
                 ))}

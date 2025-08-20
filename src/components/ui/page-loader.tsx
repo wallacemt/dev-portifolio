@@ -46,7 +46,7 @@ const DevLoader = () => {
           const y = Math.random() * 90 + 5;
           return (
             <div
-              key={i + Math.random().toString(36).substr(2, 9)}
+              key={i + Math.random().toString(36)}
               className={`binary-code animate-pulse absolute`}
               style={{ top: `${y}%`, left: `${x}%` }}
             >
