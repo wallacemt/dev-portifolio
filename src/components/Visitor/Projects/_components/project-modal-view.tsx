@@ -3,11 +3,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Project } from "@/types/projects";
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import Image from "next/image";
+
 import { Separator } from "@/components/ui/separator";
 import { DetailsCard } from "./details-card";
 import { CollapsibleItems } from "./collapsible-items";
 import BlurText from "@/components/blocks/TextAnimations/BlurText/BlurText";
+import { OptimizedImage } from "../../SEO/OptimizedImage";
 interface ProjectModalProps {
   project: Project;
   open: boolean;
@@ -37,18 +38,19 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
           <div className="flex flex-col relative  min-w-full">
             <DetailsCard />
             <div className="max-w-6xl p-2 mx-auto gap-2 space-y-4">
-              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 4500 }}>
+              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 7500 }}>
                 <CarouselContent>
                   {project.screenshots.map((img) => (
                     <CarouselItem key={project.id + img}>
-                      <Image
+                      <OptimizedImage
                         src={img}
                         title={project.title}
                         alt={project.title}
                         width={1200}
                         height={1200}
-                        className="w-full   max-h-4xl md:h-[26rem] rounded-lg shadow-lg"
+                        className="w-full max-h-4xl md:h-[26rem] rounded-lg shadow-lg"
                       />
+                     
                     </CarouselItem>
                   ))}
                 </CarouselContent>

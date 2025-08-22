@@ -5,6 +5,7 @@ import { DepoButton } from "@/components/ui/depo-btn";
 import { useState } from "react";
 import { ProjectModal } from "./project-modal-view";
 import { Badge } from "@/components/ui/badge";
+import { OptimizedImage } from "../../SEO/OptimizedImage";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
@@ -24,13 +25,15 @@ export default function ProjectCard({ project }: { project: Project }) {
             </time>
           </div>
           <div className="flex md:flex-row relative flex-col items-center justify-center">
-            <Image
+            <OptimizedImage
               src={project.previewImage}
-              alt={project.title}
               width={600}
               height={400}
-              className="  hover:scale-105 ease-in-out duration-300  rounded-md"
+              alt={project.title}
+              title={project.title}
+              className=" hover:scale-105 ease-in-out duration-300  rounded-md"
             />
+          
             {project.isMostRecent.isRecent && (
               <div className="absolute top-4 left-4">
                 <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">

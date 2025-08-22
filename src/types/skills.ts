@@ -48,11 +48,27 @@ export interface Skill {
   type: string;
   subSkils: string[];
   ownerId: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface SkillsPagination {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
 }
 
 export interface SkillResponse {
   skills: Skill[];
-  texts: { chooseText: string; title: string; description: string };
+  texts: { 
+    chooseText: string; 
+    title: string; 
+    description: string; 
+  };
+  pagination: SkillsPagination;
 }
 
 export interface SkillTypesResponse {

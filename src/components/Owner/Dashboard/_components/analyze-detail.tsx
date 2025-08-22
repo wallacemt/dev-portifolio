@@ -88,7 +88,7 @@ export function AnalyzeDetail() {
   const formatDuration = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${minutes}m ${remainingSeconds}s`;
+    return `${minutes}m ${remainingSeconds.toFixed(0)}s`;
   };
 
   const handleDateRangeChange = (newRange: DateRange | undefined) => {

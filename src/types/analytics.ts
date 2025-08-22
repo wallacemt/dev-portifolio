@@ -57,7 +57,7 @@ export interface AnalyticsResponse {
 export interface AnalyticsSummaryResponse {
   today: {
     visitors: number;
-    change: 0;
+    change: number;
   };
   week: {
     visitors: number;

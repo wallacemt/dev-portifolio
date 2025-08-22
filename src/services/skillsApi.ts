@@ -2,9 +2,15 @@ import { API, ownerId, setupAuth, SimpleResponse } from "@/lib/axios";
 import { SkillAddFormData, SkillUpdateFormData } from "@/lib/validations/skills";
 import type { Skill, SkillResponse } from "@/types/skills";
 
-export const getSkills = async (language: string = "pt"): Promise<SkillResponse> => {
+export const getSkills = async (language = "pt", page = 0, limit = 5): Promise<SkillResponse> => {
   try {
-    const response = await API.get(`/skills/owner/${ownerId}?language=${language}`);
+    const queryParams = new URLSearchParams();
+
+    queryParams.set("language", language);
+    queryParams.set("page", String(page));
+    queryParams.set("limit", String(limit));
+
+    const response = await API.get(`/skills/owner/${ownerId}?${queryParams.toString()}`);
     return response.data as SkillResponse;
   } catch (error) {
     throw error;
@@ -39,9 +45,7 @@ export const putSKill = async (id: string, data: SkillUpdateFormData): Promise<S
     const res = await API.put(`/skills/private/${id}/update`, data);
     return res.data as Skill;
   } catch (error) {
-    throw new Error(
-      (error as { response: { data: { error: string } } }).response?.data?.error || "Error edit skill"
-    );
+    throw new Error((error as { response: { data: { error: string } } }).response?.data?.error || "Error edit skill");
   }
 };
 
@@ -51,8 +55,6 @@ export const deleteSkill = async (id: string): Promise<SimpleResponse> => {
     const res = await API.delete(`/skills/private/${id}/delete`);
     return res.data as SimpleResponse;
   } catch (error) {
-    throw new Error(
-      (error as { response: { data: { error: string } } }).response?.data?.error || "Error remove skill"
-    );
+    throw new Error((error as { response: { data: { error: string } } }).response?.data?.error || "Error remove skill");
   }
 };

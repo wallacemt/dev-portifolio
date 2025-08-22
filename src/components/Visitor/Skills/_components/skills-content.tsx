@@ -1,12 +1,27 @@
 "use client";
 import { motion } from "framer-motion";
 import { SkillsTabContent } from "./skills-tabs-content";
+import { SkillsPaginationControls } from "./skills-pagination";
 import { SkillResponse } from "@/types/skills";
+
+interface PaginationProps {
+  currentPage: number;
+  limit: number;
+  onPageChange: (page: number) => void;
+  onLimitChange: (newLimit: number) => void;
+  onFirstPage: () => void;
+  onLastPage: () => void;
+  onNextPage: () => void;
+  onPrevPage: () => void;
+  isLoading: boolean;
+}
 
 interface SkillsContentProps {
   res: SkillResponse;
+  pagination: PaginationProps;
 }
-export const SkillsContent = ({ res }: SkillsContentProps) => {
+
+export const SkillsContent = ({ res, pagination }: SkillsContentProps) => {
   return (
     <>
       <motion.div
@@ -32,7 +47,23 @@ export const SkillsContent = ({ res }: SkillsContentProps) => {
           {res.texts.description}
         </motion.p>
       </motion.div>
-      <SkillsTabContent skills={res.skills} chooseText={res.texts.chooseText} />
+
+      <SkillsTabContent skills={res.skills} chooseText={res.texts.chooseText} isLoading={pagination.isLoading} />
+
+      {res.pagination && res.pagination.totalPages > 1 && (
+        <SkillsPaginationControls
+          pagination={res.pagination}
+          currentPage={pagination.currentPage}
+          limit={pagination.limit}
+          onPageChange={pagination.onPageChange}
+          onLimitChange={pagination.onLimitChange}
+          onFirstPage={pagination.onFirstPage}
+          onLastPage={pagination.onLastPage}
+          onNextPage={pagination.onNextPage}
+          onPrevPage={pagination.onPrevPage}
+          isLoading={pagination.isLoading}
+        />
+      )}
     </>
   );
 };
