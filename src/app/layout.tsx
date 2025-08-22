@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Portfolio Profissional",
     images: [
       {
-        url: "/og-image.png", 
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "Portfolio Profissional - Desenvolvedor FullStack",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: "Portfolio Profissional | Desenvolvedor FullStack",
     description:
       "Portfolio profissional de desenvolvedor FullStack especializado em Next.js, React, Node.js e tecnologias modernas.",
-    images: ["/og-image.png"], 
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -81,13 +81,25 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-16x16_tkhuxm.png", sizes: "16x16", type: "image/png" },
-      { url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-32x32_oumosx.png", sizes: "32x32", type: "image/png" }, 
+      {
+        url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-16x16_tkhuxm.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-32x32_oumosx.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
     ],
     apple: [
-      { url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/apple-touch-icon_z7bs1v.png", sizes: "180x180", type: "image/png" }, 
+      {
+        url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/apple-touch-icon_z7bs1v.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
     ],
-    shortcut: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon_ih9jni.ico", 
+    shortcut: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon_ih9jni.ico",
   },
   manifest: "/manifest.json",
   alternates: {
@@ -98,7 +110,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code", 
+    google: "google-site-verification-code",
   },
   category: "technology",
   classification: "Portfolio Website",
@@ -110,6 +122,7 @@ const aclonica = Aclonica({
   variable: "--font-title",
   weight: "400",
   display: "swap",
+  preload: true,
 });
 
 const lato = Lato({
@@ -117,6 +130,7 @@ const lato = Lato({
   variable: "--font-textBody",
   weight: "400",
   display: "swap",
+  preload: true,
 });
 
 const monoT = Share_Tech_Mono({
@@ -124,6 +138,7 @@ const monoT = Share_Tech_Mono({
   variable: "--font-monoT",
   weight: "400",
   display: "swap",
+  preload: false, 
 });
 
 const roboto = Roboto({
@@ -131,6 +146,7 @@ const roboto = Roboto({
   variable: "--font-buttons",
   weight: "400",
   display: "swap",
+  preload: true,
 });
 
 export default function RootLayout({
@@ -147,11 +163,15 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="//www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//vercel.app" />
+        <link rel="preload" href="/placeholder-image.webp" as="image" type="image/webp" />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
+        <meta httpEquiv="Accept-CH" content="DPR, Width, Viewport-Width" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <TopLoadingBar />

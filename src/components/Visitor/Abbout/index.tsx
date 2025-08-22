@@ -57,7 +57,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           showTooltip={true}
           displayOverlayContent={true}
         />
-        <Image src={owner.avatar} width={280} height={380} alt="Owner image" className="md:hidden rounded-xl" />
+        <Image src={owner.avatar} loading="lazy" fetchPriority="high" width={280} height={380} alt="Owner image" className="md:hidden rounded-xl" />
       </div>
     </section>
   );

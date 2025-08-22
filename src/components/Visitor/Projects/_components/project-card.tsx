@@ -33,7 +33,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               title={project.title}
               className=" hover:scale-105 ease-in-out duration-300  rounded-md"
             />
-          
+
             {project.isMostRecent.isRecent && (
               <div className="absolute top-4 left-4">
                 <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">

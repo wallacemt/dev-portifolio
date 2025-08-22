@@ -3,7 +3,7 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import { postTrackVisitorPageView } from "@/services/analytics";
-import { validateTimeSpent, generateSessionId } from "@/lib/analytics-utils";
+import { validateTimeSpent, generateSessionId, extractVisitorDataFromClient } from "@/lib/analytics-utils";
 
 interface UseOptimizedAnalyticsOptions {
   enabled?: boolean;
@@ -59,13 +59,28 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
 
       debounceTimerRef.current = setTimeout(async () => {
         try {
-          await postTrackVisitorPageView({
-            sessionId: sessionIdRef.current,
-            page,
-            timeSpent,
-          });
+          const visitorData = extractVisitorDataFromClient(sessionIdRef.current);
+
+          await postTrackVisitorPageView(
+            {
+              sessionId: sessionIdRef.current,
+              page,
+              timeSpent,
+            },
+            {
+              sessionId: sessionIdRef.current,
+              userAgent: visitorData.userAgent || "unknown",
+              country: visitorData.country || "unknown",
+              city: visitorData.city || "unknown",
+              device: visitorData.device || "desktop",
+              browser: visitorData.browser || "unknown",
+              os: visitorData.os || "unknown",
+              referrer: visitorData.referrer || "direct",
+              landingPage: visitorData.landingPage || window?.location?.href || "unknown",
+            }
+          );
         } catch (error) {
-          console.debug("Analytics error:", error);
+           if (process.env.NODE_ENV === "development")  console.debug("Analytics error:", error);
         }
       }, config.debounceTime);
     },
@@ -106,11 +121,26 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
       const timeSpent = calculateTimeSpent(pageStartTimeRef.current);
 
       if (timeSpent > 0 && sessionIdRef.current) {
+        const visitorData = extractVisitorDataFromClient(sessionIdRef.current);
+
         const payload = JSON.stringify({
-          sessionId: sessionIdRef.current,
-          page: pathname,
-          timeSpent,
-          isExit: true,
+          pageView: {
+            sessionId: sessionIdRef.current,
+            page: pathname,
+            timeSpent,
+            isExit: true,
+          },
+          visitor: {
+            sessionId: sessionIdRef.current,
+            userAgent: visitorData.userAgent || "unknown",
+            country: visitorData.country || "unknown",
+            city: visitorData.city || "unknown",
+            device: visitorData.device || "desktop",
+            browser: visitorData.browser || "unknown",
+            os: visitorData.os || "unknown",
+            referrer: visitorData.referrer || "direct",
+            landingPage: visitorData.landingPage || window?.location?.href || "unknown",
+          },
         });
 
         const apiUrl = process.env.API_URL || "";

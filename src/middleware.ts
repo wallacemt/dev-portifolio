@@ -62,26 +62,29 @@ export async function middleware(request: NextRequest) {
 
 async function handleAnalytics(request: NextRequest, sessionId: string, isNewSession: boolean) {
   try {
+    const visitorData = extractVisitorDataFromRequest(request);
+    const geoData = await getGeoLocation(visitorData.ip || "127.0.0.1");
+
+    const fullVisitorData = {
+      ...visitorData,
+      sessionId,
+      country: geoData.country,
+      city: geoData.city,
+    };
+
     if (isNewSession) {
-      const visitorData = extractVisitorDataFromRequest(request);
-      const geoData = await getGeoLocation(visitorData.ip || "127.0.0.1");
-
-      const fullVisitorData = {
-        ...visitorData,
-        sessionId,
-        country: geoData.country,
-        city: geoData.city,
-      };
-
       ServerAnalytics.trackVisitorAsync(fullVisitorData as VisitorData);
     }
 
-    ServerAnalytics.trackPageViewAsync({
-      sessionId: sessionId,
-      page: request.nextUrl.pathname,
-    });
+    ServerAnalytics.trackPageViewAsync(
+      {
+        sessionId: sessionId,
+        page: request.nextUrl.pathname,
+      },
+      fullVisitorData as VisitorData
+    );
   } catch (error) {
-    console.debug("Middleware analytics error:", error);
+    if (process.env.NODE_ENV === "development") console.debug("Middleware analytics error:", error);
   }
 }
 

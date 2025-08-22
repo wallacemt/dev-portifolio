@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 import { Metadata } from "next";
-import Silk from "@/components/blocks/Backgrounds/Silk/Silk";
+import dynamic from "next/dynamic";
 import { PageLoader } from "@/components/ui/page-loader";
 import Footer from "@/components/Visitor/Footer/Footer";
 import Header from "@/components/Visitor/Header/Header";
@@ -14,6 +14,8 @@ import {
   getLanguageSpecificContent,
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
+
+const Silk = dynamic(() => import("@/components/blocks/Backgrounds/Silk/Silk"), {});
 
 interface Props {
   children: ReactNode;
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
       },
       owner
     );
-  } catch  {
+  } catch {
     const content = getLanguageSpecificContent(language);
     return generateSEOMetadata({
       title: content.siteName,
@@ -63,6 +65,7 @@ export default async function LanguageLayout({ children, params }: Props) {
     console.error("Error fetching owner for SEO:", error);
   }
   const structuredData = generateStructuredData(owner, language);
+
   return (
     <OptimizedAnalyticsProvider>
       <LanguageProvider>
@@ -70,9 +73,14 @@ export default async function LanguageLayout({ children, params }: Props) {
           <PageLoader>
             <StructuredData data={structuredData} />
             <Header language={language} />
-            <div className="fixed inset-0 z-[-1]">
-              <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
-            </div>
+
+            <Suspense
+              fallback={<div className="fixed inset-0 z-[-1] bg-gradient-to-br from-roxo300/20 to-roxo300/40" />}
+            >
+              <div className="fixed inset-0 z-[-1]">
+                <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
+              </div>
+            </Suspense>
 
             <main className="p-6 container flex-1" role="main" aria-label="Conteúdo principal">
               {children}

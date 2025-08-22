@@ -49,7 +49,6 @@ export function generateSessionId(): string {
 
 export async function getGeoLocation(ip: string): Promise<{ country: string; city: string }> {
   try {
-
     const response = await fetch(`https://ipapi.co/${ip}/json/`, {
       headers: {
         "User-Agent": "portfolio-analytics/1.0",
@@ -88,7 +87,7 @@ export function getClientIP(request: NextRequest): string {
     return cfConnectingIP;
   }
 
-  return "127.0.0.1"; 
+  return "127.0.0.1";
 }
 
 export function extractVisitorDataFromRequest(request: NextRequest): Partial<VisitorData> {
@@ -108,7 +107,6 @@ export function extractVisitorDataFromRequest(request: NextRequest): Partial<Vis
 }
 
 export function validateTimeSpent(timeSpent: number): number {
-
   const MAX_TIME_SECONDS = 86400;
 
   const timeInSeconds = Math.floor(timeSpent / 1000);
@@ -121,11 +119,33 @@ export function isAnalyticsEnabled(): boolean {
 }
 
 export function shouldTrackPage(pathname: string): boolean {
-
   if (pathname.startsWith("/owner")) return false;
 
   if (pathname.startsWith("/_next")) return false;
   if (pathname.includes(".")) return false;
 
   return true;
+}
+
+export function extractVisitorDataFromClient(sessionId: string): Partial<VisitorData> {
+  if (typeof window === "undefined") {
+    return { sessionId };
+  }
+
+  const userAgent = navigator.userAgent || "unknown";
+  const referrer = document.referrer || "direct";
+  const landingPage = window.location.href;
+
+  return {
+    sessionId,
+    userAgent,
+    device: getDeviceTypeFromUA(userAgent),
+    referrer,
+    landingPage,
+    os: getOSFromUA(userAgent),
+    browser: getBrowserFromUA(userAgent),
+    ip: "client-side", 
+    country: "unknown", 
+    city: "unknown",
+  };
 }

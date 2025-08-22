@@ -1,5 +1,5 @@
 "use client";
-import React, { forwardRef, useMemo, useRef, useLayoutEffect } from "react";
+import React, { forwardRef, useMemo, useRef, useLayoutEffect, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree, RootState } from "@react-three/fiber";
 import { Color, Mesh, ShaderMaterial } from "three";
 import { IUniform } from "three";
@@ -87,13 +87,17 @@ void main() {
 
 interface SilkPlaneProps {
   uniforms: SilkUniforms;
+  isVisible: boolean;
+  targetFPS: number;
 }
 
 const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane(
-  { uniforms },
+  { uniforms, isVisible, targetFPS },
   ref
 ) {
   const { viewport } = useThree();
+  const lastFrameTime = useRef(0);
+  const frameInterval = 1000 / targetFPS;
 
   useLayoutEffect(() => {
     const mesh = ref as React.MutableRefObject<Mesh | null>;
@@ -103,12 +107,18 @@ const SilkPlane = forwardRef<Mesh, SilkPlaneProps>(function SilkPlane(
   }, [ref, viewport]);
 
   useFrame((_state: RootState, delta: number) => {
+    if (!isVisible) return;
+
+    const now = performance.now();
+    if (now - lastFrameTime.current < frameInterval) return;
+    
     const mesh = ref as React.MutableRefObject<Mesh | null>;
     if (mesh.current) {
       const material = mesh.current.material as ShaderMaterial & {
         uniforms: SilkUniforms;
       };
       material.uniforms.uTime.value += 0.1 * delta;
+      lastFrameTime.current = now;
     }
   });
 
@@ -141,6 +151,34 @@ const Silk: React.FC<SilkProps> = ({
   rotation = 0,
 }) => {
   const meshRef = useRef<Mesh>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [targetFPS, setTargetFPS] = useState(60);
+  useEffect(() => {
+    const checkPerformance = () => {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isLowEndDevice = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+      
+      if (isMobile || isLowEndDevice) {
+        setTargetFPS(30); 
+      }
+    };
+    const handleVisibilityChange = () => {
+      setIsVisible(!document.hidden);
+    };
+    const handleFocus = () => setIsVisible(true);
+    const handleBlur = () => setIsVisible(false);
+
+    checkPerformance();
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('blur', handleBlur);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('blur', handleBlur);
+    };
+  }, []);
 
   const uniforms = useMemo<SilkUniforms>(
     () => ({
@@ -155,8 +193,18 @@ const Silk: React.FC<SilkProps> = ({
   );
 
   return (
-    <Canvas dpr={[1, 2]} frameloop="always">
-      <SilkPlane ref={meshRef} uniforms={uniforms} />
+    <Canvas 
+      dpr={[1, Math.min(window.devicePixelRatio, 2)]} 
+      frameloop={isVisible ? "always" : "never"}
+      performance={{ min: 0.5 }} 
+      gl={{ 
+        antialias: false, 
+        alpha: true,
+        premultipliedAlpha: false,
+        preserveDrawingBuffer: false,
+      }}
+    >
+      <SilkPlane ref={meshRef} uniforms={uniforms} isVisible={isVisible} targetFPS={targetFPS} />
     </Canvas>
   );
 };

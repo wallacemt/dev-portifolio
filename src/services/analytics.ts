@@ -13,25 +13,30 @@ export const postTrackVisitor = async (trackingData: TrackVisitorRequest) => {
     const response = await API.post(`/analytics/${ownerId}/track-visitor`, trackingData);
     return response.data;
   } catch (error) {
-  
-    console.debug("Error tracking visitor:", error);
+    if (process.env.NODE_ENV === "development") console.debug("Error tracking visitor:", error);
     return null;
   }
 };
 
-export const postTrackVisitorPageView = async (trackingPage: TrackVisitorPage) => {
+export const postTrackVisitorPageView = async (
+  trackingPage: TrackVisitorPage,
+  trackingVisitor: TrackVisitorRequest
+) => {
   try {
-
     const sanitizedData = {
-      ...trackingPage,
-      timeSpent: trackingPage.timeSpent ? validateTimeSpent(trackingPage.timeSpent) : undefined,
+      pageView: {
+        ...trackingPage,
+        timeSpent: trackingPage.timeSpent ? validateTimeSpent(trackingPage.timeSpent) : undefined,
+      },
+      visitor: {
+        ...trackingVisitor,
+      },
     };
 
     const res = await API.post(`/analytics/${ownerId}/track-pageview`, sanitizedData);
     return res.data;
   } catch (error) {
-   
-    console.debug("Error tracking page view:", error);
+    if (process.env.NODE_ENV === "development") console.debug("Error tracking page view:", error);
     return null;
   }
 };

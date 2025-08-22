@@ -47,8 +47,8 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
                         title={project.title}
                         alt={project.title}
                         width={1200}
-                        height={1200}
-                        className="w-full max-h-4xl md:h-[26rem] rounded-lg shadow-lg"
+                        height={0}
+                        className="w-full max-h-4xl md:h-[25rem] rounded-lg shadow-lg"
                       />
                      
                     </CarouselItem>
