@@ -24,11 +24,11 @@ export default function ProjectCard({ project }: { project: Project }) {
               {project.lastUpdate ? project.lastUpdateText : "Data desconhecida"}
             </time>
           </div>
-          <div className="flex md:flex-row relative flex-col items-center justify-center">
+          <div className="flex md:flex-row relative flex-col max-w-7xl items-center justify-center">
             <OptimizedImage
               src={project.previewImage}
               width={600}
-              height={400}
+              height={200}
               alt={project.title}
               title={project.title}
               className=" hover:scale-105 ease-in-out duration-300  rounded-md"

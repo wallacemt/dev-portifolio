@@ -36,7 +36,7 @@ export function OptimizedImage({
 
   return (
     <div className="relative w-full h-full">
-      {!isLoading && !hasError && (
+      {isLoading && !hasError && (
         <div className={`absolute inset-0 bg-roxo300/50 animate-pulse rounded`} aria-hidden="true" />
       )}
       <Image
