@@ -71,7 +71,10 @@ const DevLoader = () => {
 
             <div className="font-mono text-xs text-blue-400 mb-2 ">
               &gt; checking deployment nodes{" "}
-              <span className="inline-block w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"></span>
+              <span
+                className="inline-block w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"
+                style={{ transform: "none" }}
+              ></span>
             </div>
             <div className="font-mono text-xs text-purple-400 mb-2 ">
               &gt; verifying smart contracts <span className="text-gray-400 text-[0.60rem]">[████░░░] 40%</span>

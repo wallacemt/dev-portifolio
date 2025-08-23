@@ -11,8 +11,8 @@ import { Label } from "@/components/ui/label";
 import { loginOwner } from "@/services/authApi";
 import { useOwner } from "@/contexts/OwnerContext";
 import { Loader2, Mail, Lock, User, LogIn } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { OptimizedImage } from "@/components/Visitor/SEO/OptimizedImage";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
@@ -39,7 +39,10 @@ const OverlayLoading = () => {
   }, [messages.length]);
   return (
     <div className="w-full h-full absolute backdrop-blur-xs z-20 flex-col border-2 flex items-center justify-center inset-0 rounded-md">
-      <span className="border-t-4  animate-spin border-roxo100 rounded-full w-12 h-12"></span>
+      <span
+        className="border-t-4  animate-spin border-roxo100 rounded-full w-12 h-12"
+        style={{ transform: "none" }}
+      ></span>
       <p className="font-principal text-xl animate-pulse">{messages[loadingMessages]}</p>
     </div>
   );
@@ -241,11 +244,11 @@ export function LoginForm() {
             transition={{ delay: 0.3 }}
             className="bg-muted relative hidden md:block overflow-hidden"
           >
-            <Image
-              src="https://res.cloudinary.com/dg9hqvlas/image/upload/v1754427252/Wallpaper_roxo_wr14nv.jpg"
+            <OptimizedImage
+              src="https://res.cloudinary.com/dg9hqvlas/image/upload/q_auto:low/c_scale,w_1200/f_webp/v1754427252/Wallpaper_roxo_wr14nv.jpg"
               alt="Login Background"
-              height={500}
-              width={500}
+              height={600}
+              width={600}
               className="absolute inset-0 h-full w-full object-cover"
             />
 

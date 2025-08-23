@@ -24,7 +24,7 @@ export default function ProjectCard({ project }: { project: Project }) {
               {project.lastUpdate ? project.lastUpdateText : "Data desconhecida"}
             </time>
           </div>
-          <div className="flex md:flex-row relative flex-col max-w-7xl items-center justify-center">
+          <div className="flex md:flex-row relative flex-col max-w-6xl items-center justify-center">
             <OptimizedImage
               src={project.previewImage}
               width={600}

@@ -16,19 +16,19 @@ interface SkillTabContentProps {
 export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: SkillTabContentProps) => {
   const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
 
-  if (isLoading) {
+  if (  isLoading) {
     window.scrollTo(0, 0);
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto max-w-6xl">
         {Array.from({ length: 6 }).map((_, index) => (
           <div key={index} className="flex flex-col items-center max-w-4xl p-4 rounded-lg bg-background animate-pulse">
-            <div className="w-full h-24 bg-gray-300 rounded-lg mb-4"></div>
-            <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
-            <div className="w-1/2 h-3 bg-gray-300 rounded mb-4"></div>
+            <div className="w-full h-24 bg-roxo300/40 rounded-lg mb-4"></div>
+            <div className="w-3/4 h-4 bg-roxo300/40 rounded mb-2"></div>
+            <div className="w-1/2 h-3 bg-roxo300/40 rounded mb-4"></div>
             <div className="flex flex-wrap gap-2 w-full">
-              <div className="w-1/3 h-6 bg-gray-300 rounded"></div>
-              <div className="w-1/4 h-6 bg-gray-300 rounded"></div>
-              <div className="w-1/2 h-6 bg-gray-300 rounded"></div>
+              <div className="w-1/3 h-6 bg-roxo300/40 rounded"></div>
+              <div className="w-1/4 h-6 bg-roxo300/40 rounded"></div>
+              <div className="w-1/2 h-6 bg-roxo300/40 rounded"></div>
             </div>
           </div>
         ))}
