@@ -14,7 +14,7 @@ import { postProject } from "@/services/projects";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Skill } from "@/types/skills";
-import { getSkills } from "@/services/skillsApi";
+import { getSkillNotFilter } from "@/services/skillsApi";
 import Link from "next/link";
 import { PreviewImage } from "@/utilis/preview-image";
 import z from "zod";
@@ -126,7 +126,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   async function fetchSkills() {
     setIsLoading(true);
     try {
-      const data = await getSkills();
+      const data = await getSkillNotFilter();
       setSkills(data.skills || []);
     } catch (err) {
       console.error(err);
@@ -398,7 +398,10 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       </CardContent>
       {isLoading && (
         <div className="flex flex-col items-center justify-center absolute inset-0">
-          <span className="w-18 h-18  rounded-full animate-spin border-t-6 border-t-roxo100"></span>
+          <span
+            className="w-18 h-18  rounded-full animate-spin border-t-6 border-t-roxo100"
+            style={{ transform: "none" }}
+          ></span>
           <p className="font-principal text-2xl ">Carregando</p>
         </div>
       )}

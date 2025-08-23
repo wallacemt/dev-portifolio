@@ -122,7 +122,6 @@ export function SkillsPaginationControls({
         </Button>
       </div>
 
-      {/* Items per page selector */}
       <div className="flex items-center gap-2">
         <span className="text-sm text-muted-foreground">Itens por página:</span>
         <Select value={limit.toString()} onValueChange={(value) => onLimitChange(Number(value))} disabled={isLoading}>

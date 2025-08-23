@@ -52,7 +52,7 @@ export function FormationCard({ formation, index, texts, isActive = false, onHov
     const months = Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 30));
 
     if (language === "pt") {
-      return months === 1 ? "1 mês" : `${months} meses`;
+      return months === 1 ? "1 mês" : `${Math.abs(months)} meses`;
     }
     return months === 1 ? "1 month" : `${months} months`;
   };

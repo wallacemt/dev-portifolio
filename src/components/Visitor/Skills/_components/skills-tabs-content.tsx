@@ -6,6 +6,7 @@ import { useSkillsFilter } from "../useSkillsFilter";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
 
 interface SkillTabContentProps {
   skills: Skill[];
@@ -19,16 +20,16 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
   if (isLoading) {
     window.scrollTo(0, 0);
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto max-w-6xl">
         {Array.from({ length: 6 }).map((_, index) => (
           <div key={index} className="flex flex-col items-center max-w-4xl p-4 rounded-lg bg-background animate-pulse">
-            <div className="w-full h-24 bg-gray-300 rounded-lg mb-4"></div>
-            <div className="w-3/4 h-4 bg-gray-300 rounded mb-2"></div>
-            <div className="w-1/2 h-3 bg-gray-300 rounded mb-4"></div>
+            <div className="w-full h-24 bg-roxo300/40 rounded-lg mb-4"></div>
+            <div className="w-3/4 h-4 bg-roxo300/40 rounded mb-2"></div>
+            <div className="w-1/2 h-3 bg-roxo300/40 rounded mb-4"></div>
             <div className="flex flex-wrap gap-2 w-full">
-              <div className="w-1/3 h-6 bg-gray-300 rounded"></div>
-              <div className="w-1/4 h-6 bg-gray-300 rounded"></div>
-              <div className="w-1/2 h-6 bg-gray-300 rounded"></div>
+              <div className="w-1/3 h-6 bg-roxo300/40 rounded"></div>
+              <div className="w-1/4 h-6 bg-roxo300/40 rounded"></div>
+              <div className="w-1/2 h-6 bg-roxo300/40 rounded"></div>
             </div>
           </div>
         ))}
@@ -46,7 +47,7 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
           <TabsTrigger value={activeCategory != "all" ? activeCategory : "frontend"}>
             <Select value={activeCategory} onValueChange={setActiveCategory}>
               <SelectTrigger className="border-none !bg-transparent select-none w-fit capitalize">
-                <SelectValue placeholder="Filtrar por categoria" />
+                <SelectValue placeholder={chooseText || "Filtre por uma categoria"} />
               </SelectTrigger>
               <SelectContent>
                 {activeCategory === "all" && (
@@ -62,15 +63,18 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
           </TabsTrigger>
         </TabsList>
         <div className="md:hidden block w-full">
+          <Label htmlFor="category-select" className="mb-2">
+            {chooseText}
+          </Label>
           <Select value={activeCategory} onValueChange={setActiveCategory}>
-            <SelectTrigger className="bg-neutral-900 text-white w-full">
+            <SelectTrigger className="bg-neutral-900 text-white w-full" id="category-select">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
               {activeCategory === "all" && <SelectItem value="all">Escolha uma categoria</SelectItem>}
               {categories.slice(1).map((category) => (
                 <SelectItem key={category} value={category} className="capitalize">
-                  {category} ({categoryCount[category]})
+                  {category}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -112,13 +116,13 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
                   {skill.type}
                 </Badge>
                 <Separator className="my-4" />
-                <div className="h-20  flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
+                <div className="h-20 w-full flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
                   {skill.subSkils &&
                     skill.subSkils.length > 0 &&
                     skill.subSkils.map((subSkill, index) => (
                       <Badge
                         key={index}
-                        className={`text-sm text-white font-bold font-sec rounded-full truncate ${
+                        className={`text-xs text-white font-bold font-secundaria rounded-full truncate ${
                           index % 2 === 0 ? "bg-[var(--textura-roxo-3-3-hex)]" : "bg-[var(--textura-roxo-2-hex)]"
                         }`}
                       >

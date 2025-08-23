@@ -107,11 +107,18 @@ function Images({ project, title, open, setIsOpen }: CollapsibleItemsProps) {
     <Collapsible open={open} onOpenChange={setIsOpen} className="space-y-4 h-full">
       <HeaderComponent title={title} open={open} />
       <CollapsibleContent className=" w-full overflow-auto  ">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 ">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-4">
           {project.skills.content.map((skill) => (
             <div key={skill.id} className=" rounded-lg shadow-sm">
               <div className="flex flex-col flex-wrap items-center gap-2 mb-2">
-                <Image src={skill.image} alt={skill.title} title={skill.title} width={120} height={0} />
+                <Image
+                  src={skill.image}
+                  alt={skill.title}
+                  title={skill.title}
+                  width={120}
+                  height={200}
+           
+                />
                 <p>{skill.title}</p>
               </div>
             </div>

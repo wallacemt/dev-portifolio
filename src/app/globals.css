@@ -3,52 +3,9 @@
 
 @custom-variant white (&:is(.white *));
 
-/* Performance optimizations */
-* {
-  box-sizing: border-box;
-}
 
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
 
-/* Shimmer animation for loading states */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
 
-/* Reduce motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .animate-pulse {
-    animation: none;
-  }
-}
-
-/* GPU acceleration for animations */
-.animate-pulse,
-.animate-spin,
-.animate-ping,
-.animate-bounce {
-  will-change: transform;
-  transform: translateZ(0);
-}
 
 :root {
   --radius: 0.625rem;
@@ -309,4 +266,5 @@ html {
   --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  
 }

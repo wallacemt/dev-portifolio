@@ -4,10 +4,8 @@ import { Suspense } from "react";
 
 export default async function OwnerDashboardPage() {
   return (
-    <>
-      <Suspense fallback={<FullDashboardSkeleton />}>
-        <Dashboard />
-      </Suspense>
-    </>
+    <Suspense fallback={<FullDashboardSkeleton />}>
+      <Dashboard />
+    </Suspense>
   );
 }

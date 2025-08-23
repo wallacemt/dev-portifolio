@@ -41,8 +41,6 @@ export function Skills({ language }: SkillsContentProps) {
     } catch (error) {
       console.error("Error fetching skills:", error);
       setError(language === "pt" ? "Erro ao carregar habilidades" : "Error loading skills");
-
-      // Fallback data para erro
       setSkillsData({
         skills: [],
         texts: {
@@ -64,12 +62,10 @@ export function Skills({ language }: SkillsContentProps) {
     }
   }, [language, currentPage, limit, setIsLoading]);
 
-  // Fetch skills when dependencies change
   useEffect(() => {
     fetchSkills();
   }, [fetchSkills]);
 
-  // Reset to first page when language changes
   useEffect(() => {
     goToFirstPage();
   }, [language, goToFirstPage]);
