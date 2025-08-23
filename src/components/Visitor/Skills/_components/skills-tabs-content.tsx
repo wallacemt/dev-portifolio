@@ -17,7 +17,7 @@ interface SkillTabContentProps {
 export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: SkillTabContentProps) => {
   const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
 
-  if (isLoading) {
+  if (  isLoading) {
     window.scrollTo(0, 0);
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto max-w-6xl">
