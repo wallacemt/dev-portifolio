@@ -168,7 +168,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//vercel.app" />
         <link rel="preload" href="/placeholder-image.webp" as="image" type="image/webp" />
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-        <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
         <meta httpEquiv="Accept-CH" content="DPR, Width, Viewport-Width" />

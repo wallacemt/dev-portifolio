@@ -7,6 +7,7 @@ export const SkillTypeValues = {
   Bundler: "bundler" as const,
   Cloud: "cloud" as const,
   Docs: "docs" as const,
+  Tool: "tools" as const,
   PackageManager: "packageManager" as const,
   Orm: "orm" as const,
   ArtificialIntelligence: "AI" as const,

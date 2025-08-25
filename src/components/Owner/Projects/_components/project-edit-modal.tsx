@@ -14,7 +14,7 @@ import { putProject } from "@/services/projects";
 import { Project } from "@/types/projects";
 import { toast } from "sonner";
 import { Skill } from "@/types/skills";
-import { getSkills } from "@/services/skillsApi";
+import { getSkillNotFilter } from "@/services/skillsApi";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -102,7 +102,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
   async function fetchSkills() {
     setIsLoading(true);
     try {
-      const data = await getSkills();
+      const data = await getSkillNotFilter();
       setSkills(data.skills || []);
     } catch (err) {
       console.error(err);
@@ -123,8 +123,6 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
   const filteredSkills = searchTech.trim()
     ? skills.filter((skill) => skill.title.toLowerCase().includes(searchTech.trim().toLowerCase()))
     : skills;
-
- 
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
