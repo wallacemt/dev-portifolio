@@ -9,6 +9,7 @@ export const projectAddSchema = z.object({
   backend: z.string().optional(),
   frontend: z.string().optional(),
   previewImage: z.string().url("URL da imagem de preview deve ser válida"),
+  previewVideoUrl: z.string().url({ message: "A url do video deve ser Valida!" }).optional(),
   lastUpdate: z.date(),
 });
 

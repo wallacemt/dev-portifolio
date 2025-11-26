@@ -45,6 +45,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       title: "",
       description: "",
       previewImage: "",
+      previewVideoUrl: "",
     },
   });
 
@@ -158,6 +159,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
     ? skills.filter((skill) => skill.title.toLowerCase().includes(searchTech.trim().toLowerCase()))
     : skills;
 
+  console.log(watch("previewVideoUrl"));
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
       <CardContent className={`space-y-6 ${isLoading && "blur-xs"}`}>
@@ -316,7 +318,33 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
               {errors.frontend && <p className="text-sm text-red-500">{errors.frontend.message}</p>}
             </div>
           </div>
+          <div className="space-y-2">
+            <Label>Video Preview (URL)</Label>
+            <div className="flex gap-2">
+              <Input
+                id="previewVideo"
+                {...register("previewVideoUrl")}
+                placeholder="https://youtube.com/watch?v=oE56g61mW44"
+              />
+            </div>
 
+            {watch("previewVideoUrl")?.includes("youtube.com") && (
+              <div className="border border-purple-600/60 hover:border-purple-800 hover:border-2 transition-all rounded-2xl flex items-center justify-center p-2">
+                <iframe
+                  className="w-full h-82"
+                  src={`https://www.youtube.com/embed/${
+                    (() => {
+                      const url = form.getValues("previewVideoUrl") || "";
+                      const m = url.match(/(?:v=|be\/)(\w+)/);
+                      return m?.[1] ?? "FwDo7MdaxhA?si=xPsVIk3_V-SenI6z";
+                    })()
+                  }`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                ></iframe>
+              </div>
+            )}
+          </div>
           <div className="space-y-2">
             <Label>Screenshots (URLs)</Label>
             <div className="flex gap-2">

@@ -3,6 +3,7 @@ import { Skill } from "./skills";
 export interface Project {
   activate: boolean;
   ownerId: string;
+  previewVideoUrl?: string;
   id: string;
   isMostRecent: {
     isRecent: boolean;

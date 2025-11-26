@@ -38,8 +38,28 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
           <div className="flex flex-col relative  min-w-full">
             <DetailsCard />
             <div className="max-w-6xl p-2 mx-auto gap-2 space-y-4">
-              <Carousel className="w-full max-w-4xl mx-auto" opts={{ loop: true }} autoplay={{ dalay: 7500 }}>
+              <Carousel
+                className="w-full max-w-4xl mx-auto"
+                opts={{ loop: Boolean(project.previewVideoUrl) }}
+                autoplay={!project.previewVideoUrl ? { dalay: 7500 } : undefined}
+              >
                 <CarouselContent>
+                  {project.previewVideoUrl && (
+                    <CarouselItem key={project.previewVideoUrl}>
+                      <div className=" flex items-center justify-center p-2">
+                        <iframe
+                          className="w-full h-[30rem]"
+                          src={`https://www.youtube.com/embed/${(() => {
+                            const url = project.previewVideoUrl || "";
+                            const m = url.match(/(?:v=|be\/)(\w+)/);
+                            return m?.[1] ?? "FwDo7MdaxhA?si=xPsVIk3_V-SenI6z";
+                          })()}`}
+                          title={project.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        ></iframe>
+                      </div>
+                    </CarouselItem>
+                  )}
                   {project.screenshots.map((img) => (
                     <CarouselItem key={project.id + img}>
                       <OptimizedImage
@@ -50,13 +70,13 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
                         height={0}
                         className="w-full max-h-4xl md:h-[25rem] rounded-lg shadow-lg"
                       />
-                     
                     </CarouselItem>
                   ))}
                 </CarouselContent>
                 <CarouselPrevious className="md:inline-flex hidden" />
                 <CarouselNext className="md:inline-flex hidden" />
               </Carousel>
+
               <Separator />
               <div className="flex flex-col relative  gap-8 space-y-4 max-w-4xl mx-auto">
                 <CollapsibleItems title={project.description.title} type={"text"} project={project} />

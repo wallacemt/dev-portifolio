@@ -13,6 +13,7 @@ import { useOwner } from "@/contexts/OwnerContext";
 import { Loader2, Mail, Lock, User, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { OptimizedImage } from "@/components/Visitor/SEO/OptimizedImage";
+import Image from "next/image";
 
 const loginSchema = z.object({
   email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
@@ -78,6 +79,8 @@ export function LoginForm() {
       if (error instanceof Error) {
         setLoginError(error.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -244,7 +247,7 @@ export function LoginForm() {
             transition={{ delay: 0.3 }}
             className="bg-muted relative hidden md:block overflow-hidden"
           >
-            <OptimizedImage
+            <Image
               src="https://res.cloudinary.com/dg9hqvlas/image/upload/q_auto:low/c_scale,w_1200/f_webp/v1754427252/Wallpaper_roxo_wr14nv.jpg"
               alt="Login Background"
               height={600}
