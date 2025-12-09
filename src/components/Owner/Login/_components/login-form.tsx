@@ -11,8 +11,7 @@ import { Label } from "@/components/ui/label";
 import { loginOwner } from "@/services/authApi";
 import { useOwner } from "@/contexts/OwnerContext";
 import { Loader2, Mail, Lock, User, LogIn } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { OptimizedImage } from "@/components/Visitor/SEO/OptimizedImage";
+import { useRouter } from "next/navigation";;
 import Image from "next/image";
 
 const loginSchema = z.object({
