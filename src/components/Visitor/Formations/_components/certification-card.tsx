@@ -7,6 +7,8 @@ import { Calendar, Award, ExternalLink, FileText, CheckCircle2 } from "lucide-re
 import { format, isAfter } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 
+import { RotateImage } from "@/components/ui/rotate-image";
+
 interface CertificationCardProps {
   certification: CertificationType;
   language?: string;
@@ -17,9 +19,12 @@ export function CertificationCard({ certification, language = "pt" }: Certificat
   const isValid = certification.expirationDate ? isAfter(new Date(certification.expirationDate), new Date()) : true;
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/50">
+    <Card className="group hover:shadow-lg transition-all duration-300 border-border/50  bg-roxo700/50">
       <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex flex-col items-center justify-between gap-2">
+          {certification.certificateFile && (
+            <RotateImage imageUrl={certification.certificateFile} title={certification.title} />
+          )}
           <div className="flex-1 space-y-1">
             <div className="flex items-center gap-2 flex-wrap">
               <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">

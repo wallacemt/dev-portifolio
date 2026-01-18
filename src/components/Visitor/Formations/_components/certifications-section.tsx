@@ -7,20 +7,16 @@ import { FileCheck } from "lucide-react";
 
 interface CertificationsSectionProps {
   certifications: Certification[];
+  texts: { title: string; description: string };
   language: string;
 }
 
-export function CertificationsSection({ certifications, language }: CertificationsSectionProps) {
+export function CertificationsSection({ certifications, language, texts }: CertificationsSectionProps) {
   if (!certifications || certifications.length === 0) {
     return null;
   }
 
-  const title = language === "pt" ? "Certificações Profissionais" : "Professional Certifications";
-  const description =
-    language === "pt"
-      ? "Certificações validadas que comprovam conhecimento e expertise técnica"
-      : "Validated certifications that prove technical knowledge and expertise";
-
+  
   return (
     <motion.section
       className="py-16 px-4 bg-secondary/5"
@@ -38,12 +34,12 @@ export function CertificationsSection({ certifications, language }: Certificatio
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mb-4">
             <FileCheck className="h-7 w-7 text-primary" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-principal">{title}</h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-secundaria">{description}</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-principal">{texts.title}</h2>
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto font-secundaria">{texts.description}</p>
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className={`${certifications.length <= 2 ? "flex items-center   justify-center  border-2" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"}  gap-6`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}

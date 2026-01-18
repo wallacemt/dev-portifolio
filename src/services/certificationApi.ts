@@ -1,9 +1,9 @@
 import { API, ownerId, setupAuth } from "@/lib/axios";
-import type { Certification, CertificationInput } from "@/types/badges";
+import type { Certification, CertificationInput, CertificationResponse } from "@/types/badges";
 
-export const getAllCertifications = async (language: string = "pt"): Promise<Certification[]> => {
+export const getAllCertifications = async (language: string = "pt"): Promise<CertificationResponse> => {
   try {
-    const response = await API.get<Certification[]>(`/certifications/owner/${ownerId}?language=${language}`);
+    const response = await API.get<CertificationResponse>(`/certifications/owner/${ownerId}?language=${language}`);
     return response.data;
   } catch (error) {
     throw error;

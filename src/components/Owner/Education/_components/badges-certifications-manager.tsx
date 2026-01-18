@@ -74,12 +74,12 @@ export function BadgesAndCertificationsManager({
     try {
       if (deletingItem.type === "badge") {
         await deleteBadge(deletingItem.id);
-        toast("Badge deletado", {
+        toast.success("Badge deletado", {
           description: "O badge foi removido com sucesso.",
         });
       } else {
         await deleteCertification(deletingItem.id);
-        toast("Certificação deletada", {
+        toast.success("Certificação deletada", {
           description: "A certificação foi removida com sucesso.",
         });
       }
@@ -187,27 +187,23 @@ export function BadgesAndCertificationsManager({
           )}
 
           {certifications && certifications.length > 0 ? (
-            <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {certifications.map((certification) => (
-                <Card key={certification.id} className="border-muted">
-                  <CardContent className="pt-6">
-                    <div className="flex items-start relative justify-between gap-4">
-                      <CertificationCard certification={certification} />
-                      <div className="flex gap-2 absolute right-0">
-                        <Button size="icon" variant="ghost" onClick={() => handleCertificationEdit(certification)}>
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="icon"
-                          variant="ghost"
-                          onClick={() => handleDeleteConfirm("certification", certification.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={certification.id} className="flex relative items-start justify-between gap-4">
+                  <CertificationCard certification={certification} />
+                  <div className="flex gap-2 absolute right-0">
+                    <Button size="icon" variant="ghost" onClick={() => handleCertificationEdit(certification)}>
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={() => handleDeleteConfirm("certification", certification.id)}
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
+                </div>
               ))}
             </div>
           ) : (
@@ -242,7 +238,7 @@ export function BadgesAndCertificationsManager({
       />
 
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
+        <DialogContent className="flex flex-col gap-4">
           <DialogHeader>
             <DialogTitle>Confirmar exclusão</DialogTitle>
             <DialogDescription>
@@ -252,7 +248,7 @@ export function BadgesAndCertificationsManager({
           </DialogHeader>
           <DialogFooter>
             <DialogClose>Cancelar</DialogClose>
-            <Button onClick={handleDelete}>Excluir</Button>
+            <Button variant={"destructive"} onClick={handleDelete}>Excluir</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

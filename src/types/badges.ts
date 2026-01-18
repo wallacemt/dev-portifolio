@@ -51,6 +51,10 @@ export interface CertificationInput {
   credentialUrl: string;
   certificateFile?: string;
 }
+export interface CertificationResponse {
+  certifications: Certification[];
+  texts: { title: string; description: string };
+}
 
 export interface UploadResult {
   url: string;

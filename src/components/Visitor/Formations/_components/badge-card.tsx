@@ -3,11 +3,11 @@
 import { Badge as BadgeType } from "@/types/badges";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Award, ExternalLink } from "lucide-react";
-import Image from "next/image";
 import { format } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { RotateImage } from "@/components/ui/rotate-image";
 
 interface BadgeCardProps {
   badge: BadgeType;
@@ -27,18 +27,7 @@ export function BadgeCard({ badge, language = "pt", className }: BadgeCardProps)
     >
       <CardHeader className="pb-3">
         <div className="flex flex-col items-center justify-between gap-2">
-          {badge.imageUrl && (
-            <div className="relative h-full w-40 rounded-lg overflow-hidden flex-shrink-0">
-              <Image
-                src={badge.imageUrl}
-                alt={badge.title}
-                className="object-cover"
-                title={badge.title}
-                width={300}
-                height={300}
-              />
-            </div>
-          )}
+          {badge.imageUrl && <RotateImage imageUrl={badge.imageUrl} title={badge.title} />}
           <div className="flex-1 space-y-1">
             <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">
               {badge.title}

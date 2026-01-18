@@ -38,14 +38,30 @@ export async function Formations({ language }: FormationsProps) {
 
   const badges = await getAllBadges(language).catch((error) => {
     console.error("Error fetching badges:", error);
-    return {badges:[], texts: {title:language === "pt" ? "Badges & Conquistas" : "Badges & Achievements",description: language === "pt"
-      ? "Reconhecimentos e conquistas obtidas ao longo da minha jornada profissional"
-      : "Recognition and achievements obtained throughout my professional journey"}};
+    return {
+      badges: [],
+      texts: {
+        title: language === "pt" ? "Badges & Conquistas" : "Badges & Achievements",
+        description:
+          language === "pt"
+            ? "Reconhecimentos e conquistas obtidas ao longo da minha jornada profissional"
+            : "Recognition and achievements obtained throughout my professional journey",
+      },
+    };
   });
 
   const certifications = await getAllCertifications(language).catch((error) => {
     console.error("Error fetching certifications:", error);
-    return [];
+    return {
+      certifications: [],
+      texts: {
+        title: language === "pt" ? "Certificações Profissionais" : "Professional Certifications",
+        description:
+          language === "pt"
+            ? "Certificações validadas que comprovam conhecimento e expertise técnica"
+            : "Validated certifications that prove technical knowledge and expertise",
+      },
+    };
   });
 
   return (
@@ -54,7 +70,13 @@ export async function Formations({ language }: FormationsProps) {
         <FormationsContent formations={formations} language={language} />
         {badges.badges.length > 0 && <BadgesSection texts={badges.texts} badges={badges.badges} language={language} />}
 
-        {certifications.length > 0 && <CertificationsSection certifications={certifications} language={language} />}
+        {certifications.certifications.length > 0 && (
+          <CertificationsSection
+            certifications={certifications.certifications}
+            texts={certifications.texts}
+            language={language}
+          />
+        )}
       </section>
     </>
   );

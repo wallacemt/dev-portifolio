@@ -33,7 +33,7 @@ export function FormationClientManager({ formation, currentState, editFormation 
     setLoading(true);
     try {
       const response = await getAllCertifications();
-      setCertification(response);
+      setCertification(response.certifications);
     } catch (error) {
       toast.error(`Error ao carregar formations: ${error}`);
     } finally {
@@ -142,7 +142,7 @@ export function FormationClientManager({ formation, currentState, editFormation 
             loading={loading}
             certifications={certifications}
             badges={badges}
-            onUpdate={() => setUpdate(true)}
+            onUpdate={() => setUpdate(!update)}
           />
         </TabsContent>
       </Tabs>

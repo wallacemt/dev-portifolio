@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Certification } from "@/types/formations";
+import type  { Badge, Certification } from "@/types/badges";
 import { BadgeCard } from "./badge-card";
 import { CertificationCard } from "./certification-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
