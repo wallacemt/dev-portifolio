@@ -6,12 +6,12 @@ const nextConfig: NextConfig = {
     OWNER_ID: process.env.OWNER_ID,
     ANALYTICS_ENABLED: process.env.ANALYTICS_ENABLED,
   },
-  allowedDevOrigins: ["192.168.248.202"],
+  allowedDevOrigins: [new URL(process.env.API_URL || "").hostname],
   images: {
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 31536000, 
+    minimumCacheTTL: 31536000,
     remotePatterns: [
       {
         protocol: "https",

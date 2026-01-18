@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import {useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -12,14 +12,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Eye, Loader2 } from "lucide-react";
 import { formationSchema, type FormationAddFormData } from "@/lib/validations/formations";
-import { postFormation } from "@/services/formationApi";
+import {  postFormation } from "@/services/formationApi";
 import { toast } from "sonner";
 import { ownerId } from "@/lib/axios";
 import Image from "next/image";
 import z from "zod";
-import { FormationTypeValues } from "@/types/formations";
+import {  FormationTypeValues } from "@/types/formations";
 import { Calendar22 } from "@/components/ui/calendar-22";
-
 interface FormationAddProps {
   onSuccess?: (redirect: boolean) => void;
 }

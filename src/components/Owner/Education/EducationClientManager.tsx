@@ -8,6 +8,13 @@ import { Formation } from "@/types/formations";
 import { FormationsAllContent } from "./_components/formation-all-content";
 import { FormationEditModal } from "./_components/formation-edit-modal";
 import { FormationAdd } from "./_components/formation-add";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { BadgesAndCertificationsManager } from "./_components/badges-certifications-manager";
+import { Badge, Certification } from "@/types/badges";
+import { getAllBadges } from "@/services/badgeApi";
+import { getAllCertifications } from "@/services/certificationApi";
 
 interface FormationClientManagerProps {
   formation: Formation[];
@@ -17,7 +24,39 @@ interface FormationClientManagerProps {
 
 export function FormationClientManager({ formation, currentState, editFormation }: FormationClientManagerProps) {
   const router = useRouter();
+  const [certifications, setCertification] = useState<Certification[]>([]);
+  const [badges, setBadges] = useState<Badge[]>([]);
+  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const getCertifications = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await getAllCertifications();
+      setCertification(response);
+    } catch (error) {
+      toast.error(`Error ao carregar formations: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [update]);
+  const getBadges = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await getAllBadges();
+      setBadges(response.badges);
+    } catch (error) {
+      toast.error(`Error ao carregar formations: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [update]);
+
+  useEffect(() => {
+    getBadges();
+    getCertifications();
+    getBadges();
+  }, [getCertifications, getBadges]);
   const handleUpdate = () => {
     router.refresh();
   };
@@ -90,8 +129,23 @@ export function FormationClientManager({ formation, currentState, editFormation 
           Nova formação
         </Button>
       </div>
-
-      <FormationsAllContent formations={formation} onUpdate={handleUpdate} />
+      <Tabs defaultValue="formation">
+        <TabsList className="flex items-center justify-center w-full bg-gray-900 rounded-2xl">
+          <TabsTrigger value="formation">Formação</TabsTrigger>
+          <TabsTrigger value="certification">Certificação</TabsTrigger>
+        </TabsList>
+        <TabsContent value="formation">
+          <FormationsAllContent formations={formation} onUpdate={handleUpdate} />
+        </TabsContent>
+        <TabsContent value="certification">
+          <BadgesAndCertificationsManager
+            loading={loading}
+            certifications={certifications}
+            badges={badges}
+            onUpdate={() => setUpdate(true)}
+          />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
