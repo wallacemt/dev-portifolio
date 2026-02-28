@@ -1,8 +1,10 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { Skill, StackType } from "@/types/skills";
 
 export function useSkillsFilter(skills: Skill[], onFilterChange?: () => void) {
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const activeCategoryRef = useRef(activeCategory);
+  activeCategoryRef.current = activeCategory;
 
   const categories = useMemo(() => {
     return ["all", ...Object.values(StackType)];
@@ -14,11 +16,14 @@ export function useSkillsFilter(skills: Skill[], onFilterChange?: () => void) {
   }, [skills, activeCategory]);
 
   const categoryCount = useMemo(() => {
-    return categories.reduce((acc, category) => {
-      acc[category] =
-        category === "all" ? skills.length : skills.filter((skill) => skill.stack === activeCategory).length;
-      return acc;
-    }, {} as Record<string, number>);
+    return categories.reduce(
+      (acc, category) => {
+        acc[category] =
+          category === "all" ? skills.length : skills.filter((skill) => skill.stack === activeCategory).length;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
   }, [categories, skills, activeCategory]);
 
   const handleCategoryChange = useCallback(
@@ -26,15 +31,18 @@ export function useSkillsFilter(skills: Skill[], onFilterChange?: () => void) {
       setActiveCategory(category);
       onFilterChange?.();
     },
-    [onFilterChange]
+    [onFilterChange],
   );
 
-  // Reset category when skills change (e.g., when switching pages)
+  // Reset category when skills (page) changes and the current filter yields no results
   useEffect(() => {
-    if (filteredSkills.length === 0 && skills.length > 0 && activeCategory !== "all") {
+    const current = activeCategoryRef.current;
+    if (current === "all" || skills.length === 0) return;
+    const hasResults = skills.some((skill) => skill.stack === current);
+    if (!hasResults) {
       setActiveCategory("all");
     }
-  }, [skills, filteredSkills.length, activeCategory]);
+  }, [skills]);
 
   return {
     activeCategory,

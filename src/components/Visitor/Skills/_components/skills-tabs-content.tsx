@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useEffect } from "react";
 
 interface SkillTabContentProps {
   skills: Skill[];
@@ -16,9 +18,14 @@ interface SkillTabContentProps {
 
 export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: SkillTabContentProps) => {
   const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
+  const { language } = useLanguage();
+  useEffect(() => {
+    if (isLoading) {
+      window.scrollTo(0, 0);
+    }
+  }, [isLoading]);
 
-  if (  isLoading) {
-    window.scrollTo(0, 0);
+  if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto max-w-6xl">
         {Array.from({ length: 6 }).map((_, index) => (
@@ -42,7 +49,7 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 ">
         <TabsList className="hidden md:flex bg-roxo500 w-full max-w-4xl mx-auto gap-2">
           <TabsTrigger value="all" className="border-2 flex-2 hover:bg-roxo200">
-            All{" "}
+            <p>{language == "pt" ? "Todas" : "All"}</p>
           </TabsTrigger>
           <TabsTrigger value={activeCategory != "all" ? activeCategory : "frontend"}>
             <Select value={activeCategory} onValueChange={setActiveCategory}>
