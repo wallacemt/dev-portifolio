@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { cookieUtils } from "./cookies";
 
-export const baseURL = process.env.API_URL || "http://localhost:8081";
+export const baseURL = process.env.API_URL;
 export const API = axios.create({
   baseURL,
   timeout: 30000,
