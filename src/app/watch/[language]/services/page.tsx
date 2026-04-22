@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = process.env.API_URL || "https://wallace-dev.com";
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
 
     return generateSEOMetadata(
       {
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
 
 export default async function OwnerServices({ params }: OwnerServicesProps) {
   const { language } = await params;
-  const baseUrl = process.env.API_URL || "https://wallace-dev.com";
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
   const content = getLanguageSpecificContent(language);
   const breadcrumbData = generateBreadcrumbStructuredData([
     { name: content.homeTitle, url: `${baseUrl}/watch/${language}` },

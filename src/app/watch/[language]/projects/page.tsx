@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = process.env.API_URL || "https://wallace-dev.com";
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
 
     return generateSEOMetadata(
       {

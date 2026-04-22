@@ -1,7 +1,7 @@
 import { VisitorData, PageViewData } from "@/lib/analytics-utils";
 
-const ANALYTICS_API_URL = process.env.API_URL || "";
-const OWNER_ID = process.env.OWNER_ID || "";
+const ANALYTICS_API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const OWNER_ID = process.env.NEXT_PUBLIC_OWNER_ID || "";
 
 export class ServerAnalytics {
   private static async makeRequest(endpoint: string, data: unknown): Promise<void> {

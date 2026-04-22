@@ -130,7 +130,7 @@ Crie um arquivo `.env.local` na raiz do projeto:
 
 ```env
 # URL da API backend
-API_URL=https://sua-api.com
+NEXT_PUBLIC_API_URL=https://sua-api.com
 
 # ID do proprietário do portfolio
 OWNER_ID=seu-owner-id

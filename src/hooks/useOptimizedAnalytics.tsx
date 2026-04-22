@@ -16,7 +16,7 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
 
   const config = useMemo(
     () => ({
-      enabled: options.enabled ?? process.env.ANALYTICS_ENABLED === "true",
+      enabled: options.enabled ?? process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true",
       debounceTime: options.debounceTime ?? 1000,
       maxTimeSpent: options.maxTimeSpent ?? 86400000,
     }),
@@ -143,8 +143,8 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
           },
         });
 
-        const apiUrl = process.env.API_URL || "";
-        const ownerId = process.env.OWNER_ID || "";
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
+        const ownerId = process.env.NEXT_PUBLIC_OWNER_ID || "";
 
         navigator.sendBeacon(`${apiUrl}/analytics/${ownerId}/track-pageview`, payload);
       }

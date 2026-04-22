@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.API_URL || "https://wallace-dev.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_API_URL || "https://wallace-dev.com"),
   title: {
     default: "Portfolio Profissional | Desenvolvedor FullStack",
     template: "%s | Portfolio Profissional",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: new URL(process.env.API_URL || "https://wallace-dev.com"),
+    url: new URL(process.env.NEXT_PUBLIC_API_URL || "https://wallace-dev.com"),
     title: "Portfolio Profissional | Desenvolvedor FullStack",
     description:
       "Portfolio profissional de desenvolvedor FullStack especializado em Next.js, React, Node.js e tecnologias modernas.",
@@ -103,7 +103,7 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   alternates: {
-    canonical: process.env.API_URL || "https://wallace-dev.com",
+    canonical: process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br",
     languages: {
       "pt-BR": "/watch/pt",
       "en-US": "/watch/en",

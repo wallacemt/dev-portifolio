@@ -115,7 +115,7 @@ export function validateTimeSpent(timeSpent: number): number {
 }
 
 export function isAnalyticsEnabled(): boolean {
-  return process.env.ANALYTICS_ENABLED === "true";
+  return process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === "true";
 }
 
 export function shouldTrackPage(pathname: string): boolean {

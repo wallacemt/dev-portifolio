@@ -17,7 +17,7 @@ This is a **Next.js 15+ multilingual portfolio** with App Router, TypeScript, an
 
 - `npm run dev` - Development with Turbopack (preferred)
 - `npm run build` - Production build
-- Environment variables: `API_URL` and `OWNER_ID` required
+- Environment variables: `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_OWNER_ID` required
 
 ### File Organization
 
