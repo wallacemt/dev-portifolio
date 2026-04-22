@@ -1,15 +1,15 @@
-FROM node:22-alpine3.21  
+FROM oven/bun:canary-alpine 
 WORKDIR /app
 
 COPY package.json tsconfig.json ./
-RUN npm install
+RUN bun install
 
 COPY . .
 
 ARG API_URL
 ENV API_URL=$API_URL
 
-RUN npm run build
+RUN bun run build
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["bun", "run", "start"]
