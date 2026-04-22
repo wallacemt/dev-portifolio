@@ -1,12 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  env: {
-    API_URL: process.env.API_URL,
-    OWNER_ID: process.env.OWNER_ID,
-    ANALYTICS_ENABLED: process.env.ANALYTICS_ENABLED,
-  },
-  allowedDevOrigins: [new URL(process.env.API_URL || "").hostname],
   images: {
     formats: ["image/webp", "image/avif"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
