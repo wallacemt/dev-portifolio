@@ -2,13 +2,9 @@ import axios from "axios";
 
 import { cookieUtils } from "./cookies";
 
-export const baseURL =
-  typeof window === "undefined"
-    ? process.env.API_URL
-    : process.env.NEXT_PUBLIC_API_URL;
+export const baseURL = typeof window === "undefined" ? process.env.NEXT_PUBLIC_API_URL : process.env.API_URL;
 
-export const ownerId = "685b41be6ba068f5fbe56d71"
-
+export const ownerId = "685b41be6ba068f5fbe56d71";
 
 export const API = axios.create({
   baseURL,
@@ -30,9 +26,8 @@ API.interceptors.response.use(
       return API(error.config);
     }
     return Promise.reject(error);
-  }
+  },
 );
-
 
 export const setupAuth = async () => {
   let token = cookieUtils.getAuthToken();
