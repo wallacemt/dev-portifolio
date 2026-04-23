@@ -7,10 +7,7 @@ export const baseURL =
     ? process.env.API_URL
     : process.env.NEXT_PUBLIC_API_URL;
 
-export const ownerId =
-  typeof window === "undefined"
-    ? process.env.OWNER_ID
-    : process.env.NEXT_PUBLIC_OWNER_ID;
+export const ownerId = "685b41be6ba068f5fbe56d71"
 
 
 export const API = axios.create({
