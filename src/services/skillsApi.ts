@@ -50,7 +50,6 @@ export const postSkill = async (data: SkillAddFormData): Promise<Skill> => {
 export const putSKill = async (id: string, data: SkillUpdateFormData): Promise<Skill> => {
   try {
     setupAuth();
-    console.log(data);
     const res = await API.put(`/skills/private/${id}/update`, data);
     return res.data as Skill;
   } catch (error) {

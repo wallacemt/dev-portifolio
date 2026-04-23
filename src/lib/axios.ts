@@ -12,7 +12,6 @@ export const ownerId =
     ? process.env.OWNER_ID
     : process.env.NEXT_PUBLIC_OWNER_ID;
 
-console.log(ownerId)
 
 export const API = axios.create({
   baseURL,

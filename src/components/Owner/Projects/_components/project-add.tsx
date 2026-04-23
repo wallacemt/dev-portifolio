@@ -159,7 +159,6 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
     ? skills.filter((skill) => skill.title.toLowerCase().includes(searchTech.trim().toLowerCase()))
     : skills;
 
-  console.log(watch("previewVideoUrl"));
   return (
     <Card className="w-full max-w-4xl mx-auto bg-roxo700 font-secundaria">
       <CardContent className={`space-y-6 ${isLoading && "blur-xs"}`}>
