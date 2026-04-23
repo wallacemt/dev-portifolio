@@ -16,7 +16,7 @@ export class ServerAnalytics {
         signal: AbortSignal.timeout(5000),
       });
 
-      if (!response.ok) {
+      if (!response.data) {
         console.error(`Analytics API error: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
