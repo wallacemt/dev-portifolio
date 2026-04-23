@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
 import { postTrackVisitorPageView } from "@/services/analytics";
 import { validateTimeSpent, generateSessionId, extractVisitorDataFromClient } from "@/lib/analytics-utils";
+import { baseURL, ownerId } from "@/lib/axios";
 
 interface UseOptimizedAnalyticsOptions {
   enabled?: boolean;
@@ -143,10 +144,8 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
           },
         });
 
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-        const ownerId = process.env.NEXT_PUBLIC_OWNER_ID || "";
-
-        navigator.sendBeacon(`${apiUrl}/analytics/${ownerId}/track-pageview`, payload);
+     
+        navigator.sendBeacon(`${baseURL}/analytics/${ownerId}/track-pageview`, payload);
       }
     };
 

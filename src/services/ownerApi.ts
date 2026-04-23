@@ -3,7 +3,6 @@ import { OwnerDataOptionalRequest, OwnerResponse } from "@/types/owner";
 
 export const getOwner = async (language: string = "pt"): Promise<OwnerResponse> => {
   try {
-    const ownerId = process.env.NEXT_PUBLIC_OWNER_ID || "";
     const response = await API.get(`/owner/${ownerId}?language=${language}`);
     return response.data as OwnerResponse;
   } catch (error) {

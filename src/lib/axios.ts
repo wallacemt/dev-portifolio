@@ -6,6 +6,14 @@ export const baseURL =
   typeof window === "undefined"
     ? process.env.API_URL
     : process.env.NEXT_PUBLIC_API_URL;
+
+export const ownerId =
+  typeof window === "undefined"
+    ? process.env.OWNER_ID
+    : process.env.NEXT_PUBLIC_OWNER_ID;
+
+
+
 export const API = axios.create({
   baseURL,
   timeout: 30000,
@@ -29,7 +37,6 @@ API.interceptors.response.use(
   }
 );
 
-export const ownerId = process.env.NEXT_PUBLIC_OWNER_ID;
 
 export const setupAuth = async () => {
   let token = cookieUtils.getAuthToken();

@@ -1,7 +1,6 @@
 import { VisitorData, PageViewData } from "@/lib/analytics-utils";
-import { API } from "./axios";
+import { API, ownerId } from "./axios";
 
-const OWNER_ID = process.env.NEXT_PUBLIC_OWNER_ID;
 
 export class ServerAnalytics {
   private static async makeRequest(endpoint: string, data: unknown): Promise<void> {
@@ -25,13 +24,13 @@ export class ServerAnalytics {
   }
 
   static async trackVisitor(visitorData: VisitorData): Promise<void> {
-    await this.makeRequest(`/analytics/${OWNER_ID}/track-visitor`, visitorData);
+    await this.makeRequest(`/analytics/${ownerId}/track-visitor`, visitorData);
   }
 
   static async trackPageView(pageViewData: PageViewData, visitorData?: Partial<VisitorData>): Promise<void> {
     const payload = visitorData ? { pageView: pageViewData, visitor: visitorData } : pageViewData;
 
-    await this.makeRequest(`/analytics/${OWNER_ID}/track-pageview`, payload);
+    await this.makeRequest(`/analytics/${ownerId}/track-pageview`, payload);
   }
 
   static trackVisitorAsync(visitorData: VisitorData): void {
