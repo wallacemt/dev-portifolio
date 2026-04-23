@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { OwnerResponse } from "@/types/owner";
+import { getBaseURL } from "./axios";
 
 export interface SEOConfig {
   title?: string;
@@ -12,7 +13,7 @@ export interface SEOConfig {
 }
 
 export function generateMetadata(config: SEOConfig, owner?: OwnerResponse): Metadata {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com";
+  const baseUrl = getBaseURL();
   const defaultImage = `${baseUrl}/og-image.png`; // Será adicionado posteriormente
   const siteName = owner?.name ? `${owner.name} - Portfolio` : "Portfolio Profissional";
 

@@ -1,7 +1,8 @@
+import { getBaseURL } from "@/lib/axios";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
+  const baseUrl =getBaseURL();
 
   const routes = ["", "/projects", "/skills", "/formation", "/services"];
 

@@ -1,17 +1,10 @@
 import { VisitorData, PageViewData } from "@/lib/analytics-utils";
 import { API, ownerId } from "./axios";
 
-
 export class ServerAnalytics {
   private static async makeRequest(endpoint: string, data: unknown): Promise<void> {
     try {
-      const response = await API.post(`${endpoint}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-
+      const response = await API.post(endpoint, data, {
         signal: AbortSignal.timeout(5000),
       });
 

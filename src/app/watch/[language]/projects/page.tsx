@@ -9,6 +9,7 @@ import {
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
 import { StructuredData } from "@/components/Visitor/SEO/StructuredData";
+import { getBaseURL } from "@/lib/axios";
 
 export const revalidate = 60;
 
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
+    const baseUrl = getBaseURL();
 
     return generateSEOMetadata(
       {
@@ -44,9 +45,9 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
         language,
         ogImage: `${baseUrl}/og-image-projects-${language === "pt" ? "pt" : "en"}.png`,
       },
-      owner
+      owner,
     );
-  } catch  {
+  } catch {
     const content = getLanguageSpecificContent(language);
     return generateSEOMetadata({
       title: `${content.projectsTitle} | ${content.siteName}`,

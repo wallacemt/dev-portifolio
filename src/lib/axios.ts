@@ -2,15 +2,17 @@ import axios from "axios";
 
 import { cookieUtils } from "./cookies";
 
-export const baseURL =
-  typeof window === "undefined"
-    ? process.env.NEXT_PUBLIC_API_URL
-    : process.env.API_URL || "http://api.wallacedev.com.br";
+export function getBaseURL() {
+  if (typeof window === "undefined") {
+    return process.env.API_URL;
+  }
+  return process.env.NEXT_PUBLIC_API_URL;
+}
 
 export const ownerId = "685b41be6ba068f5fbe56d71";
 
 export const API = axios.create({
-  baseURL,
+  baseURL: getBaseURL(),
   timeout: 30000,
 
   headers: {
