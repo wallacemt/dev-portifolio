@@ -6,7 +6,7 @@ const OWNER_ID = process.env.NEXT_PUBLIC_OWNER_ID;
 export class ServerAnalytics {
   private static async makeRequest(endpoint: string, data: unknown): Promise<void> {
     try {
-      const response = await API.POST(`${endpoint}`, {
+      const response = await API.post(`${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
