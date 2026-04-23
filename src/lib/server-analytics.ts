@@ -1,12 +1,12 @@
 import { VisitorData, PageViewData } from "@/lib/analytics-utils";
+import { API } from "./axios";
 
-const ANALYTICS_API_URL = process.env.NEXT_PUBLIC_API_URL || "";
-const OWNER_ID = process.env.NEXT_PUBLIC_OWNER_ID || "";
+const OWNER_ID = process.env.NEXT_PUBLIC_OWNER_ID;
 
 export class ServerAnalytics {
   private static async makeRequest(endpoint: string, data: unknown): Promise<void> {
     try {
-      const response = await fetch(`${ANALYTICS_API_URL}${endpoint}`, {
+      const response = await API.POST(`${endpoint}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
