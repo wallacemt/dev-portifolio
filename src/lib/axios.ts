@@ -2,7 +2,10 @@ import axios from "axios";
 
 import { cookieUtils } from "./cookies";
 
-export const baseURL = typeof window === "undefined" ? process.env.NEXT_PUBLIC_API_URL : process.env.API_URL;
+export const baseURL =
+  typeof window === "undefined"
+    ? process.env.NEXT_PUBLIC_API_URL
+    : process.env.API_URL || "http://api.wallacedev.com.br";
 
 export const ownerId = "685b41be6ba068f5fbe56d71";
 
