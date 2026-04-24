@@ -52,11 +52,14 @@ export async function getGeoLocation(ip: string): Promise<{ country: string; cit
     const response = await fetch(`https://ipapi.co/${ip}/json/`, {
       headers: {
         "User-Agent": "portfolio-analytics/1.0",
-      },
+      },  
     });
 
     if (!response.ok) {
-      throw new Error("Geolocation API error");
+      return {
+        country: "unknown",
+        city:"unknown",
+      };
     }
 
     const data = await response.json();
@@ -144,8 +147,8 @@ export function extractVisitorDataFromClient(sessionId: string): Partial<Visitor
     landingPage,
     os: getOSFromUA(userAgent),
     browser: getBrowserFromUA(userAgent),
-    ip: "client-side", 
-    country: "unknown", 
+    ip: "client-side",
+    country: "unknown",
     city: "unknown",
   };
 }
