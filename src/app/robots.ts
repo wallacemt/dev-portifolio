@@ -1,8 +1,8 @@
-import { getBaseURL } from "@/lib/axios";
+import { getSiteURL } from "@/lib/axios";
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = getBaseURL();
+  const baseUrl = getSiteURL();
   return {
     rules: [
       {

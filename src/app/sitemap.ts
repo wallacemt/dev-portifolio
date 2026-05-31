@@ -1,8 +1,8 @@
-import { getBaseURL } from "@/lib/axios";
+import { getSiteURL } from "@/lib/axios";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl =getBaseURL();
+  const baseUrl = getSiteURL();
 
   const routes = ["", "/projects", "/skills", "/formation", "/services"];
 

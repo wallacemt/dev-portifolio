@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Aclonica, Lato, Roboto, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import TopLoadingBar from "@/components/ui/top-loading-bar";
+import { getSiteURL } from "@/lib/axios";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -16,7 +17,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_API_URL || "https://wallace-dev.com"),
+  metadataBase: new URL(getSiteURL()),
   title: {
     default: "Portfolio Profissional | Desenvolvedor FullStack",
     template: "%s | Portfolio Profissional",
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: new URL(process.env.NEXT_PUBLIC_API_URL || "https://wallace-dev.com"),
+    url: new URL(getSiteURL()),
     title: "Portfolio Profissional | Desenvolvedor FullStack",
     description:
       "Portfolio profissional de desenvolvedor FullStack especializado em Next.js, React, Node.js e tecnologias modernas.",
@@ -103,14 +104,14 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br",
+    canonical: getSiteURL(),
     languages: {
       "pt-BR": "/watch/pt",
       "en-US": "/watch/en",
     },
   },
   verification: {
-    google: "google-site-verification-code",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },
   category: "technology",
   classification: "Portfolio Website",
@@ -170,7 +171,6 @@ export default function RootLayout({
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
         <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
-        <meta httpEquiv="Accept-CH" content="DPR, Width, Viewport-Width" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
         <TopLoadingBar />

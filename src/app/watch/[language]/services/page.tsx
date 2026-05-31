@@ -9,7 +9,7 @@ import {
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
 import { StructuredData } from "@/components/Visitor/SEO/StructuredData";
-import { getBaseURL } from "@/lib/axios";
+import { getSiteURL } from "@/lib/axios";
 
 export const revalidate = 60;
 
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = getBaseURL();
+    const baseUrl = getSiteURL();
 
     return generateSEOMetadata(
       {
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
 
 export default async function OwnerServices({ params }: OwnerServicesProps) {
   const { language } = await params;
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://wallacedev.com.br";
+  const baseUrl = getSiteURL();
   const content = getLanguageSpecificContent(language);
   const breadcrumbData = generateBreadcrumbStructuredData([
     { name: content.homeTitle, url: `${baseUrl}/watch/${language}` },

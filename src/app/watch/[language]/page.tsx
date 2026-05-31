@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Abbout } from "@/components/Visitor/Abbout";
 import { getOwner } from "@/services/ownerApi";
 import { generateMetadata as generateSEOMetadata, getLanguageSpecificContent } from "@/lib/seo-utils";
-import { getBaseURL } from "@/lib/axios";
+import { getSiteURL } from "@/lib/axios";
 
 export const revalidate = 60;
 
@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = getBaseURL();
+    const baseUrl = getSiteURL();
 
     return generateSEOMetadata(
       {

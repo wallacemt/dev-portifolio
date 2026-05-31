@@ -14,7 +14,7 @@ import {
   getLanguageSpecificContent,
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
-import { getBaseURL } from "@/lib/axios";
+import { getSiteURL } from "@/lib/axios";
 
 const Silk = dynamic(() => import("@/components/blocks/Backgrounds/Silk/Silk"), {});
 
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
   try {
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
-    const baseUrl = getBaseURL();
+    const baseUrl = getSiteURL();
     return generateSEOMetadata(
       {
         title: `${owner.name} - ${content.siteName}`,
