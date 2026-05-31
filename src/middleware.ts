@@ -48,19 +48,24 @@ export async function middleware(request: NextRequest) {
     response = NextResponse.next();
   }
 
-  if (isAnalyticsEnabled() && shouldTrackPage(pathname)) {
+  const isPrefetch =
+    request.headers.get("Next-Router-Prefetch") === "1" ||
+    request.headers.get("purpose") === "prefetch" ||
+    request.headers.get("RSC") === "1";
+
+  if (isAnalyticsEnabled() && shouldTrackPage(pathname) && !isPrefetch) {
     const existingSessionId = request.cookies.get("sessionId")?.value;
     const sessionId = existingSessionId || getOrCreateSessionId(request);
     if (!existingSessionId) {
       response = setSessionIdCookie(response, sessionId);
+      handleAnalytics(request, sessionId).catch(() => {});
     }
-    handleAnalytics(request, sessionId, !existingSessionId).catch(() => {});
   }
 
   return response;
 }
 
-async function handleAnalytics(request: NextRequest, sessionId: string, isNewSession: boolean) {
+async function handleAnalytics(request: NextRequest, sessionId: string) {
   try {
     const visitorData = extractVisitorDataFromRequest(request);
     const geoData = await getGeoLocation(visitorData.ip || "127.0.0.1");
@@ -72,17 +77,7 @@ async function handleAnalytics(request: NextRequest, sessionId: string, isNewSes
       city: geoData.city,
     };
 
-    if (isNewSession) {
-      ServerAnalytics.trackVisitorAsync(fullVisitorData as VisitorData);
-    }
-
-    ServerAnalytics.trackPageViewAsync(
-      {
-        sessionId: sessionId,
-        page: request.nextUrl.pathname,
-      },
-      fullVisitorData as VisitorData
-    );
+    ServerAnalytics.trackVisitorAsync(fullVisitorData as VisitorData);
   } catch (error) {
     if (process.env.NODE_ENV === "development") console.debug("Middleware analytics error:", error);
   }

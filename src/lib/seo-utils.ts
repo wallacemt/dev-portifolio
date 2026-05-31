@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { OwnerResponse } from "@/types/owner";
-import { getBaseURL } from "./axios";
+import { getSiteURL } from "./axios";
 
 export interface SEOConfig {
   title?: string;
@@ -13,7 +13,7 @@ export interface SEOConfig {
 }
 
 export function generateMetadata(config: SEOConfig, owner?: OwnerResponse): Metadata {
-  const baseUrl = getBaseURL();
+  const baseUrl = getSiteURL();
   const defaultImage = `${baseUrl}/og-image.png`; // Será adicionado posteriormente
   const siteName = owner?.name ? `${owner.name} - Portfolio` : "Portfolio Profissional";
 
@@ -84,13 +84,13 @@ export function generateMetadata(config: SEOConfig, owner?: OwnerResponse): Meta
       },
     },
     verification: {
-      google: "google-site-verification-code", // Será adicionado posteriormente
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
     },
   };
 }
 
 export function generateStructuredData(owner?: OwnerResponse, language: string = "pt") {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com";
+  const baseUrl = getSiteURL();
 
   const personData = {
     "@context": "https://schema.org",

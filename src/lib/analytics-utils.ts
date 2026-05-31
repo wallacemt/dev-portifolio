@@ -52,7 +52,8 @@ export async function getGeoLocation(ip: string): Promise<{ country: string; cit
     const response = await fetch(`https://ipapi.co/${ip}/json/`, {
       headers: {
         "User-Agent": "portfolio-analytics/1.0",
-      },  
+      },
+      signal: AbortSignal.timeout(3000),
     });
 
     if (!response.ok) {

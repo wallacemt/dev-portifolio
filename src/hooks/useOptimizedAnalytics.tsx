@@ -145,7 +145,7 @@ export const useOptimizedAnalytics = (options: UseOptimizedAnalyticsOptions = {}
         });
 
      
-        navigator.sendBeacon(`${getBaseURL}/analytics/${ownerId}/track-pageview`, payload);
+        navigator.sendBeacon(`${getBaseURL()}/analytics/${ownerId}/track-pageview`, payload);
       }
     };
 

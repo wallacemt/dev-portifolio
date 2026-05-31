@@ -9,6 +9,10 @@ export function getBaseURL() {
   return process.env.NEXT_PUBLIC_API_URL || "https://api.wallacedev.com.br";
 }
 
+export function getSiteURL() {
+  return process.env.NEXT_PUBLIC_SITE_URL || "https://wallacedev.com.br";
+}
+
 export const ownerId = "685b41be6ba068f5fbe56d71";
 
 export const API = axios.create({
