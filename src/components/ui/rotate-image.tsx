@@ -1,6 +1,9 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { Award } from "lucide-react";
 
 interface RotateImageProps {
   imageUrl: string;
@@ -12,9 +15,11 @@ interface RotateImageProps {
 
 export function RotateImage({ height = 300, imageUrl, title, width = 300, className }: RotateImageProps) {
   const imageRef = useRef<HTMLDivElement>(null);
+  const [hasError, setHasError] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleMouseEnter = () => {
-    if (imageRef.current) {
+    if (imageRef.current && !hasError) {
       imageRef.current.classList.add("image-rotate-container");
     }
   };
@@ -24,48 +29,61 @@ export function RotateImage({ height = 300, imageUrl, title, width = 300, classN
       imageRef.current.classList.remove("image-rotate-container");
     }
   };
+
+  const isExternal = imageUrl?.startsWith("http");
+
+  if (hasError || !imageUrl) {
+    return (
+      <div
+        className={cn(
+          className,
+          "relative h-40 w-40 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-muted/40 border border-border/40",
+        )}
+        title={title}
+      >
+        <Award className="h-12 w-12 text-muted-foreground/50" />
+      </div>
+    );
+  }
+
   return (
     <div
       ref={imageRef}
-      className={cn(className, "relative h-full w-40 rounded-lg overflow-hidden flex-shrink-0")}
+      className={cn(className, "relative h-40 w-40 rounded-lg overflow-hidden flex-shrink-0")}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted/40 animate-pulse rounded-lg">
+          <Award className="h-10 w-10 text-muted-foreground/40" />
+        </div>
+      )}
       <Image
         src={imageUrl}
         alt={title}
-        className="object-cover hover:scale-105 transition-all ease-in"
+        className={cn("object-contain transition-all ease-in", isLoaded ? "opacity-100" : "opacity-0")}
         title={title}
         width={width}
         height={height}
+        unoptimized={isExternal}
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
       />
-      <style>{
-      `/* Apply a 3D perspective to the container */
+      <style>{`
         .image-rotate-container {
-            perspective: 600px; /* Adjust as needed to control the depth of the 3D space */
+          perspective: 600px;
         }
-
-        /* Apply the animation to the image or another inner container */
         .image-rotate-container img {
-            /* The animation property combines name, duration, timing, and iteration count */
-            animation: rotate3dImage 6s linear infinite; 
-            transform-style: preserve-3d; /* Ensures child elements (if any) are rendered in 3D space */
-            display: block; /* Ensures transforms work correctly */
-            width: 100%;
+          animation: rotate3dImage 6s linear infinite;
+          transform-style: preserve-3d;
+          display: block;
+          width: 100%;
         }
-
-        /* Define the keyframe animation */
         @keyframes rotate3dImage {
-            from {
-                /* Start the rotation at 0 degrees around the Y-axis (or X/Z as desired) */
-                transform: rotateY(0deg); 
-            }
-            to {
-                /* End the rotation at 360 degrees, creating a full spin */
-                transform: rotateY(360deg);
-            }
-    }`
-}</style>
+          from { transform: rotateY(0deg); }
+          to   { transform: rotateY(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

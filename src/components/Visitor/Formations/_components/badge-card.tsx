@@ -28,7 +28,7 @@ export function BadgeCard({ badge, language = "pt", className }: BadgeCardProps)
     >
       <CardHeader className="pb-3">
         <div className="flex flex-col items-center justify-between gap-2">
-          {badge.imageUrl && <RotateImage imageUrl={badge.imageUrl} title={badge.title} />}
+          <RotateImage imageUrl={badge.imageUrl} title={badge.title} />
           <ScrollArea className="h-[112px] w-full  p-4">
             <div className="flex-1 space-y-1">
               <CardTitle className="text-lg line-clamp-2 group-hover:text-primary transition-colors">

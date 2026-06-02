@@ -27,9 +27,7 @@ export function CertificationCard({ certification, language = "pt" }: Certificat
 
       <CardHeader className="pb-3">
         <div className="flex flex-col items-center justify-between gap-2">
-          {certification.badgeImageUrl && (
-            <RotateImage imageUrl={certification.badgeImageUrl} title={certification.title} />
-          )}
+          <RotateImage imageUrl={certification.badgeImageUrl ?? ""} title={certification.title} />
           <ScrollArea className="h-[112px] w-full p-4">
             <div className="flex-1 space-y-1">
               <div className="flex items-start gap-2 flex-wrap">
