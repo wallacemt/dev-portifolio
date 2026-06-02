@@ -36,6 +36,7 @@ export interface Certification {
   expirationDate?: string;
   credentialId?: string;
   credentialUrl: string;
+  badgeImageUrl?: string;
   certificateFile?: string;
   ownerId: string;
   createdAt: string;
@@ -49,6 +50,7 @@ export interface CertificationInput {
   expirationDate?: string;
   credentialId?: string;
   credentialUrl: string;
+  badgeImageUrl?: string;
   certificateFile?: string;
 }
 export interface CertificationResponse {

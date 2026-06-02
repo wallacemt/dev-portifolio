@@ -30,7 +30,8 @@ const certificationSchema = z.object({
   expirationDate: z.string().optional(),
   credentialId: z.string().optional(),
   credentialUrl: z.string().url("URL da credencial inválida"),
-  certificateFile: z.string().url("URL do certificado inválida").optional().or(z.literal("")),
+  badgeImageUrl: z.string().url("URL da imagem do badge inválida").optional().or(z.literal("")),
+  certificateFile: z.string().url("URL do certificado PDF inválida").optional().or(z.literal("")),
 });
 
 type CertificationFormData = z.infer<typeof certificationSchema>;
@@ -59,6 +60,7 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
         : "",
       credentialId: certification?.credentialId || "",
       credentialUrl: certification?.credentialUrl || "",
+      badgeImageUrl: certification?.badgeImageUrl || "",
       certificateFile: certification?.certificateFile || "",
     },
   });
@@ -88,7 +90,13 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
     }
   };
 
-  const handleUploadComplete = (results: { url: string }[]) => {
+  const handleBadgeImageUploadComplete = (results: { url: string }[]) => {
+    if (results[0]?.url) {
+      form.setValue("badgeImageUrl", results[0].url);
+    }
+  };
+
+  const handleCertificateFileUploadComplete = (results: { url: string }[]) => {
     if (results[0]?.url) {
       form.setValue("certificateFile", results[0].url);
     }
@@ -213,25 +221,53 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
 
             <FormField
               control={form.control}
+              name="badgeImageUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Imagem do Badge (Opcional)</FormLabel>
+                  <FormControl>
+                    <div className="space-y-2">
+                      <Input placeholder="https://exemplo.com/badge.png" {...field} />
+                      <FileUpload
+                        accept="image/*"
+                        uploadOptions={{
+                          folder: "portifolio/certifications/badges",
+                          resourceType: "image",
+                        }}
+                        onUploadComplete={handleBadgeImageUploadComplete}
+                        label="Ou faça upload da imagem do badge"
+                        description="PNG, JPG ou SVG do badge/certificado"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormDescription>Imagem exibida no card da certificação</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="certificateFile"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Arquivo do Certificado (Opcional)</FormLabel>
+                  <FormLabel>Arquivo PDF do Certificado (Opcional)</FormLabel>
                   <FormControl>
                     <div className="space-y-2">
                       <Input placeholder="https://exemplo.com/certificate.pdf" {...field} />
                       <FileUpload
-                        accept="application/pdf,image/*"
+                        accept="application/pdf"
                         uploadOptions={{
-                          folder: "portifolio/certifications",
-                          resourceType: "auto",
+                          folder: "portifolio/certifications/files",
+                          resourceType: "raw",
                         }}
-                        onUploadComplete={handleUploadComplete}
-                        label="Ou faça upload do certificado"
-                        description="PDF ou imagem do certificado"
+                        onUploadComplete={handleCertificateFileUploadComplete}
+                        label="Ou faça upload do PDF do certificado"
+                        description="Arquivo PDF do certificado para download"
                       />
                     </div>
                   </FormControl>
+                  <FormDescription>PDF disponibilizado para download no portfólio</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

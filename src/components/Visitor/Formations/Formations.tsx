@@ -68,7 +68,6 @@ export async function Formations({ language }: FormationsProps) {
     <>
       <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 py-8  relative overflow-hidden" id="formations">
         <FormationsContent formations={formations} language={language} />
-        {badges.badges.length > 0 && <BadgesSection texts={badges.texts} badges={badges.badges} language={language} />}
 
         {certifications.certifications.length > 0 && (
           <CertificationsSection
@@ -77,6 +76,8 @@ export async function Formations({ language }: FormationsProps) {
             language={language}
           />
         )}
+
+        {badges.badges.length > 0 && <BadgesSection texts={badges.texts} badges={badges.badges} language={language} />}
       </section>
     </>
   );
