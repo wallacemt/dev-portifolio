@@ -37,7 +37,10 @@ export type CrudState = Promise<{
 export interface AiModel {
   id: string;
   name: string;
-}
-export interface AiModelsResponse {
-  models: AiModel[];
+  description?: string;
+  context_length?: number;
+  pricing: {
+    prompt: string;
+    completion: string;
+  };
 }

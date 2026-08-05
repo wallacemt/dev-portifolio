@@ -31,7 +31,7 @@ export function AiModelConfig() {
         setSelectedModel(config.model || config.defaultModel);
         setDefaultModel(config.defaultModel);
 
-        const { models: aiModels } = await getAiModels();
+        const aiModels = await getAiModels();
         if (!isMounted) return;
         setModels(aiModels);
       } catch {

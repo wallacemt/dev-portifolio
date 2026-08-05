@@ -1,4 +1,4 @@
-import { AiModelsResponse, LenguagesResponse, NavbarItens } from "@/types/utilis";
+import { AiModel, LenguagesResponse, NavbarItens } from "@/types/utilis";
 import { API, setupAuth } from "@/lib/axios";
 
 export async function getNavbarItems(language = "pt"): Promise<NavbarItens> {
@@ -19,10 +19,10 @@ export async function getAvailableLanguages(): Promise<LenguagesResponse> {
   }
 }
 
-export async function getAiModels(): Promise<AiModelsResponse> {
+export async function getAiModels(): Promise<AiModel[]> {
   try {
     await setupAuth();
-    const res = await API.get<AiModelsResponse>(`/utilis/ai-models`);
+    const res = await API.get<AiModel[]>(`/utilis/ai-models`);
     return res.data;
   } catch (error) {
     throw new Error(
