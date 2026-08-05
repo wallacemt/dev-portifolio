@@ -3,8 +3,10 @@ import { useState } from "react";
 import { ChartAreaInteractive } from "@/components/ui/chart-area-interactive";
 import { SectionCards } from "@/components/ui/section-cards";
 import { SiteHeader } from "@/components/ui/site-header";
+import { LiveBadge } from "@/components/ui/live-badge";
 import { AnalyticsSummaryResponse, AnalyticsRealTimeResponse } from "@/types/analytics";
-import { analyticsSummary, analyticsRealTime } from "@/services/analytics";
+import { analyticsSummary } from "@/services/analytics";
+import { useAnalyticsStream } from "@/hooks/useAnalyticsStream";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MoveRight, RefreshCcw } from "lucide-react";
@@ -20,44 +22,44 @@ interface DashboardContentProps {
 }
 
 export const DashboardContent = ({ initialData }: DashboardContentProps) => {
-  const [data, setData] = useState<DashboardData>(initialData);
+  const [summary, setSummary] = useState<AnalyticsSummaryResponse | null>(initialData.summary);
+  const [error, setError] = useState<string | null>(initialData.error);
   const [isLoading, setIsLoading] = useState(false);
+  const { data: streamData, status, refresh } = useAnalyticsStream();
+
+  const realTime: AnalyticsRealTimeResponse | null = streamData ?? initialData.realTime;
 
   const refreshData = async () => {
     try {
       setIsLoading(true);
-      const [summaryData, realTimeData] = await Promise.all([analyticsSummary(), analyticsRealTime()]);
-
-      setData({
-        summary: summaryData,
-        realTime: realTimeData,
-        error: null,
-      });
-    } catch (error) {
-      setData((prev) => ({
-        ...prev,
-        error: error instanceof Error ? error.message : "Erro ao atualizar dados",
-      }));
+      await Promise.all([analyticsSummary().then(setSummary), refresh()]);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Erro ao atualizar dados");
     } finally {
       setIsLoading(false);
     }
   };
 
-  
+  const data = { summary, realTime, error };
 
   return (
     <>
       <SiteHeader title="Dashboard" />
       <div className="flex flex-1 flex-col">
-        <div className="flex items-center gap-2 justify-end px-4">
-          <Button
-            onClick={refreshData}
-            disabled={isLoading}
-            className="flex items-center hover:bg-roxo500 text-white gap-2 bg-roxo300"
-          >
-            {isLoading ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-4 w-4" />}
-            {isLoading ? "Atualizando..." : "Atualizar Dados"}
-          </Button>
+        <div className="flex items-center gap-4 justify-end px-4">
+          <LiveBadge status={status} />
+
+          {status !== "live" && (
+            <Button
+              onClick={refreshData}
+              disabled={isLoading}
+              className="flex items-center hover:bg-roxo500 text-white gap-2 bg-roxo300"
+            >
+              {isLoading ? <RefreshCcw className="h-4 w-4 animate-spin" /> : <RefreshCcw className="h-4 w-4" />}
+              {isLoading ? "Atualizando..." : "Atualizar Dados"}
+            </Button>
+          )}
 
           <Link
             href="/owner/dashboard/analyze"
@@ -68,7 +70,7 @@ export const DashboardContent = ({ initialData }: DashboardContentProps) => {
         </div>
         <div className="@container/main flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-            <SectionCards data={data} isLoading={isLoading} onRefresh={refreshData} />
+            <SectionCards data={data} isLoading={isLoading} onRefresh={refreshData} streamStatus={status} />
             <div className="px-4 lg:px-6">
               <ChartAreaInteractive data={data} isLoading={isLoading} />
             </div>
