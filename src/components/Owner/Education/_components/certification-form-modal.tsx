@@ -226,19 +226,19 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
                 <FormItem>
                   <FormLabel>Imagem do Badge (Opcional)</FormLabel>
                   <FormControl>
-                    <div className="space-y-2">
-                      <Input placeholder="https://exemplo.com/badge.png" {...field} />
-                      <FileUpload
-                        accept="image/*"
-                        uploadOptions={{
-                          folder: "portifolio/certifications/badges",
-                          resourceType: "image",
-                        }}
-                        onUploadComplete={handleBadgeImageUploadComplete}
-                        label="Ou faça upload da imagem do badge"
-                        description="PNG, JPG ou SVG do badge/certificado"
-                      />
-                    </div>
+                    <FileUpload
+                      accept="image/*"
+                      uploadOptions={{
+                        folder: "portifolio/certifications/badges",
+                        resourceType: "image",
+                      }}
+                      existingUrls={field.value ? [field.value] : []}
+                      onRemoveExisting={() => form.setValue("badgeImageUrl", "")}
+                      onUploadComplete={handleBadgeImageUploadComplete}
+                      onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                      label="Imagem do Badge"
+                      description="Arraste e solte ou clique para selecionar o PNG, JPG ou SVG do badge"
+                    />
                   </FormControl>
                   <FormDescription>Imagem exibida no card da certificação</FormDescription>
                   <FormMessage />

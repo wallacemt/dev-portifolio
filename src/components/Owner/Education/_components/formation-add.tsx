@@ -10,13 +10,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Eye, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { formationSchema, type FormationAddFormData } from "@/lib/validations/formations";
 import {  postFormation } from "@/services/formationApi";
 import { toast } from "sonner";
 import { ownerId } from "@/lib/axios";
-import Image from "next/image";
-import z from "zod";
+import { FileUpload } from "@/components/ui/file-upload";
 import {  FormationTypeValues } from "@/types/formations";
 import { Calendar22 } from "@/components/ui/calendar-22";
 interface FormationAddProps {
@@ -81,7 +80,6 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
     watch,
     reset,
   } = form;
-  const screenshot = watch("image");
   const onSubmit: SubmitHandler<FormationAddFormData> = async (data) => {
     try {
       setIsLoading(true);
@@ -121,26 +119,6 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
             {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
           </div>
         </div>
-        {screenshot && z.string().url().safeParse(screenshot).success && (
-          <div className="mx-auto flex flex-col items-center justify-center w-full">
-            <p className="text-sm mb-4 font-principal">Preview Image:</p>
-            <div className="relative w-60 h-60 rounded-md overflow-hidden border group cursor-pointer">
-              <Image
-                src={screenshot}
-                height={300}
-                width={200}
-                alt="Preview da imagem"
-                className="w-full h-full object-cover transition-transform group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Eye className="h-6 w-6 text-white" />
-              </div>
-              <div className="hidden absolute inset-0 items-center justify-center bg-muted text-muted-foreground text-sm">
-                Erro ao carregar imagem
-              </div>
-            </div>
-          </div>
-        )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -158,8 +136,15 @@ export function FormationAdd({ onSuccess }: FormationAddProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="image">URL da Imagem *</Label>
-              <Input id="image" {...register("image")} placeholder="https://exemplo.com/imagem.jpg" />
+              <Label>Imagem da Formação *</Label>
+              <FileUpload
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/formations", resourceType: "image" }}
+                onUploadComplete={(results) => results[0]?.url && setValue("image", results[0].url)}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label="Imagem da Formação"
+                description="Arraste e solte ou clique para selecionar"
+              />
               {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
             </div>
 

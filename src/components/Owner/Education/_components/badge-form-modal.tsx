@@ -163,21 +163,21 @@ export function BadgeFormModal({ isOpen, onClose, onSuccess, badge }: BadgeFormM
                 <FormItem>
                   <FormLabel>Imagem do Badge *</FormLabel>
                   <FormControl>
-                    <div className="space-y-2">
-                      <Input placeholder="https://exemplo.com/badge.png" {...field} />
-                      <FileUpload
-                        accept="image/*"
-                        uploadOptions={{
-                          folder: "portifolio/badges",
-                          resourceType: "image",
-                        }}
-                        onUploadComplete={handleUploadComplete}
-                        label="Ou faça upload da imagem"
-                        description="Clique ou arraste a imagem do badge"
-                      />
-                    </div>
+                    <FileUpload
+                      accept="image/*"
+                      uploadOptions={{
+                        folder: "portifolio/badges",
+                        resourceType: "image",
+                      }}
+                      existingUrls={field.value ? [field.value] : []}
+                      onRemoveExisting={() => form.setValue("imageUrl", "")}
+                      onUploadComplete={handleUploadComplete}
+                      onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                      label="Imagem do Badge"
+                      description="Arraste e solte ou clique para selecionar a imagem do badge"
+                    />
                   </FormControl>
-                  <FormDescription>Cole a URL da imagem ou faça upload</FormDescription>
+                  <FormDescription>A imagem é enviada para o Cloudinary ao concluir o upload</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

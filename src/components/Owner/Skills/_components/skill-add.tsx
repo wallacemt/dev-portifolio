@@ -8,16 +8,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Plus, Loader2, Eye, Trash } from "lucide-react";
+import { X, Plus, Loader2, Trash } from "lucide-react";
 import { toast } from "sonner";
-import Image from "next/image";
 import { Skill, SkillTypeValues, StackType } from "@/types/skills";
 import { postSkill } from "@/services/skillsApi";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type SkillAddFormData, skillSchema } from "@/lib/validations/skills";
-
-import { PreviewImage } from "@/utilis/preview-image";
-import z from "zod";
+import { FileUpload } from "@/components/ui/file-upload";
 import { Switch } from "@/components/ui/switch";
 
 interface ProjectAddProps {
@@ -27,7 +24,6 @@ interface ProjectAddProps {
 export function SkillAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [subSkillInput, setSubSkillInput] = useState("");
-  const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
   const [isFinishRedirect, setIsFinishRedirect] = useState(false);
   const [jsonInput, setJsonInput] = useState("");
   const [jsonError, setJsonError] = useState("");
@@ -70,7 +66,6 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
   } = form;
 
   const subSkils = watch("subSkils") || [];
-  const screenshot = watch("image");
 
   const addSubSkill = () => {
     if (subSkillInput.trim() && !subSkils.includes(subSkillInput.trim())) {
@@ -125,29 +120,6 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
             {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
           </div>
         </div>
-        {screenshot && z.string().url().safeParse(screenshot).success && (
-          <div className="mx-auto flex flex-col items-center justify-center w-full">
-            <p className="text-sm mb-4 font-principal">Preview Image:</p>
-            <div
-              className="relative w-60 h-60 rounded-md overflow-hidden border group cursor-pointer"
-              onClick={() => setPreviewModalImage(screenshot)}
-            >
-              <Image
-                src={screenshot}
-                height={300}
-                width={200}
-                alt="Preview da imagem"
-                className="w-full h-full object-cover transition-transform group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Eye className="h-6 w-6 text-white" />
-              </div>
-              <div className="hidden absolute inset-0 items-center justify-center bg-muted text-muted-foreground text-sm">
-                Erro ao carregar imagem
-              </div>
-            </div>
-          </div>
-        )}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -157,8 +129,15 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image">URL da Imagem *</Label>
-              <Input id="image" {...register("image")} type="url" placeholder="https://exemplo.com/imagem.jpg" />
+              <Label>Imagem da Skill *</Label>
+              <FileUpload
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/skills", resourceType: "image" }}
+                onUploadComplete={(results) => results[0]?.url && setValue("image", results[0].url)}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label="Imagem da Skill"
+                description="Arraste e solte ou clique para selecionar"
+              />
               {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
             </div>
           </div>
@@ -271,10 +250,6 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
           <span className="w-18 h-18  rounded-full animate-spin border-t-6 border-t-roxo100"></span>
           <p className="font-principal text-2xl ">Carregando</p>
         </div>
-      )}
-
-      {previewModalImage && (
-        <PreviewImage previewImage={previewModalImage} setPreviewModalImage={setPreviewModalImage} />
       )}
     </Card>
   );
