@@ -33,3 +33,11 @@ export type CrudState = Promise<{
   state: "edit" | "all" | "create";
   id?: string;
 }>;
+
+export interface AiModel {
+  id: string;
+  name: string;
+}
+export interface AiModelsResponse {
+  models: AiModel[];
+}

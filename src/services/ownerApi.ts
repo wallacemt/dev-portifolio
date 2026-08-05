@@ -1,5 +1,5 @@
 import { API, ownerId, setupAuth } from "@/lib/axios";
-import { OwnerDataOptionalRequest, OwnerResponse } from "@/types/owner";
+import { AiConfigResponse, OwnerDataOptionalRequest, OwnerResponse, UpdateAiConfigRequest } from "@/types/owner";
 
 export const getOwner = async (language: string = "pt"): Promise<OwnerResponse> => {
   try {
@@ -28,5 +28,29 @@ export const updateOwner = async (data: OwnerDataOptionalRequest): Promise<Owner
     return response.data as OwnerResponse;
   } catch (error) {
     throw error;
+  }
+};
+
+export const getAiConfig = async (): Promise<AiConfigResponse> => {
+  try {
+    await setupAuth();
+    const response = await API.get<AiConfigResponse>(`/owner/private/ai-config`);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Erro ao carregar configuração de IA"
+    );
+  }
+};
+
+export const updateAiConfig = async (data: UpdateAiConfigRequest): Promise<AiConfigResponse> => {
+  try {
+    await setupAuth();
+    const response = await API.patch<AiConfigResponse>(`/owner/private/ai-config`, data);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      (error as { response: { data: { error: string } } }).response?.data?.error || "Erro ao atualizar modelo de IA"
+    );
   }
 };
