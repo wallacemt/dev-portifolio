@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FileUpload } from "@/components/ui/file-upload";
 import { Loader2, Save } from "lucide-react";
 import { toast } from "sonner";
 import { Formation, FormationTypeValues } from "@/types/formations";
@@ -119,8 +120,17 @@ export function FormationEditModal({ formation, isOpen, onClose, onSuccess }: Fo
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="image">URL da Imagem</Label>
-                <Input id="image" {...register("image")} placeholder="https://exemplo.com/imagem.jpg" />
+                <Label>Imagem da Formação</Label>
+                <FileUpload
+                  accept="image/*"
+                  uploadOptions={{ folder: "portifolio/formations", resourceType: "image" }}
+                  existingUrls={watch("image") ? [watch("image") as string] : []}
+                  onRemoveExisting={() => setValue("image", "")}
+                  onUploadComplete={(results) => results[0]?.url && setValue("image", results[0].url)}
+                  onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                  label="Imagem da Formação"
+                  description="Arraste e solte ou clique para selecionar"
+                />
                 {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
               </div>
 

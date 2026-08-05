@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { FileUpload } from "@/components/ui/file-upload";
 import { Loader2, Plus, Save, Trash, X } from "lucide-react";
 interface SkillEditModalProps {
   skill: Skill | null;
@@ -114,8 +115,17 @@ export function SkillEditModal({ skill, isOpen, onClose, onSuccess }: SkillEditM
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="previewImage">URL da Imagem de Preview</Label>
-                <Input id="previewImage" {...register("image")} placeholder="https://exemplo.com/imagem.jpg" />
+                <Label>Imagem da Skill</Label>
+                <FileUpload
+                  accept="image/*"
+                  uploadOptions={{ folder: "portifolio/skills", resourceType: "image" }}
+                  existingUrls={watch("image") ? [watch("image") as string] : []}
+                  onRemoveExisting={() => setValue("image", "")}
+                  onUploadComplete={(results) => results[0]?.url && setValue("image", results[0].url)}
+                  onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                  label="Imagem da Skill"
+                  description="Arraste e solte ou clique para selecionar"
+                />
                 {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}
               </div>
             </div>
