@@ -9,12 +9,16 @@ import { DetailsCard } from "./details-card";
 import { CollapsibleItems } from "./collapsible-items";
 import BlurText from "@/components/blocks/TextAnimations/BlurText/BlurText";
 import { OptimizedImage } from "../../SEO/OptimizedImage";
+import { youtubeEmbedUrl } from "@/utilis/youtube";
 interface ProjectModalProps {
   project: Project;
   open: boolean;
   setOpen: () => void;
 }
 export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
+  // ponytail: fallback for legacy records the backend hasn't migrated to `videos` yet
+  const videos = project.videos?.length ? project.videos : project.previewVideoUrl ? [project.previewVideoUrl] : [];
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -40,26 +44,22 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
             <div className="max-w-6xl p-2 mx-auto gap-2 space-y-4">
               <Carousel
                 className="w-full max-w-4xl mx-auto"
-                opts={{ loop: Boolean(project.previewVideoUrl) }}
-                autoplay={!project.previewVideoUrl ? { dalay: 7500 } : undefined}
+                opts={{ loop: videos.length > 0 }}
+                autoplay={videos.length === 0 ? { dalay: 7500 } : undefined}
               >
                 <CarouselContent>
-                  {project.previewVideoUrl && (
-                    <CarouselItem key={project.previewVideoUrl}>
+                  {videos.map((video) => (
+                    <CarouselItem key={video}>
                       <div className=" flex items-center justify-center p-2">
                         <iframe
                           className="w-full h-[30rem]"
-                          src={`https://www.youtube.com/embed/${(() => {
-                            const url = project.previewVideoUrl || "";
-                            const m = url.match(/(?:v=|be\/)(\w+)/);
-                            return m?.[1] ?? "FwDo7MdaxhA?si=xPsVIk3_V-SenI6z";
-                          })()}`}
+                          src={youtubeEmbedUrl(video)}
                           title={project.title}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         ></iframe>
                       </div>
                     </CarouselItem>
-                  )}
+                  ))}
                   {project.screenshots.map((img) => (
                     <CarouselItem key={project.id + img}>
                       <OptimizedImage

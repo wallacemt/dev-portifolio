@@ -17,6 +17,7 @@ import { Skill } from "@/types/skills";
 import { getSkillNotFilter } from "@/services/skillsApi";
 import Image from "next/image";
 import Link from "next/link";
+import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
 
 interface ProjectEditModalProps {
   project: Project | null;
@@ -28,6 +29,8 @@ interface ProjectEditModalProps {
 export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: ProjectEditModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [screenshotInput, setScreenshotInput] = useState("");
+  const [videoInput, setVideoInput] = useState("");
+  const [videoInputError, setVideoInputError] = useState("");
   const [searchTech, setSearchTech] = useState("");
   const [skills, setSkills] = useState<Skill[]>([]);
   const {
@@ -43,6 +46,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
 
   const techs = watch("techs") || [];
   const screenshots = watch("screenshots") || [];
+  const videos = watch("videos") || [];
 
   useEffect(() => {
     if (project && isOpen) {
@@ -54,6 +58,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
       setValue("backend", project.links.content.backend.url);
       setValue("frontend", project.links.content.frontend.url);
       setValue("previewImage", project.previewImage);
+      setValue("videos", project.videos ?? []);
     }
   }, [project, isOpen, setValue]);
 
@@ -81,6 +86,33 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
     setValue(
       "screenshots",
       screenshots.filter((s) => s !== screenshot)
+    );
+  };
+
+  const addVideo = () => {
+    const url = videoInput.trim();
+    if (!url) return;
+    if (videos.length >= 5) {
+      setVideoInputError("No máximo 5 vídeos são permitidos");
+      return;
+    }
+    if (!isYoutubeUrl(url)) {
+      setVideoInputError("Informe um link válido do YouTube");
+      return;
+    }
+    if (videos.includes(url)) {
+      setVideoInputError("Esse vídeo já foi adicionado");
+      return;
+    }
+    setValue("videos", [...videos, url]);
+    setVideoInput("");
+    setVideoInputError("");
+  };
+
+  const removeVideo = (video: string) => {
+    setValue(
+      "videos",
+      videos.filter((v) => v !== video)
     );
   };
 
@@ -237,6 +269,53 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                 <Input id="frontend" {...register("frontend")} placeholder="https://github.com/user/frontend" />
                 {errors.frontend && <p className="text-sm text-red-500">{errors.frontend.message}</p>}
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Vídeos (URLs do YouTube, máx. 5)</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={videoInput}
+                  onChange={(e) => {
+                    setVideoInput(e.target.value);
+                    setVideoInputError("");
+                  }}
+                  placeholder="https://youtube.com/watch?v=oE56g61mW44"
+                  onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addVideo())}
+                />
+                <Button type="button" onClick={addVideo}>
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+              {videoInputError && <p className="text-sm text-red-500">{videoInputError}</p>}
+              {errors.videos && <p className="text-sm text-red-500">{errors.videos.message}</p>}
+
+              {videos.length > 0 && (
+                <div className="space-y-4 mt-2">
+                  {videos.map((video) => (
+                    <div
+                      key={video}
+                      className="relative border border-purple-600/60 hover:border-purple-800 hover:border-2 transition-all rounded-2xl flex items-center justify-center p-2"
+                    >
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="sm"
+                        className="absolute top-2 right-2 h-6 w-6 p-0 z-10"
+                        onClick={() => removeVideo(video)}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
+                      <iframe
+                        className="w-full h-82"
+                        src={youtubeEmbedUrl(video)}
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      ></iframe>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">

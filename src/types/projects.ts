@@ -3,7 +3,9 @@ import { Skill } from "./skills";
 export interface Project {
   activate: boolean;
   ownerId: string;
-  previewVideoUrl?: string;
+  videos: string[];
+  /** @deprecated mirrors videos[0], kept for API backward compatibility. Read-only fallback. */
+  previewVideoUrl?: string | null;
   id: string;
   isMostRecent: {
     isRecent: boolean;
@@ -61,6 +63,7 @@ export interface ProjectAdd {
   backend?: string;
   frontend?: string;
   previewImage: string;
+  videos?: string[];
 }
 
 export interface ProjectAddResponse {
