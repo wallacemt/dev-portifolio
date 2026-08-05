@@ -51,7 +51,14 @@ export function Calendar22({ title, onChange, initialDate }: CalendarProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-full overflow-hidden p-0 " align="start">
-          <Calendar mode="single" selected={date} captionLayout="dropdown" onSelect={handleDateSelect} />
+          <Calendar
+            mode="single"
+            selected={date}
+            captionLayout="dropdown"
+            startMonth={new Date(new Date().getFullYear() - 100, 0)}
+            endMonth={new Date(new Date().getFullYear() + 20, 11)}
+            onSelect={handleDateSelect}
+          />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
