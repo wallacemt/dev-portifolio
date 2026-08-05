@@ -10,8 +10,8 @@ export const loginOwner = async (
     const response = await API.post(`/auth/login`, { email, password });
     return response.data;
   } catch (error) {
-    throw new Error(
-      (error as { response: { data: { error: string } } }).response?.data?.error || "Erro ao fazer login"
-    );
+    const apiError = (error as { response?: { data?: { error?: unknown } } }).response?.data?.error;
+    const message = typeof apiError === "string" ? apiError : "Erro ao fazer login";
+    throw new Error(message);
   }
 };
