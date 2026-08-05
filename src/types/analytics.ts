@@ -75,4 +75,10 @@ export interface AnalyticsSummaryResponse {
 
 export interface AnalyticsRealTimeResponse {
   activeVisitors: number;
+  topActivePages: { page: string; activeUsers: number }[];
+  recentVisitors: { country: string; device: string; page: string; timestamp: string }[];
 }
+
+export type AnalyticsStreamEvent = AnalyticsRealTimeResponse & {
+  online: number;
+};
