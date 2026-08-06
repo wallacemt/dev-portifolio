@@ -27,3 +27,13 @@ export interface OwnerDataRequest {
 }
 
 export type OwnerDataOptionalRequest = Partial<OwnerDataRequest>;
+
+export interface AiConfigResponse {
+  available: boolean;
+  model: string;
+  defaultModel: string;
+}
+
+export interface UpdateAiConfigRequest {
+  model: string;
+}

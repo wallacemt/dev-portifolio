@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useOwner } from "@/contexts/OwnerContext";
 import { AccountContent } from "./_components/account-content";
+import { AiModelConfig } from "./_components/ai-model-config";
 import { SiteHeader } from "@/components/ui/site-header";
 import { User } from "lucide-react";
 import Link from "next/link";
@@ -42,6 +43,7 @@ export function AccountOwner() {
       </div>
 
       <AccountContent owner={owner} onUpdate={handleUpdate} />
+      <AiModelConfig />
     </div>
   );
 }
