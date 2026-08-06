@@ -16,7 +16,11 @@ export interface Project {
   techs: { title: string; content: string[] };
   screenshots: string[];
   previewImage: string;
-  lastUpdate: Date | null;
+  lastUpdate?: string | Date | null;
+  /** ISO date the project was created. Sent by the backend alongside `dateLabelKey: "addedAt"`. */
+  createdAt?: string | null;
+  /** Which label to show next to the formatted date. Absent when the backend hasn't migrated yet (see `lastUpdateText`). */
+  dateLabelKey?: "updatedAt" | "addedAt";
   skills: { title: string; content: Skill[] };
   links: {
     title: string;
@@ -27,7 +31,8 @@ export interface Project {
     };
   };
   cta: string;
-  lastUpdateText: string;
+  /** @deprecated legacy pre-formatted string, kept as a fallback until the backend sends `lastUpdate`/`dateLabelKey`. */
+  lastUpdateText?: string;
 }
 
 export interface ProjectResponse {
