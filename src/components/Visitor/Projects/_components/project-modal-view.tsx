@@ -10,14 +10,18 @@ import { CollapsibleItems } from "./collapsible-items";
 import BlurText from "@/components/blocks/TextAnimations/BlurText/BlurText";
 import { OptimizedImage } from "../../SEO/OptimizedImage";
 import { youtubeEmbedUrl } from "@/utilis/youtube";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { formatProjectDate } from "@/utilis/project-date";
 interface ProjectModalProps {
   project: Project;
   open: boolean;
   setOpen: () => void;
 }
 export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
+  const { language } = useLanguage();
   // ponytail: fallback for legacy records the backend hasn't migrated to `videos` yet
   const videos = project.videos?.length ? project.videos : project.previewVideoUrl ? [project.previewVideoUrl] : [];
+  const dateText = formatProjectDate(project, language);
 
   return (
     <>
@@ -84,10 +88,10 @@ export function ProjectModal({ project, open, setOpen }: ProjectModalProps) {
                 <CollapsibleItems title={project.links.title} type="buttons" project={project} />
                 <CollapsibleItems title={project.skills.title} type="images" project={project} />
               </div>
-              {project.lastUpdate && (
+              {dateText && (
                 <section className="flex w-fit absolute right-0 bottom-2 items-center gap-2 px-3 py-1 bg-card border border-border rounded-full">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-xs">{project.lastUpdateText}</span>
+                  <span className="text-xs">{dateText}</span>
                 </section>
               )}
             </div>

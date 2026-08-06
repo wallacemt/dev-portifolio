@@ -6,9 +6,12 @@ import { useState } from "react";
 import { ProjectModal } from "./project-modal-view";
 import { Badge } from "@/components/ui/badge";
 import { OptimizedImage } from "../../SEO/OptimizedImage";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { formatProjectDate } from "@/utilis/project-date";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const [open, setOpen] = useState(false);
+  const { language } = useLanguage();
 
   function handleOpen() {
     setOpen(!open);
@@ -21,7 +24,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <div className="flex gap-2 ">
             <span className=" flex items-center justify-center w-5 h-5 animate-pulse bg-roxo100 rounded-full -start-2 ring-4 ring-neutral-900" />
             <time className="block text-sm text-gray-400 mb-2">
-              {project.lastUpdate ? project.lastUpdateText : "Data desconhecida"}
+              {formatProjectDate(project, language) ?? "Data desconhecida"}
             </time>
           </div>
           <div className="flex md:flex-row relative flex-col max-w-6xl items-center justify-center">

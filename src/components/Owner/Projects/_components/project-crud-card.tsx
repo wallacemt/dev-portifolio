@@ -52,7 +52,7 @@ export function ProjectCrudCard({ project, onEdit, onUpdate }: ProjectCrudCardPr
     }
   };
 
-  const formatDate = (date: Date | null) => {
+  const formatDate = (date: string | Date | null | undefined) => {
     if (!date) return "Data não informada";
     return new Date(date).toLocaleDateString("pt-BR");
   };
