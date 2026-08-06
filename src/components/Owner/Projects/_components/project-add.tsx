@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Loader2, Eye, RefreshCcw } from "lucide-react";
+import { X, Loader2, Eye, RefreshCcw, Plus } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ import { PreviewImage } from "@/utilis/preview-image";
 import { FileUpload } from "@/components/ui/file-upload";
 import z from "zod";
 import { Switch } from "@/components/ui/switch";
+import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
 
 interface ProjectAddProps {
   onSuccess?: (redirect: boolean) => void;
@@ -28,6 +29,8 @@ interface ProjectAddProps {
 export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTech, setSearchTech] = useState("");
+  const [videoInput, setVideoInput] = useState("");
+  const [videoInputError, setVideoInputError] = useState("");
   const [jsonInput, setJsonInput] = useState("");
   const [imageLoadingStates, setImageLoadingStates] = useState<{ [key: string]: boolean }>({});
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
@@ -45,7 +48,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       title: "",
       description: "",
       previewImage: "",
-      previewVideoUrl: "",
+      videos: [],
     },
   });
 
@@ -60,6 +63,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
 
   const techs = watch("techs") || [];
   const screenshots = watch("screenshots") || [];
+  const videos = watch("videos") || [];
   const previewImage = watch("previewImage");
   const [skills, setSkills] = useState<Skill[]>([]);
 
@@ -122,6 +126,33 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       delete newState[screenshot];
       return newState;
     });
+  };
+
+  const addVideo = () => {
+    const url = videoInput.trim();
+    if (!url) return;
+    if (videos.length >= 5) {
+      setVideoInputError("No máximo 5 vídeos são permitidos");
+      return;
+    }
+    if (!isYoutubeUrl(url)) {
+      setVideoInputError("Informe um link válido do YouTube");
+      return;
+    }
+    if (videos.includes(url)) {
+      setVideoInputError("Esse vídeo já foi adicionado");
+      return;
+    }
+    setValue("videos", [...videos, url]);
+    setVideoInput("");
+    setVideoInputError("");
+  };
+
+  const removeVideo = (video: string) => {
+    setValue(
+      "videos",
+      videos.filter((v) => v !== video)
+    );
   };
 
   async function fetchSkills() {
@@ -327,29 +358,48 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             </div>
           </div>
           <div className="space-y-2">
-            <Label>Video Preview (URL)</Label>
+            <Label>Vídeos (URLs do YouTube, máx. 5)</Label>
             <div className="flex gap-2">
               <Input
-                id="previewVideo"
-                {...register("previewVideoUrl")}
+                value={videoInput}
+                onChange={(e) => {
+                  setVideoInput(e.target.value);
+                  setVideoInputError("");
+                }}
                 placeholder="https://youtube.com/watch?v=oE56g61mW44"
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addVideo())}
               />
+              <Button type="button" onClick={addVideo}>
+                <Plus className="h-4 w-4" />
+              </Button>
             </div>
+            {videoInputError && <p className="text-sm text-red-500">{videoInputError}</p>}
+            {errors.videos && <p className="text-sm text-red-500">{errors.videos.message}</p>}
 
-            {watch("previewVideoUrl")?.includes("youtube.com") && (
-              <div className="border border-purple-600/60 hover:border-purple-800 hover:border-2 transition-all rounded-2xl flex items-center justify-center p-2">
-                <iframe
-                  className="w-full h-82"
-                  src={`https://www.youtube.com/embed/${
-                    (() => {
-                      const url = form.getValues("previewVideoUrl") || "";
-                      const m = url.match(/(?:v=|be\/)(\w+)/);
-                      return m?.[1] ?? "FwDo7MdaxhA?si=xPsVIk3_V-SenI6z";
-                    })()
-                  }`}
-                  title="YouTube video player"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                ></iframe>
+            {videos.length > 0 && (
+              <div className="space-y-4 mt-2">
+                {videos.map((video) => (
+                  <div
+                    key={video}
+                    className="relative border border-purple-600/60 hover:border-purple-800 hover:border-2 transition-all rounded-2xl flex items-center justify-center p-2"
+                  >
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute top-2 right-2 h-6 w-6 p-0 z-10"
+                      onClick={() => removeVideo(video)}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                    <iframe
+                      className="w-full h-82"
+                      src={youtubeEmbedUrl(video)}
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    ></iframe>
+                  </div>
+                ))}
               </div>
             )}
           </div>

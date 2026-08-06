@@ -1,4 +1,10 @@
 import { z } from "zod";
+import { isYoutubeUrl } from "@/utilis/youtube";
+
+const youtubeVideoUrl = z
+  .string()
+  .url("A url do vídeo deve ser válida")
+  .refine(isYoutubeUrl, "A url deve ser um link do YouTube válido");
 
 export const projectAddSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
@@ -9,7 +15,7 @@ export const projectAddSchema = z.object({
   backend: z.string().optional(),
   frontend: z.string().optional(),
   previewImage: z.string().url("URL da imagem de preview deve ser válida"),
-  previewVideoUrl: z.string().url({ message: "A url do video deve ser Valida!" }).optional(),
+  videos: z.array(youtubeVideoUrl).max(5, "No máximo 5 vídeos são permitidos").optional(),
   lastUpdate: z.date(),
 });
 
