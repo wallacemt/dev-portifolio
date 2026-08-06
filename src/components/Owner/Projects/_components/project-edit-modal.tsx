@@ -8,13 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { X, Plus, Loader2, Save, RefreshCcw } from "lucide-react";
+import { X, Loader2, Save, RefreshCcw, Plus } from "lucide-react";
 import { projectUpdateSchema, ProjectUpdateFormData } from "@/lib/validations/project";
 import { putProject } from "@/services/projects";
 import { Project } from "@/types/projects";
 import { toast } from "sonner";
 import { Skill } from "@/types/skills";
 import { getSkillNotFilter } from "@/services/skillsApi";
+import { FileUpload } from "@/components/ui/file-upload";
 import Image from "next/image";
 import Link from "next/link";
 import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
@@ -28,7 +29,6 @@ interface ProjectEditModalProps {
 
 export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: ProjectEditModalProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [screenshotInput, setScreenshotInput] = useState("");
   const [videoInput, setVideoInput] = useState("");
   const [videoInputError, setVideoInputError] = useState("");
   const [searchTech, setSearchTech] = useState("");
@@ -75,10 +75,10 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
     );
   };
 
-  const addScreenshot = () => {
-    if (screenshotInput.trim() && !screenshots.includes(screenshotInput.trim())) {
-      setValue("screenshots", [...screenshots, screenshotInput.trim()]);
-      setScreenshotInput("");
+  const handleScreenshotsUploaded = (results: { url: string }[]) => {
+    const newUrls = results.map((r) => r.url).filter((url) => !screenshots.includes(url));
+    if (newUrls.length > 0) {
+      setValue("screenshots", [...screenshots, ...newUrls]);
     }
   };
 
@@ -149,7 +149,6 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
   }, []);
   const handleClose = () => {
     reset();
-    setScreenshotInput("");
     onClose();
   };
   const filteredSkills = searchTech.trim()
@@ -173,8 +172,17 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="previewImage">URL da Imagem de Preview</Label>
-                <Input id="previewImage" {...register("previewImage")} placeholder="https://exemplo.com/imagem.jpg" />
+                <Label>Imagem de Preview</Label>
+                <FileUpload
+                  accept="image/*"
+                  uploadOptions={{ folder: "portifolio/projects/preview", resourceType: "image" }}
+                  existingUrls={watch("previewImage") ? [watch("previewImage") as string] : []}
+                  onRemoveExisting={() => setValue("previewImage", "")}
+                  onUploadComplete={(results) => results[0]?.url && setValue("previewImage", results[0].url)}
+                  onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                  label="Imagem de Preview"
+                  description="Arraste e solte ou clique para selecionar"
+                />
                 {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
               </div>
             </div>
@@ -319,18 +327,16 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
             </div>
 
             <div className="space-y-2">
-              <Label>Screenshots (URLs)</Label>
-              <div className="flex gap-2">
-                <Input
-                  value={screenshotInput}
-                  onChange={(e) => setScreenshotInput(e.target.value)}
-                  placeholder="https://exemplo.com/screenshot.jpg"
-                  onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addScreenshot())}
-                />
-                <Button type="button" onClick={addScreenshot}>
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
+              <Label>Screenshots</Label>
+              <FileUpload
+                multiple
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/projects/screenshots", resourceType: "image" }}
+                onUploadComplete={handleScreenshotsUploaded}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label="Screenshots"
+                description="Arraste e solte ou clique para selecionar (várias imagens)"
+              />
               <div className="space-y-2 flex flex-wrap gap-4">
                 {screenshots.map((screenshot, index) => (
                   <div key={index} className="flex relative items-center">

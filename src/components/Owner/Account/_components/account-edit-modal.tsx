@@ -14,8 +14,7 @@ import { OwnerResponse } from "@/types/owner";
 import { OwnerUpdateFormData, ownerUpdateSchema } from "@/lib/validations/owner";
 import { updateOwner } from "@/services/ownerApi";
 import { Calendar22 } from "@/components/ui/calendar-22";
-import Image from "next/image";
-import z from "zod";
+import { FileUpload } from "@/components/ui/file-upload";
 
 interface AccountEditModalProps {
   owner: OwnerResponse;
@@ -38,8 +37,6 @@ export function AccountEditModal({ owner, isOpen, onClose, onSuccess }: AccountE
   } = useForm<OwnerUpdateFormData>({
     resolver: zodResolver(ownerUpdateSchema),
   });
-
-  const avatarUrl = watch("avatar");
 
   useEffect(() => {
     if (owner && isOpen) {
@@ -116,21 +113,6 @@ export function AccountEditModal({ owner, isOpen, onClose, onSuccess }: AccountE
 
         <div className="flex-1 overflow-y-auto p-4">
           <form onSubmit={handleSubmitForm} className="space-y-6 p-1">
-            {/* Preview do Avatar */}
-            {avatarUrl && z.string().url().safeParse(avatarUrl).success && (
-              <div className="flex justify-center">
-                <div className="relative">
-                  <Image
-                    src={avatarUrl}
-                    alt="Preview do avatar"
-                    width={200}
-                    height={200}
-                    className="rounded-full object-cover border-4 border-roxo300"
-                  />
-                </div>
-              </div>
-            )}
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="name">Nome</Label>
@@ -163,8 +145,17 @@ export function AccountEditModal({ owner, isOpen, onClose, onSuccess }: AccountE
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="avatar">URL do Avatar</Label>
-              <Input id="avatar" {...register("avatar")} placeholder="https://exemplo.com/avatar.jpg" />
+              <Label>Avatar</Label>
+              <FileUpload
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/avatar", resourceType: "image" }}
+                existingUrls={watch("avatar") ? [watch("avatar") as string] : []}
+                onRemoveExisting={() => setValue("avatar", "")}
+                onUploadComplete={(results) => results[0]?.url && setValue("avatar", results[0].url)}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label="Avatar"
+                description="Arraste e solte ou clique para selecionar"
+              />
               {errors.avatar && <p className="text-sm text-red-500">{errors.avatar.message}</p>}
             </div>
 

@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Plus, Loader2, Eye, RefreshCcw } from "lucide-react";
+import { X, Loader2, Eye, RefreshCcw, Plus } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
@@ -17,6 +17,7 @@ import { Skill } from "@/types/skills";
 import { getSkillNotFilter } from "@/services/skillsApi";
 import Link from "next/link";
 import { PreviewImage } from "@/utilis/preview-image";
+import { FileUpload } from "@/components/ui/file-upload";
 import z from "zod";
 import { Switch } from "@/components/ui/switch";
 import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
@@ -28,7 +29,6 @@ interface ProjectAddProps {
 export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [searchTech, setSearchTech] = useState("");
-  const [screenshotInput, setScreenshotInput] = useState("");
   const [videoInput, setVideoInput] = useState("");
   const [videoInputError, setVideoInputError] = useState("");
   const [jsonInput, setJsonInput] = useState("");
@@ -109,10 +109,10 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
     );
   };
 
-  const addScreenshot = () => {
-    if (screenshotInput.trim() && !screenshots.includes(screenshotInput.trim())) {
-      setValue("screenshots", [...screenshots, screenshotInput.trim()]);
-      setScreenshotInput("");
+  const handleScreenshotsUploaded = (results: { url: string }[]) => {
+    const newUrls = results.map((r) => r.url).filter((url) => !screenshots.includes(url));
+    if (newUrls.length > 0) {
+      setValue("screenshots", [...screenshots, ...newUrls]);
     }
   };
 
@@ -251,8 +251,17 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="previewImage">URL da Imagem de Preview *</Label>
-              <Input id="previewImage" {...register("previewImage")} placeholder="https://exemplo.com/imagem.jpg" />
+              <Label>Imagem de Preview *</Label>
+              <FileUpload
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/projects/preview", resourceType: "image" }}
+                existingUrls={previewImage ? [previewImage] : []}
+                onRemoveExisting={() => setValue("previewImage", "")}
+                onUploadComplete={(results) => results[0]?.url && setValue("previewImage", results[0].url)}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label="Imagem de Preview"
+                description="Arraste e solte ou clique para selecionar"
+              />
               {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
             </div>
           </div>
@@ -395,18 +404,16 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             )}
           </div>
           <div className="space-y-2">
-            <Label>Screenshots (URLs)</Label>
-            <div className="flex gap-2">
-              <Input
-                value={screenshotInput}
-                onChange={(e) => setScreenshotInput(e.target.value)}
-                placeholder="https://exemplo.com/screenshot.jpg"
-                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addScreenshot())}
-              />
-              <Button type="button" onClick={addScreenshot}>
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
+            <Label>Screenshots</Label>
+            <FileUpload
+              multiple
+              accept="image/*"
+              uploadOptions={{ folder: "portifolio/projects/screenshots", resourceType: "image" }}
+              onUploadComplete={handleScreenshotsUploaded}
+              onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+              label="Screenshots"
+              description="Arraste e solte ou clique para selecionar (várias imagens)"
+            />
 
             {screenshots.length > 0 && (
               <div className="mt-4">

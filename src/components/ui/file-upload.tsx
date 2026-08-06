@@ -20,6 +20,10 @@ interface FileUploadProps {
   className?: string;
   label?: string;
   description?: string;
+  /** URLs já salvas (edição) a exibir como preview antes de qualquer novo arquivo ser selecionado. */
+  existingUrls?: string[];
+  /** Chamado quando o usuário remove uma imagem já salva. */
+  onRemoveExisting?: (url: string) => void;
 }
 
 interface FileWithPreview extends File {
@@ -37,6 +41,8 @@ export function FileUpload({
   className,
   label = "Upload de Arquivos",
   description = "Arraste e solte ou clique para selecionar",
+  existingUrls = [],
+  onRemoveExisting,
 }: FileUploadProps) {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [uploading, setUploading] = useState(false);
@@ -183,6 +189,28 @@ export function FileUpload({
           disabled={uploading}
         />
       </div>
+
+      {files.length === 0 && existingUrls.length > 0 && (
+        <div className="space-y-3">
+          {existingUrls.map((url) => (
+            <Card key={url} className="p-4">
+              <div className="flex items-center gap-4">
+                <div className="relative h-12 w-12 rounded overflow-hidden flex-shrink-0">
+                  <Image src={url} alt="Imagem atual" fill className="h-full w-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm text-muted-foreground truncate">Imagem atual</p>
+                </div>
+                {onRemoveExisting && (
+                  <Button variant="ghost" size="icon" onClick={() => onRemoveExisting(url)}>
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {files.length > 0 && (
         <div className="space-y-3">
