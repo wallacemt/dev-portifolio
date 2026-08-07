@@ -13,7 +13,13 @@ export function getSiteURL() {
   return process.env.NEXT_PUBLIC_SITE_URL || "https://wallacedev.com.br";
 }
 
-export const ownerId = "685b41be6ba068f5fbe56d71";
+// ponytail: hardcoded default is the production owner's real id (single-tenant
+// app, only one owner ever exists). Override via NEXT_PUBLIC_OWNER_ID when the
+// locally-registered owner has a different Mongo _id (fresh local DB) — the
+// SSE analytics channel is keyed by this id, so a mismatch here means the
+// dashboard and the public tracking calls talk to two different channels.
+export const ownerId =
+  process.env.NEXT_PUBLIC_OWNER_ID ?? "685b41be6ba068f5fbe56d71";
 
 export const API = axios.create({
   baseURL: getBaseURL(),
