@@ -18,7 +18,8 @@ export function getSiteURL() {
 // locally-registered owner has a different Mongo _id (fresh local DB) — the
 // SSE analytics channel is keyed by this id, so a mismatch here means the
 // dashboard and the public tracking calls talk to two different channels.
-export const ownerId = process.env.NEXT_PUBLIC_OWNER_ID || "685b41be6ba068f5fbe56d71";
+export const ownerId =
+  process.env.NEXT_PUBLIC_OWNER_ID ?? "685b41be6ba068f5fbe56d71";
 
 export const API = axios.create({
   baseURL: getBaseURL(),
