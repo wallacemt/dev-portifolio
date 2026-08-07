@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { DateRangePicker } from "@/components/ui/date-range-picker";
 import {
   Monitor,
@@ -18,18 +19,17 @@ import {
   Clock,
   Users,
   RefreshCw,
-  ArrowLeft,
-  Download,
+  AlertCircle,
   Calendar as CalendarIcon,
 } from "lucide-react";
 import { analyticsDashboard, analyticsUpdateDaily } from "@/services/analytics";
 import { AnalyticsResponse } from "@/types/analytics";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/ui/site-header";
 import { type DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
 import { AnalyzeDetailSkeleton } from "./analyze-detail-skeleton";
+import { AnalyticsTrendChart } from "./analytics-trend-chart";
 
 export function AnalyzeDetail() {
   const [data, setData] = useState<AnalyticsResponse | null>(null);
@@ -41,25 +41,37 @@ export function AnalyzeDetail() {
   });
   const [isUpdating, setIsUpdating] = useState(false);
 
+  // ponytail: request id (not AbortController) is enough here — analyticsDashboard
+  // has no cancel-aware axios call, this just ignores stale responses.
+  const latestRequestId = useRef(0);
+
   const loadAnalyticsData = useCallback(async () => {
+    const requestId = ++latestRequestId.current;
+
+    if (!dateRange?.from || !dateRange?.to) {
+      setError("Selecione um período válido para análise");
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
 
-      if (!dateRange?.from || !dateRange?.to) {
-        setError("Selecione um período válido para análise");
-        return;
-      }
-
       const analyticsData = await analyticsDashboard(dateRange.from, dateRange.to);
+      if (requestId !== latestRequestId.current) return; // resposta obsoleta, ignora
       setData(analyticsData);
     } catch (err) {
+      if (requestId !== latestRequestId.current) return;
       setError(err instanceof Error ? err.message : "Erro ao carregar dados");
       console.error("Error loading analytics data:", err);
     } finally {
-      setIsLoading(false);
+      if (requestId === latestRequestId.current) setIsLoading(false);
     }
   }, [dateRange]);
+
+  useEffect(() => {
+    loadAnalyticsData();
+  }, [loadAnalyticsData]);
 
   const updateDailyAnalytics = async () => {
     try {
@@ -99,28 +111,6 @@ export function AnalyzeDetail() {
     return <AnalyzeDetailSkeleton />;
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <Card className="w-full max-w-md">
-          <CardContent className="p-6 text-center">
-            <h3 className="text-lg font-semibold text-red-600 mb-2">Erro</h3>
-            <p className="text-muted-foreground mb-4">{error}</p>
-            <div className="flex gap-2 justify-center">
-              <Button onClick={loadAnalyticsData}>Tentar novamente</Button>
-              <Link href="/owner/dashboard">
-                <Button variant="outline">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Voltar
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div>
       <div className="max-w-7xl mx-auto space-y-6 p-4">
@@ -138,10 +128,6 @@ export function AnalyzeDetail() {
               <RefreshCw className={cn("w-4 h-4 mr-2", isUpdating && "animate-spin")} />
               {isUpdating ? "Atualizando..." : "Atualizar Dados"}
             </Button>
-            <Button variant="outline" size="sm">
-              <Download className="w-4 h-4 mr-2" />
-              Exportar
-            </Button>
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -153,33 +139,31 @@ export function AnalyzeDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex  flex-col gap-4">
-                <div className="flex flex-col gap-2">
-                  <DateRangePicker
-                    value={dateRange}
-                    onChange={handleDateRangeChange}
-                    placeholder="Selecione o período para análise"
-                    maxDays={365}
-                    minDate={new Date(2020, 0, 1)}
-                    maxDate={new Date()}
-                  />
-                  <div className="flex gap-2">
-                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -7), to: new Date() })}>
-                      7 dias
-                    </Button>
-                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -30), to: new Date() })}>
-                      30 dias
-                    </Button>
-                    <Button onClick={() => setDateRange({ from: addDays(new Date(), -90), to: new Date() })}>
-                      90 dias
-                    </Button>
-                  </div>
-                </div>
+              <div className="flex flex-col gap-4">
+                <DateRangePicker
+                  value={dateRange}
+                  onChange={handleDateRangeChange}
+                  placeholder="Selecione o período para análise"
+                  maxDays={365}
+                  minDate={new Date(2020, 0, 1)}
+                  maxDate={new Date()}
+                />
                 {dateRange?.from && dateRange?.to && (
                   <div className="text-sm text-muted-foreground">
                     Período selecionado:{" "}
                     {Math.ceil((dateRange.to.getTime() - dateRange.from.getTime()) / (1000 * 60 * 60 * 24))} dias
                   </div>
+                )}
+                {error && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription className="flex items-center justify-between gap-4">
+                      <span>{error}</span>
+                      <Button size="sm" variant="outline" onClick={loadAnalyticsData}>
+                        Tentar novamente
+                      </Button>
+                    </AlertDescription>
+                  </Alert>
                 )}
               </div>
             </CardContent>
@@ -255,6 +239,10 @@ export function AnalyzeDetail() {
               )}
             </CardContent>
           </Card>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+          <AnalyticsTrendChart dayliStats={data?.dayliStats} isLoading={isLoading} />
         </motion.div>
 
         <motion.div
