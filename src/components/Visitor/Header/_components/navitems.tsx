@@ -20,7 +20,7 @@ export const NavItems = ({ menuItens, languages, language }: NavItemsProps) => {
   return (
     <>
       <nav
-        className="nav-glass mt-4 w-full max-w-full lg:max-w-fit mx-auto rounded-full px-6 py-3 flex items-center lg:justify-between gap-4 justify-center backdrop-blur-xs shadow-lg border border-border pointer-events-auto h-12 relative z-30"
+        className="nav-glass mt-4 w-full max-w-full lg:max-w-fit mx-auto rounded-full px-6 py-3 flex items-center lg:justify-between gap-4 justify-center backdrop-blur-xs shadow-lg border border-border pointer-events-auto h-12 relative z-30 glass"
         style={{ userSelect: "none" }}
       >
         <Link href="/" role="img" title="Home">

@@ -10,8 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginOwner } from "@/services/authApi";
 import { useOwner } from "@/contexts/OwnerContext";
-import { Loader2, Mail, Lock, User, LogIn } from "lucide-react";
-import { useRouter } from "next/navigation";;
+import { Loader2, Mail, Lock, User, LogIn, EyeIcon, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const loginSchema = z.object({
@@ -51,7 +51,7 @@ const OverlayLoading = () => {
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading: isOwnerLoading } = useOwner();
   const router = useRouter();
   const {
@@ -168,7 +168,7 @@ export function LoginForm() {
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     className={`pl-10 transition-all duration-200 ${
                       errors.password
@@ -177,6 +177,15 @@ export function LoginForm() {
                     }`}
                     {...register("password")}
                   />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <button
+                      className="hover:cursor-pointer"
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? <EyeIcon size={20} /> : <EyeClosed size={20} />}
+                    </button>
+                  </div>
                 </div>
                 {errors.password && (
                   <motion.p

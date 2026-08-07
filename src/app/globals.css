@@ -263,3 +263,27 @@
   --sidebar-border: hsl(240 3.7% 15.9%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
+
+@layer components {
+  .glass {
+    position: relative;
+    background:
+      linear-gradient(135deg, var(--glass-highlight), transparent 55%),
+      var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.5);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 8px 32px -12px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  }
+
+  /* Superfícies estruturais (topbar, colunas do board, sidebar) — mais
+     opacas que os cards soltos: precisam ficar legíveis mesmo sob a parte
+     mais clara de um bg de estação (spring/summer), não só "parecer vidro". */
+  .glass-strong {
+    background:
+      linear-gradient(135deg, var(--glass-highlight), transparent 55%),
+      var(--glass-bg-strong);
+    backdrop-filter: blur(24px) saturate(1.6);
+  }
+}
