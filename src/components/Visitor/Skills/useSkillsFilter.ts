@@ -19,12 +19,12 @@ export function useSkillsFilter(skills: Skill[], onFilterChange?: () => void) {
     return categories.reduce(
       (acc, category) => {
         acc[category] =
-          category === "all" ? skills.length : skills.filter((skill) => skill.stack === activeCategory).length;
+          category === "all" ? skills.length : skills.filter((skill) => skill.stack === category).length;
         return acc;
       },
       {} as Record<string, number>,
     );
-  }, [categories, skills, activeCategory]);
+  }, [categories, skills]);
 
   const handleCategoryChange = useCallback(
     (category: string) => {

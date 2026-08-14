@@ -17,9 +17,9 @@ export const getSkills = async (language = "pt", page = 0, limit = 5): Promise<S
   }
 };
 
-export const getSkillNotFilter = async (): Promise<SkillResponse> => {
+export const getSkillNotFilter = async (language = "pt"): Promise<SkillResponse> => {
   try {
-    const response = await API.get(`/skills/owner/${ownerId}?pagination=false`);
+    const response = await API.get(`/skills/owner/${ownerId}?pagination=false&language=${language}`);
     return response.data as SkillResponse;
   } catch (error) {
     throw error;

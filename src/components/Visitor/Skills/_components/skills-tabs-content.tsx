@@ -2,7 +2,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skill } from "@/types/skills";
-import { useSkillsFilter } from "../useSkillsFilter";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -11,13 +10,28 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useEffect } from "react";
 
 interface SkillTabContentProps {
+  // Already filtered (by activeCategory) AND paginated by the parent — this
+  // component only renders, it doesn't slice the dataset (that used to be
+  // the bug: filtering ran on the current page's 6 items instead of all
+  // skills, see useSkillsFilter's caller in Skills.tsx).
   skills: Skill[];
+  activeCategory: string;
+  setActiveCategory: (category: string) => void;
+  categories: string[];
+  categoryCount: Record<string, number>;
   chooseText?: string;
   isLoading?: boolean;
 }
 
-export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: SkillTabContentProps) => {
-  const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(skills);
+export const SkillsTabContent = ({
+  skills: filteredSkills,
+  activeCategory,
+  setActiveCategory,
+  categories,
+  categoryCount,
+  chooseText,
+  isLoading = false,
+}: SkillTabContentProps) => {
   const { language } = useLanguage();
   useEffect(() => {
     if (isLoading) {
@@ -51,22 +65,29 @@ export const SkillsTabContent = ({ skills, chooseText, isLoading = false }: Skil
           <TabsTrigger value="all" className="border-2 flex-2 hover:bg-roxo200">
             <p>{language == "pt" ? "Todas" : "All"}</p>
           </TabsTrigger>
-          <TabsTrigger value={activeCategory != "all" ? activeCategory : "frontend"}>
-            <Select value={activeCategory} onValueChange={setActiveCategory}>
-              <SelectTrigger className="border-none !bg-transparent select-none w-fit capitalize">
-                <SelectValue placeholder={chooseText || "Filtre por uma categoria"} />
-              </SelectTrigger>
-              <SelectContent>
-                {activeCategory === "all" && (
-                  <SelectItem value="all">{chooseText || "Escolha uma categoria"}</SelectItem>
-                )}
-                {categories.slice(1).map((category) => (
-                  <SelectItem key={category} value={category} className="capitalize">
-                    {category} ({categoryCount[category]})
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          {/* asChild: this trigger only exists for Radix's active-state styling
+              (the real interaction happens in the nested Select) — rendering it
+              as a <div> instead of TabsTrigger's default <button> avoids nesting
+              the Select's own <button> inside another <button>, which is invalid
+              HTML and was causing a hydration warning. */}
+          <TabsTrigger value={activeCategory != "all" ? activeCategory : "frontend"} asChild>
+            <div>
+              <Select value={activeCategory} onValueChange={setActiveCategory}>
+                <SelectTrigger className="border-none !bg-transparent select-none w-fit capitalize">
+                  <SelectValue placeholder={chooseText || "Filtre por uma categoria"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {activeCategory === "all" && (
+                    <SelectItem value="all">{chooseText || "Escolha uma categoria"}</SelectItem>
+                  )}
+                  {categories.slice(1).map((category) => (
+                    <SelectItem key={category} value={category} className="capitalize">
+                      {category} ({categoryCount[category]})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </TabsTrigger>
         </TabsList>
         <div className="md:hidden block w-full">

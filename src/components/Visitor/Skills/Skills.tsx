@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { getSkills } from "@/services/skillsApi";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { getSkillNotFilter } from "@/services/skillsApi";
 import { SkillsContent } from "./_components/skills-content";
 import { useSkillsPagination } from "./useSkillsPagination";
+import { useSkillsFilter } from "./useSkillsFilter";
 import { SkillResponse } from "@/types/skills";
 import { SkillsContentSkeleton } from "./_components/skills-tabs-content-skeleton";
 
@@ -12,21 +13,14 @@ interface SkillsContentProps {
 }
 
 export function Skills({ language }: SkillsContentProps) {
+  // Holds *every* skill (unpaginated) — the filter and pagination below both
+  // operate on this full set, not on a server-side page slice. That
+  // page-slice-only filtering was the bug: picking a category only searched
+  // whatever 6 items happened to be on the current page.
   const [skillsData, setSkillsData] = useState<SkillResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const {
-    currentPage,
-    limit,
-    isLoading,
-    setIsLoading,
-    goToPage,
-    goToNextPage,
-    goToPrevPage,
-    goToFirstPage,
-    goToLastPage,
-    changeLimit,
-  } = useSkillsPagination({
+  const { currentPage, limit, isLoading, setIsLoading, goToPage, goToFirstPage, changeLimit } = useSkillsPagination({
     initialPage: 0,
     initialLimit: 6,
   });
@@ -36,7 +30,7 @@ export function Skills({ language }: SkillsContentProps) {
     setError(null);
 
     try {
-      const response = await getSkills(language, currentPage, limit);
+      const response = await getSkillNotFilter(language);
       setSkillsData(response);
     } catch (error) {
       console.error("Error fetching skills:", error);
@@ -60,7 +54,7 @@ export function Skills({ language }: SkillsContentProps) {
     } finally {
       setIsLoading(false);
     }
-  }, [language, currentPage, limit, setIsLoading]);
+  }, [language, limit, setIsLoading]);
 
   useEffect(() => {
     fetchSkills();
@@ -70,31 +64,39 @@ export function Skills({ language }: SkillsContentProps) {
     goToFirstPage();
   }, [language, goToFirstPage]);
 
-  const handlePageChange = useCallback(
-    (page: number) => {
-      goToPage(page);
-    },
-    [goToPage]
+  const allSkills = useMemo(() => skillsData?.skills ?? [], [skillsData]);
+  const { activeCategory, setActiveCategory, categories, filteredSkills, categoryCount } = useSkillsFilter(
+    allSkills,
+    goToFirstPage,
   );
 
-  const handleLimitChange = useCallback(
-    (newLimit: number) => {
-      changeLimit(newLimit);
-    },
-    [changeLimit]
+  const pagedSkills = useMemo(
+    () => filteredSkills.slice(currentPage * limit, (currentPage + 1) * limit),
+    [filteredSkills, currentPage, limit],
   );
 
+  const clientPagination = useMemo(() => {
+    const total = filteredSkills.length;
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    return {
+      total,
+      page: currentPage,
+      limit,
+      totalPages,
+      hasNext: currentPage + 1 < totalPages,
+      hasPrev: currentPage > 0,
+    };
+  }, [filteredSkills.length, currentPage, limit]);
+
+  const handlePageChange = useCallback((page: number) => goToPage(page), [goToPage]);
+  const handleLimitChange = useCallback((newLimit: number) => changeLimit(newLimit), [changeLimit]);
   const handleNextPage = useCallback(() => {
-    if (skillsData?.pagination) {
-      goToNextPage(skillsData.pagination);
-    }
-  }, [goToNextPage, skillsData?.pagination]);
-
-  const handleLastPage = useCallback(() => {
-    if (skillsData?.pagination) {
-      goToLastPage(skillsData.pagination);
-    }
-  }, [goToLastPage, skillsData?.pagination]);
+    if (clientPagination.hasNext) goToPage(currentPage + 1);
+  }, [clientPagination.hasNext, currentPage, goToPage]);
+  const handlePrevPage = useCallback(() => {
+    if (clientPagination.hasPrev) goToPage(currentPage - 1);
+  }, [clientPagination.hasPrev, currentPage, goToPage]);
+  const handleLastPage = useCallback(() => goToPage(clientPagination.totalPages - 1), [clientPagination.totalPages, goToPage]);
 
   if (isLoading && !skillsData) {
     return (
@@ -154,7 +156,7 @@ export function Skills({ language }: SkillsContentProps) {
   return (
     <section className="w-full md:min-w-screen mx-auto px-4 md:px-12 p-2">
       <SkillsContent
-        res={skillsData}
+        res={{ ...skillsData, skills: pagedSkills, pagination: clientPagination }}
         pagination={{
           currentPage,
           limit,
@@ -163,9 +165,10 @@ export function Skills({ language }: SkillsContentProps) {
           onFirstPage: goToFirstPage,
           onLastPage: handleLastPage,
           onNextPage: handleNextPage,
-          onPrevPage: goToPrevPage,
+          onPrevPage: handlePrevPage,
           isLoading,
         }}
+        filter={{ activeCategory, setActiveCategory, categories, categoryCount }}
       />
     </section>
   );

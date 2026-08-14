@@ -16,12 +16,20 @@ interface PaginationProps {
   isLoading: boolean;
 }
 
+interface FilterProps {
+  activeCategory: string;
+  setActiveCategory: (category: string) => void;
+  categories: string[];
+  categoryCount: Record<string, number>;
+}
+
 interface SkillsContentProps {
   res: SkillResponse;
   pagination: PaginationProps;
+  filter: FilterProps;
 }
 
-export const SkillsContent = ({ res, pagination }: SkillsContentProps) => {
+export const SkillsContent = ({ res, pagination, filter }: SkillsContentProps) => {
   return (
     <>
       <motion.div
@@ -48,7 +56,15 @@ export const SkillsContent = ({ res, pagination }: SkillsContentProps) => {
         </motion.p>
       </motion.div>
 
-      <SkillsTabContent skills={res.skills} chooseText={res.texts.chooseText} isLoading={pagination.isLoading} />
+      <SkillsTabContent
+        skills={res.skills}
+        chooseText={res.texts.chooseText}
+        isLoading={pagination.isLoading}
+        activeCategory={filter.activeCategory}
+        setActiveCategory={filter.setActiveCategory}
+        categories={filter.categories}
+        categoryCount={filter.categoryCount}
+      />
 
       {res.pagination && res.pagination.totalPages > 1 && (
         <SkillsPaginationControls
