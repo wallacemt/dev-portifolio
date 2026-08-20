@@ -135,7 +135,7 @@ export function SkillAdd({ onSuccess }: ProjectAddProps) {
                 uploadOptions={{ folder: "portifolio/skills", resourceType: "image" }}
                 onUploadComplete={(results) => results[0]?.url && setValue("image", results[0].url)}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label="Imagem da Skill"
+                label=""
                 description="Arraste e solte ou clique para selecionar"
               />
               {errors.image && <p className="text-sm text-red-500">{errors.image.message}</p>}

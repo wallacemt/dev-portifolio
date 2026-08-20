@@ -259,7 +259,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                 onRemoveExisting={() => setValue("previewImage", "")}
                 onUploadComplete={(results) => results[0]?.url && setValue("previewImage", results[0].url)}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label="Imagem de Preview"
+                label=""
                 description="Arraste e solte ou clique para selecionar"
               />
               {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
