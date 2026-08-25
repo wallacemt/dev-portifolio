@@ -25,6 +25,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     setIsLoading(true);
     try {
       Cookies.set("preferredLanguage", lang, { expires: 30 });
+      Cookies.set("languageManuallySet", "1", { expires: 30 });
       const restOfPath = segments.slice(2).join("/") || "";
 
       if (segments[1] !== lang) {
@@ -38,8 +39,9 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
 
   useEffect(() => {
     const savedLang = Cookies.get("preferredLanguage");
+    const isManualLang = Cookies.get("languageManuallySet") === "1";
     const currentLang = segments[1] || "pt";
-    if (savedLang && savedLang !== currentLang) {
+    if (isManualLang && savedLang && savedLang !== currentLang) {
       setLanguage(savedLang);
       router.replace(`/watch/${savedLang}/${segments.slice(2).join("/")}`);
     } else {

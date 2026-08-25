@@ -11,12 +11,14 @@ import { ServerAnalytics } from "@/lib/server-analytics";
 import { setSessionIdCookie, getOrCreateSessionId } from "@/lib/session-utils";
 
 const LANGUAGE_COOKIE = "preferredLanguage";
+const LANGUAGE_MANUAL_COOKIE = "languageManuallySet";
 const LANGUAGE_COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
 
 type GeoData = { country: string; city: string; countryCode: string };
 
 export async function middleware(request: NextRequest) {
   const cookieLang = request.cookies.get(LANGUAGE_COOKIE)?.value;
+  const isManualLang = request.cookies.get(LANGUAGE_MANUAL_COOKIE)?.value === "1";
   const token = request.cookies.get("authToken")?.value;
   const pathname = request.nextUrl.pathname;
 
@@ -28,12 +30,15 @@ export async function middleware(request: NextRequest) {
 
   if (pathname === "/") {
     let lang: string;
-    if (isSupportedLanguage(cookieLang)) {
+    if (isManualLang && isSupportedLanguage(cookieLang)) {
       lang = cookieLang;
     } else {
-      // No stored preference yet: infer language from the visitor's IP
-      // instead of the browser geolocation API (which requires a user
-      // prompt). Countries with no mapping fall back to DEFAULT_LANGUAGE.
+      // No explicit user choice on record: infer language from the visitor's
+      // IP instead of the browser geolocation API (which requires a user
+      // prompt). Re-checked on every visit — a leftover auto-detected cookie
+      // must never shadow this, or travel/VPN never re-redirects — only an
+      // explicit pick via the language selector sticks across visits.
+      // Countries with no mapping fall back to DEFAULT_LANGUAGE.
       const ip = extractVisitorDataFromRequest(request).ip || "127.0.0.1";
       prefetchedGeo = await getGeoLocation(ip);
       lang = resolveLanguageFromCountryCode(prefetchedGeo.countryCode);
@@ -43,14 +48,12 @@ export async function middleware(request: NextRequest) {
     url.pathname = `/watch/${lang}`;
     response = NextResponse.redirect(url);
 
-    if (!isSupportedLanguage(cookieLang)) {
-      response.cookies.set(LANGUAGE_COOKIE, lang, {
-        maxAge: LANGUAGE_COOKIE_MAX_AGE_SECONDS,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-      });
-    }
+    response.cookies.set(LANGUAGE_COOKIE, lang, {
+      maxAge: LANGUAGE_COOKIE_MAX_AGE_SECONDS,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+    });
   } else if (pathname.startsWith("/owner")) {
     if (pathname === "/owner/auth" && token) {
       const url = request.nextUrl.clone();
