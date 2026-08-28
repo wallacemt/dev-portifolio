@@ -43,8 +43,8 @@ export function FormationStats({ stats, texts }: FormationStatsProps) {
       icon: <Building className="w-6 h-6" />,
       value: stats.institutionsCount,
       label: texts.stats.institution,
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-500/10",
+      color: "from-roxo300 to-roxo500",
+      bgColor: "bg-roxo300/10",
     },
     {
       icon: <ExternalLink className="w-6 h-6" />,

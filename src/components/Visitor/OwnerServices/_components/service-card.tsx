@@ -18,9 +18,9 @@ export function ServiceCard({ service, index, isConnected = false, onHover }: Se
   const categoryColors = {
     frontend: "from-blue-500/80 to-cyan-500/20",
     backend: "from-green-500/80 to-emerald-500/20",
-    fullstack: "from-purple-500/80 to-pink-500/20",
+    fullstack: "from-roxo300/80 to-pink-500/20",
     devops: "from-orange-500/80 to-red-500/20",
-    mobile: "from-indigo-500/80 to-purple-500/20",
+    mobile: "from-roxo300/80 to-roxo600/20",
   };
 
   const categoryIcons = {

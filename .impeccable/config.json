@@ -1,0 +1,62 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "ai-color-palette",
+        "value": "*",
+        "files": [
+          "src/components/ui/page-loader.tsx"
+        ],
+        "createdAt": "2026-08-28T19:15:01.619Z",
+        "reason": "parte da paleta multi-cor deliberada da tela 'hacker terminal' (linhas de syntax-highlighting simuladas azul/roxo/amarelo/ciano/verde); decisão tomada e documentada na issue #57, reavaliada e confirmada na #58"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/Owner/Education/_components/formation-add.tsx"
+        ],
+        "createdAt": "2026-08-28T19:16:22.379Z",
+        "reason": "spinner CSS (border-t + rounded-full + animate-spin), não borda decorativa em card — falso positivo do detector"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/Owner/Skills/_components/skill-add.tsx"
+        ],
+        "createdAt": "2026-08-28T19:16:22.440Z",
+        "reason": "spinner CSS (border-t + rounded-full + animate-spin), não borda decorativa em card — falso positivo do detector"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/Owner/Skills/_components/skills-edit-modal.tsx"
+        ],
+        "createdAt": "2026-08-28T19:16:22.502Z",
+        "reason": "spinner CSS (border-t + rounded-full + animate-spin), não borda decorativa em card — falso positivo do detector"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/Owner/Login/_components/login-form.tsx"
+        ],
+        "createdAt": "2026-08-28T19:16:22.565Z",
+        "reason": "spinner CSS (border-t + rounded-full + animate-spin), não borda decorativa em card — falso positivo do detector"
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/Visitor/Projects/_components/project-list.tsx"
+        ],
+        "createdAt": "2026-08-28T19:16:22.638Z",
+        "reason": "spinner CSS (border-b + rounded-full + animate-spin) do infinite scroll, não borda decorativa em card — falso positivo do detector"
+      }
+    ]
+  }
+}
