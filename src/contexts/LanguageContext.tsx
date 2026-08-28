@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, usePathname } from "next/navigation";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 interface LangContext {
   language: string;
@@ -17,25 +17,28 @@ const LanguageContext = createContext<LangContext>({
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathName = usePathname();
-  const segments = pathName.split("/").filter(Boolean);
+  const segments = useMemo(() => pathName.split("/").filter(Boolean), [pathName]);
   const [language, setLanguage] = useState(segments[1] || "pt");
 
   const [isLoading, setIsLoading] = useState(false);
-  const setLenguage = (lang: string) => {
-    setIsLoading(true);
-    try {
-      Cookies.set("preferredLanguage", lang, { expires: 30 });
-      Cookies.set("languageManuallySet", "1", { expires: 30 });
-      const restOfPath = segments.slice(2).join("/") || "";
+  const setLenguage = useCallback(
+    (lang: string) => {
+      setIsLoading(true);
+      try {
+        Cookies.set("preferredLanguage", lang, { expires: 30 });
+        Cookies.set("languageManuallySet", "1", { expires: 30 });
+        const restOfPath = segments.slice(2).join("/") || "";
 
-      if (segments[1] !== lang) {
-        router.push(`/watch/${lang}/${restOfPath}`);
-        setLanguage(lang);
+        if (segments[1] !== lang) {
+          router.push(`/watch/${lang}/${restOfPath}`);
+          setLanguage(lang);
+        }
+      } finally {
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [router, segments]
+  );
 
   useEffect(() => {
     const savedLang = Cookies.get("preferredLanguage");
@@ -49,7 +52,9 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     }
   }, [router, segments]);
 
-  return <LanguageContext.Provider value={{ language, setLenguage, isLoading }}>{children}</LanguageContext.Provider>;
+  const value = useMemo(() => ({ language, setLenguage, isLoading }), [language, setLenguage, isLoading]);
+
+  return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 };
 
 export const useLanguage = () => useContext(LanguageContext);

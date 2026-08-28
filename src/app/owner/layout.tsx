@@ -1,4 +1,4 @@
-import DarkVeil from "@/components/blocks/Backgrounds/DarkVeil/DarkVeil";
+import DarkVeil from "@/components/blocks/Backgrounds/DarkVeil/DarkVeilLazy";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { PageLoader } from "@/components/ui/page-loader";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
