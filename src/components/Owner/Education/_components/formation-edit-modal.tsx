@@ -97,7 +97,7 @@ export function FormationEditModal({ formation, isOpen, onClose, onSuccess }: Fo
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="min-w-4xl w-full h-[90vh] flex flex-col">
+      <DialogContent className="sm:min-w-4xl w-full h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Editar Formação: {formation?.title}</DialogTitle>
         </DialogHeader>

@@ -90,7 +90,7 @@ export function BadgeFormModal({ isOpen, onClose, onSuccess, badge }: BadgeFormM
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="min-w-4xl w-full h-[90vh] overflow-y-auto flex flex-col">
+      <DialogContent className="sm:min-w-4xl w-full h-[90vh] overflow-y-auto flex flex-col">
         <DialogHeader>
           <DialogTitle>{isEditing ? "Editar Badge" : "Novo Badge"}</DialogTitle>
           <DialogDescription>

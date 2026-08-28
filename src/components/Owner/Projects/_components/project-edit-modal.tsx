@@ -157,7 +157,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="min-w-4xl w-full h-[90vh]  flex flex-col">
+      <DialogContent className="sm:min-w-4xl w-full h-[90vh]  flex flex-col">
         <DialogHeader>
           <DialogTitle>Editar Projeto: {project?.title}</DialogTitle>
         </DialogHeader>
