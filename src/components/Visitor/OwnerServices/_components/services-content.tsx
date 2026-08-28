@@ -97,7 +97,7 @@ export function ServicesContent({ services, connections, texts, lan }: ServicesP
                 : "https://docs.google.com/forms/d/e/1FAIpQLSe0Rowb2t9yfThken7OnlsaXo9dPO44beQzszW7hdina56VIA/viewform?usp=dialog"
             }
             target="_blank"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-roxo300 to-roxo100 text-white font-semibold rounded-full hover:from-roxo500 hover:to-roxo300 transition-all duration-300 shadow-lg hover:shadow-roxo100/25"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

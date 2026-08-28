@@ -39,13 +39,13 @@ export default function ProjectCard({ project }: { project: Project }) {
 
             {project.isMostRecent.isRecent && (
               <div className="absolute top-4 left-4">
-                <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-white">
+                <Badge className="text-xs font-secundaria animate-pulse duration-500 bg-roxo500 font-semibold text-foreground">
                   {project.isMostRecent.text}
                 </Badge>
               </div>
             )}
             <div className="flex flex-col w-full justify-between border-neutral-800 rounded-lg p-6 bg-gradient-to-b from-roxo700 to-roxo500 shadow-md transition-all hover:shadow-[0_0_5px_rgba(0,229,255,0.2)]">
-              <h3 className="text-xl font-medium text-white font-principal">{project.title}</h3>
+              <h3 className="text-xl font-medium text-foreground font-principal">{project.title}</h3>
               <p className="text-sm max-w-2xl text-gray-300 mt-2 mb-4 leading-relaxed tracking-wide">
                 {project.description.content.slice(0, 100).concat("...")}
               </p>

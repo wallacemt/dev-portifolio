@@ -35,7 +35,7 @@ export const NavItems = ({ menuItens, languages, language }: NavItemsProps) => {
               key={index}
               className={`hover:text-roxo100 ${pathName.endsWith(item.path) ? "border-b-2 border-roxo100" : ""} ${
                 isHome && item.path === "/" ? "border-b-2 border-roxo100" : ""
-              } lg:text-lg transition-colors text-neutral10 hover:font-bold hover:border-b-2 font-secundaria`}
+              } lg:text-lg transition-colors text-foreground hover:font-bold hover:border-b-2 font-secundaria`}
             >
               <Link href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}>{item.name}</Link>
             </li>
