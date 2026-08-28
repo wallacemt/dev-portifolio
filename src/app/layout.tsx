@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Aclonica, Lato, Roboto, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import TopLoadingBar from "@/components/ui/top-loading-bar";
+import { MotionConfigProvider } from "@/components/motion-config-provider";
 import { getSiteURL } from "@/lib/axios";
 
 export const viewport: Viewport = {
@@ -173,8 +174,10 @@ export default function RootLayout({
         <meta httpEquiv="Accept-CH" content="DPR, Viewport-Width, Width" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <TopLoadingBar />
-        {children}
+        <MotionConfigProvider>
+          <TopLoadingBar />
+          {children}
+        </MotionConfigProvider>
       </body>
     </html>
   );

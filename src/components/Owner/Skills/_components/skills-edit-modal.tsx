@@ -100,7 +100,7 @@ export function SkillEditModal({ skill, isOpen, onClose, onSuccess }: SkillEditM
   };
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className={`min-w-4xl w-full h-[90vh]  flex flex-col `}>
+      <DialogContent className={`sm:min-w-4xl w-full h-[90vh]  flex flex-col `}>
         <DialogHeader>
           <DialogTitle>Editar Skill: {skill?.title}</DialogTitle>
         </DialogHeader>

@@ -226,6 +226,14 @@
     animation: floats 2s ease-in-out infinite;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-marquee,
+  .animate-floating {
+    animation: none;
+  }
+}
 .bm-item {
   display: inline-block;
   text-decoration: none;

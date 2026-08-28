@@ -106,7 +106,7 @@ export function AccountEditModal({ owner, isOpen, onClose, onSuccess }: AccountE
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="min-w-4xl w-full h-[90vh] flex flex-col">
+      <DialogContent className="sm:min-w-4xl w-full h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Editar Perfil: {owner?.name}</DialogTitle>
         </DialogHeader>
