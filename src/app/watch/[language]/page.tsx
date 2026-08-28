@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Abbout } from "@/components/Visitor/Abbout";
+import { LandingExtras } from "@/components/Visitor/Landing/LandingExtras";
 import { getOwner } from "@/services/ownerApi";
 import { generateMetadata as generateSEOMetadata, getLanguageSpecificContent } from "@/lib/seo-utils";
 import { getSiteURL } from "@/lib/axios";
@@ -51,7 +52,12 @@ export default async function HomePage({ params }: { params: Promise<{ language:
   try {
     const { language } = await params;
     const ownerRes = await getOwner(language);
-    return <Abbout owner={ownerRes} language={language} />;
+    return (
+      <>
+        <Abbout owner={ownerRes} language={language} />
+        <LandingExtras language={language} />
+      </>
+    );
   } catch (e) {
     console.error(e);
     throw new Error("API_ERROR");

@@ -35,7 +35,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
             <Download />
           </Link>
           <Link
-            href="/watch/pt/projects"
+            href={`/watch/${language}/projects`}
             className="px-4 py-2   text-white rounded-lg  hover:bg-roxo700 hover:border border-white transition"
           >
             {owner.buttons.project}
