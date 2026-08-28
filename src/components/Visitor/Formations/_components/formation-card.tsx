@@ -19,11 +19,11 @@ interface FormationCardProps {
 
 const formationTypeColors = {
   technologist: "from-blue-700 to-blue-800",
-  postgraduate: "from-purple-500 to-purple-600",
+  postgraduate: "from-roxo100 to-roxo300",
   tecnico: "from-green-700 to-green-800",
   certification: "from-orange-500 to-orange-600",
   workshop: "from-pink-500 to-pink-600",
-  bootcamp: "from-indigo-700 to-indigo-800",
+  bootcamp: "from-roxo300 to-roxo500",
   default: "from-gray-500 to-gray-600",
 };
 

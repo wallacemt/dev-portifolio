@@ -81,10 +81,10 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
               href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}
               key={index}
               onClick={closeMenu}
-              className={`hover:text-roxo300 hover:scale-105 cursor-pointer w-full hover:border-Destaque glass border-b-2 rounded-2xl px-4 py-2 ${
-                pathName.endsWith(item.path) ? "border-b-2 border-Destaque" : ""
+              className={`hover:text-roxo300 hover:scale-105 cursor-pointer w-full hover:border-Destaque glass rounded-2xl px-4 py-2 ${
+                pathName.endsWith(item.path) ? "ring-2 ring-Destaque" : ""
               } ${
-                isHome && item.path === "/" ? "border-b-2 border-Destaque" : ""
+                isHome && item.path === "/" ? "ring-2 ring-Destaque" : ""
               } transition-colors text-xl text-center`}
             >
               {item.name}

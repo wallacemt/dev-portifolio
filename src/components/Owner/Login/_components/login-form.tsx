@@ -115,9 +115,7 @@ export function LoginForm() {
                 >
                   <User className="w-6 h-6 text-white" />
                 </motion.div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-roxo300 to-roxo100 bg-clip-text text-transparent">
-                  Bem-vindo de volta
-                </h1>
+                <h1 className="text-2xl font-bold text-roxo100">Bem-vindo de volta</h1>
                 <p className="text-muted-foreground">Faça login em sua conta</p>
               </motion.div>
 
