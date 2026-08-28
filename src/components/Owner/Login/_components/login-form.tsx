@@ -136,6 +136,8 @@ export function LoginForm() {
                     id="email"
                     type="email"
                     placeholder="seu@email.com"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
                     className={`pl-10 transition-all duration-200 ${
                       errors.email
                         ? "border-red-400 focus:ring-red-400/20"
@@ -146,6 +148,7 @@ export function LoginForm() {
                 </div>
                 {errors.email && (
                   <motion.p
+                    id="email-error"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-sm text-red-400"
@@ -170,6 +173,8 @@ export function LoginForm() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
+                    aria-invalid={!!errors.password}
+                    aria-describedby={errors.password ? "password-error" : undefined}
                     className={`pl-10 transition-all duration-200 ${
                       errors.password
                         ? "border-red-400 focus:ring-red-400/20"
@@ -182,6 +187,7 @@ export function LoginForm() {
                       className="hover:cursor-pointer"
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                     >
                       {showPassword ? <EyeIcon size={20} /> : <EyeClosed size={20} />}
                     </button>
@@ -189,6 +195,7 @@ export function LoginForm() {
                 </div>
                 {errors.password && (
                   <motion.p
+                    id="password-error"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-sm text-red-400"

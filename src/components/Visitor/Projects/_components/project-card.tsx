@@ -70,8 +70,8 @@ export default function ProjectCard({ project }: { project: Project }) {
                   </div>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-1 text-sm  w-fit " onClick={handleOpen}>
-                <DepoButton message={project.cta} />
+              <div className="inline-flex items-center gap-1 text-sm  w-fit ">
+                <DepoButton message={project.cta} onClick={handleOpen} />
               </div>
             </div>
           </div>
