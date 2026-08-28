@@ -10,9 +10,9 @@ export function LandingCtaSection({ texts, language }: LandingCtaSectionProps) {
   return (
     <motion.section
       id="contato"
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.5 }}
       className="w-full max-w-4xl mx-auto px-4 md:px-12 py-16 text-center"
     >

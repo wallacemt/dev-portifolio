@@ -48,6 +48,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       title: "",
       description: "",
       previewImage: "",
+      logoUrl: "",
       videos: [],
     },
   });
@@ -65,6 +66,7 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const screenshots = watch("screenshots") || [];
   const videos = watch("videos") || [];
   const previewImage = watch("previewImage");
+  const logoUrl = watch("logoUrl");
   const [skills, setSkills] = useState<Skill[]>([]);
 
   const fillFormFromJson = () => {
@@ -79,9 +81,11 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
         frontend: string;
         backend: string;
         previewImage: string;
+        logoUrl?: string;
       } = JSON.parse(jsonInput);
       if (obj.nome) setValue("title", obj.nome);
       if (obj.previewImage) setValue("previewImage", obj.previewImage.trim());
+      if (obj.logoUrl) setValue("logoUrl", obj.logoUrl.trim());
       if (Array.isArray(obj.technologys)) setValue("techs", obj.technologys);
       if (obj.descricao) setValue("description", obj.descricao);
       if (Array.isArray(obj.screenshots)) setValue("screenshots", obj.screenshots);
@@ -263,6 +267,21 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                 description="Arraste e solte ou clique para selecionar"
               />
               {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <Label>Logo do Projeto (opcional)</Label>
+              <FileUpload
+                accept="image/*"
+                uploadOptions={{ folder: "portifolio/projects/logo", resourceType: "image" }}
+                existingUrls={logoUrl ? [logoUrl] : []}
+                onRemoveExisting={() => setValue("logoUrl", "")}
+                onUploadComplete={(results) => results[0]?.url && setValue("logoUrl", results[0].url)}
+                onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                label=""
+                description="Usado em destaques compactos (landing); sem ele, usa a imagem de preview"
+              />
+              {errors.logoUrl && <p className="text-sm text-red-500">{errors.logoUrl.message}</p>}
             </div>
           </div>
 

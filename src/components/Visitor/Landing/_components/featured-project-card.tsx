@@ -27,14 +27,9 @@ export function FeaturedProjectCard({ project, githubLastPush, language }: Featu
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.3 }}
       >
-        <OptimizedImage
-          src={project.previewImage}
-          width={500}
-          height={375}
-          alt={project.title}
-          title={project.title}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <div className="absolute inset-0 [&>div]:h-full">
+          <OptimizedImage src={project.logoUrl || project.previewImage} fill alt={project.title} title={project.title} />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-roxo700 via-roxo700/20 to-transparent" />
 
         {updatedLabel && (

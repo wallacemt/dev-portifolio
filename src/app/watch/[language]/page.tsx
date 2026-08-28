@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { Abbout } from "@/components/Visitor/Abbout";
 import { LandingExtras } from "@/components/Visitor/Landing/LandingExtras";
 import { getOwner } from "@/services/ownerApi";
@@ -55,7 +56,9 @@ export default async function HomePage({ params }: { params: Promise<{ language:
     return (
       <>
         <Abbout owner={ownerRes} language={language} />
-        <LandingExtras language={language} />
+        <Suspense fallback={null}>
+          <LandingExtras language={language} />
+        </Suspense>
       </>
     );
   } catch (e) {

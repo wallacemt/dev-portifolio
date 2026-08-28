@@ -15,6 +15,7 @@ export const projectAddSchema = z.object({
   backend: z.string().optional(),
   frontend: z.string().optional(),
   previewImage: z.string().url("URL da imagem de preview deve ser válida"),
+  logoUrl: z.string().url("URL do logo deve ser válida").optional().or(z.literal("")),
   videos: z.array(youtubeVideoUrl).max(5, "No máximo 5 vídeos são permitidos").optional(),
   lastUpdate: z.date(),
 });
