@@ -60,6 +60,11 @@
   --textura-roxo-4-4-hex: #56208c;
   --textura-roxo-5-hex: #0f0526;
   --textura-roxo-5-5-hex: #100126;
+  --glass-bg: rgba(47, 5, 89, 0.55);
+  --glass-bg-strong: rgba(47, 5, 89, 0.78);
+  --glass-highlight: rgba(220, 141, 242, 0.14);
+  --glass-border: rgba(220, 141, 242, 0.18);
+  --glass-blur: 16px;
 }
 
 @theme inline {
