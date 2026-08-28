@@ -1,6 +1,6 @@
 import { ReactNode, Suspense } from "react";
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
+import Silk from "@/components/blocks/Backgrounds/Silk/SilkLazy";
 import { PageLoader } from "@/components/ui/page-loader";
 import Footer from "@/components/Visitor/Footer/Footer";
 import Header from "@/components/Visitor/Header/Header";
@@ -15,8 +15,6 @@ import {
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
 import { getSiteURL } from "@/lib/axios";
-
-const Silk = dynamic(() => import("@/components/blocks/Backgrounds/Silk/Silk"), {});
 
 interface Props {
   children: ReactNode;

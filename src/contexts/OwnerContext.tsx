@@ -1,7 +1,7 @@
 "use client";
 import { OwnerResponse } from "@/types/owner";
 import { cookieUtils } from "@/lib/cookies";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useCallback, useContext, useState, useEffect, useMemo } from "react";
 import { getOwner } from "@/services/ownerApi";
 import { useRouter } from "next/navigation";
 
@@ -42,31 +42,19 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticate] = useState(false);
   const router = useRouter();
-  useEffect(() => {
-    const fetchInit = () => {
-      const token = cookieUtils.getAuthToken();
-      if (token) {
-        setIsAuthenticate(true);
-        handleOwner();
-      }
-      setIsLoading(false);
-    };
-    fetchInit();
-  }, []
-);
 
-  const login = (token: string, ownerData: OwnerResponse) => {
+  const login = useCallback((token: string, ownerData: OwnerResponse) => {
     cookieUtils.setAuthToken(token);
     setOwner(ownerData);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     cookieUtils.removeAuthToken();
     router.push("/owner/auth");
     setIsVerifySecret(false);
-  };
+  }, [router]);
 
-  const handleOwner = async (): Promise<OwnerResponse> => {
+  const handleOwner = useCallback(async (): Promise<OwnerResponse> => {
     setIsLoading(true);
     setError(null);
     try {
@@ -82,32 +70,44 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [logout]);
 
-  const clearError = () => {
+  useEffect(() => {
+    const fetchInit = () => {
+      const token = cookieUtils.getAuthToken();
+      if (token) {
+        setIsAuthenticate(true);
+        handleOwner();
+      }
+      setIsLoading(false);
+    };
+    fetchInit();
+  }, [handleOwner]);
+
+  const clearError = useCallback(() => {
     setError(null);
-  };
+  }, []);
 
-  const handleVerifySecret = () => setIsVerifySecret(!isVerifySecret);
-  return (
-    <OwnerContext.Provider
-      value={{
-        owner,
-        setOwner,
-        login,
-        logout,
-        isLoading,
-        error,
-        isVerifySecret,
-        handleOwner,
-        handleVerifySecret,
-        clearError,
-        isAuthenticated,
-      }}
-    >
-      {children}
-    </OwnerContext.Provider>
+  const handleVerifySecret = useCallback(() => setIsVerifySecret((prev) => !prev), []);
+
+  const value = useMemo(
+    () => ({
+      owner,
+      setOwner,
+      login,
+      logout,
+      isLoading,
+      error,
+      isVerifySecret,
+      handleOwner,
+      handleVerifySecret,
+      clearError,
+      isAuthenticated,
+    }),
+    [owner, login, logout, isLoading, error, isVerifySecret, handleOwner, handleVerifySecret, clearError, isAuthenticated]
   );
+
+  return <OwnerContext.Provider value={value}>{children}</OwnerContext.Provider>;
 };
 
 export const useOwner = () => useContext(OwnerContext);

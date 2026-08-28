@@ -132,11 +132,14 @@ export default function DarkVeil({
     window.addEventListener("resize", resize);
     resize();
 
-    const start = performance.now();
     let frame = 0;
+    let animTime = 0;
+    let lastTimestamp = performance.now();
 
-    const loop = () => {
-      program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
+    const loop = (now: number) => {
+      animTime += now - lastTimestamp;
+      lastTimestamp = now;
+      program.uniforms.uTime.value = (animTime / 1000) * speed;
       program.uniforms.uHueShift.value = hueShift;
       program.uniforms.uNoise.value = noiseIntensity;
       program.uniforms.uScan.value = scanlineIntensity;
@@ -146,11 +149,25 @@ export default function DarkVeil({
       frame = requestAnimationFrame(loop);
     };
 
-    loop();
+    frame = requestAnimationFrame(loop);
+
+    // Tab hidden: cancel the rAF loop entirely rather than let it keep
+    // burning GPU/CPU off-screen. On resume, reset lastTimestamp so the
+    // hidden duration isn't replayed as one huge time jump.
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        cancelAnimationFrame(frame);
+      } else {
+        lastTimestamp = performance.now();
+        frame = requestAnimationFrame(loop);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
   return <canvas ref={ref} className="w-full h-full block" />;
