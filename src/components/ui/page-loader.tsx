@@ -38,7 +38,7 @@ const DevLoader = () => {
   return (
     <>
       <div
-        className="bg-roxo700/80 text-white min-h-screen flex flex-col items-center justify-center overflow-hidden relative"
+        className="bg-roxo700/80 text-foreground min-h-screen flex flex-col items-center justify-center overflow-hidden relative"
         style={{ userSelect: "none" }}
       >
         {[...Array(50)].map((_, i) => {
@@ -61,7 +61,7 @@ const DevLoader = () => {
               Wallace<span className="text-Destaque">.Dev</span>
             </p>
           </div>
-          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-[100%] md:max-w-76 mb-8 overflow-hidden border-2 border-Destaque/20 hover:border-Destaque transition-colors relative ">
+          <div className="bg-card rounded-lg p-6 w-full max-w-[100%] md:max-w-76 mb-8 overflow-hidden border-2 border-Destaque/20 hover:border-Destaque transition-colors relative ">
             <div className="flex items-center mb-4">
               <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
               <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
@@ -83,7 +83,7 @@ const DevLoader = () => {
               &gt; compiling security protocols <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
             </div>
             <div className="font-mono text-xs text-cyan-400 mt-4">
-              &gt; going to <span className="bg-gray-900 font-bold text-white mx-2">{pathname}</span>
+              &gt; going to <span className="bg-popover font-bold text-foreground mx-2">{pathname}</span>
               <span className="text-gray-400 text-[0.60rem]">[███████░] 70%</span>
             </div>
             <div className="font-mono text-xs text-green-400 mb-2 typing">

@@ -8,7 +8,12 @@ interface DepoButtonProps {
   hover?: string;
   onClick?: () => void;
 }
-export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6", onClick }: DepoButtonProps) => {
+export const DepoButton = ({
+  message,
+  bg = "var(--textura-roxo-5-hex)",
+  hover = "var(--textura-roxo-2-hex)",
+  onClick,
+}: DepoButtonProps) => {
   const StyledWrapper = styled.div`
     .Btn-Container {
       display: flex;
@@ -29,12 +34,12 @@ export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6", onClick
     .icon-Container {
       width: 60px;
       height: 45px;
-      background-color: #d629d9;
+      background-color: var(--textura-roxo-1-hex);
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      border: 3px solid #2f0559;
+      border: 3px solid var(--textura-roxo-3-hex);
     }
     .text {
       width: 100%;
@@ -42,7 +47,7 @@ export const DepoButton = ({ message, bg = "#0f0526", hover = "#8921a6", onClick
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: var(--foreground);
       font-weight: 400;
       font-size: 1em;
       letter-spacing: 1.2px;
