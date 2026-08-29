@@ -181,7 +181,6 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                   onRemoveExisting={() => setValue("previewImage", "")}
                   onUploadComplete={(results) => results[0]?.url && setValue("previewImage", results[0].url)}
                   onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                  label="Imagem de Preview"
                   description="Arraste e solte ou clique para selecionar"
                 />
                 {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
@@ -196,7 +195,6 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                   onRemoveExisting={() => setValue("logoUrl", "")}
                   onUploadComplete={(results) => results[0]?.url && setValue("logoUrl", results[0].url)}
                   onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                  label="Logo do Projeto"
                   description="Usado em destaques compactos (landing); sem ele, usa a imagem de preview"
                 />
                 {errors.logoUrl && <p className="text-sm text-red-500">{errors.logoUrl.message}</p>}
@@ -350,7 +348,6 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                 uploadOptions={{ folder: "portifolio/projects/screenshots", resourceType: "image" }}
                 onUploadComplete={handleScreenshotsUploaded}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label="Screenshots"
                 description="Arraste e solte ou clique para selecionar (várias imagens)"
               />
               <div className="space-y-2 flex flex-wrap gap-4">

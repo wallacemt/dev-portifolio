@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import GitHubCalendar from "react-github-calendar";
 import { Separator } from "@/components/ui/separator";
+import { ownerGithubUsername } from "@/lib/axios";
 import { NavbarItens } from "@/types/utilis";
 
 interface FooterProps {
@@ -26,16 +27,16 @@ export const FooterContent = ({ menuItens, language }: FooterProps) => {
       title: "wallacesantanak0@gmail.com",
     },
     {
-      href: "https://github.com/wallacemt",
+      href: `https://github.com/${ownerGithubUsername}`,
       icon: GithubLogoIcon,
       label: "GitHub",
-      title: "wallacemt",
+      title: ownerGithubUsername,
     },
     {
-      href: "https://www.linkedin.com/in/wallace-santanak0",
+      href: "https://www.linkedin.com/in/wallacedev",
       icon: LinkedinLogoIcon,
       label: "LinkedIn",
-      title: "wallace-santanak0",
+      title: "wallacedev",
     },
     {
       href: "https://discord.com/users/715397662479745044",
@@ -55,7 +56,7 @@ export const FooterContent = ({ menuItens, language }: FooterProps) => {
     <div className="max-w-6xl mx-auto py-12 px-4 md:px-6 flex flex-col gap-2">
       <div className="flex md:flex-row flex-col justify-between gap-8 md:items-start">
         <GitHubCalendar
-          username="wallacemt"
+          username={ownerGithubUsername}
           style={{ userSelect: "none" }}
           blockSize={15}
           blockMargin={2}

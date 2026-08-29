@@ -236,7 +236,6 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
                       onRemoveExisting={() => form.setValue("badgeImageUrl", "")}
                       onUploadComplete={handleBadgeImageUploadComplete}
                       onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                      label="Imagem do Badge"
                       description="Arraste e solte ou clique para selecionar o PNG, JPG ou SVG do badge"
                     />
                   </FormControl>
@@ -262,8 +261,7 @@ export function CertificationFormModal({ isOpen, onClose, onSuccess, certificati
                           resourceType: "raw",
                         }}
                         onUploadComplete={handleCertificateFileUploadComplete}
-                        label="Ou faça upload do PDF do certificado"
-                        description="Arquivo PDF do certificado para download"
+                        description="Ou arraste e solte o PDF do certificado aqui"
                       />
                     </div>
                   </FormControl>

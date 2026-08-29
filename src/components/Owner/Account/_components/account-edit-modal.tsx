@@ -153,7 +153,6 @@ export function AccountEditModal({ owner, isOpen, onClose, onSuccess }: AccountE
                 onRemoveExisting={() => setValue("avatar", "")}
                 onUploadComplete={(results) => results[0]?.url && setValue("avatar", results[0].url)}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label="Avatar"
                 description="Arraste e solte ou clique para selecionar"
               />
               {errors.avatar && <p className="text-sm text-red-500">{errors.avatar.message}</p>}

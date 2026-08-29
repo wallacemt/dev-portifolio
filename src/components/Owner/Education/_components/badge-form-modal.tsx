@@ -173,7 +173,6 @@ export function BadgeFormModal({ isOpen, onClose, onSuccess, badge }: BadgeFormM
                       onRemoveExisting={() => form.setValue("imageUrl", "")}
                       onUploadComplete={handleUploadComplete}
                       onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                      label="Imagem do Badge"
                       description="Arraste e solte ou clique para selecionar a imagem do badge"
                     />
                   </FormControl>

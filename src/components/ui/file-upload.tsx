@@ -18,7 +18,6 @@ interface FileUploadProps {
   maxSize?: number; // in MB
   uploadOptions?: UploadOptions;
   className?: string;
-  label?: string;
   description?: string;
   /** URLs já salvas (edição) a exibir como preview antes de qualquer novo arquivo ser selecionado. */
   existingUrls?: string[];
@@ -39,7 +38,6 @@ export function FileUpload({
   maxSize = 10,
   uploadOptions,
   className,
-  label = "Upload de Arquivos",
   description = "Arraste e solte ou clique para selecionar",
   existingUrls = [],
   onRemoveExisting,
@@ -161,18 +159,17 @@ export function FileUpload({
   return (
     <div className={cn("space-y-4", className)}>
       <div className="space-y-2">
-        <label className="text-sm font-medium">{label}</label>
         <Card
           className={cn(
-            "border-2 border-dashed transition-colors cursor-pointer hover:border-primary",
+            "border-2 border-dashed transition-colors cursor-pointer hover:border-primary py-4",
             uploading && "pointer-events-none opacity-50",
           )}
           onDrop={handleDrop}
           onDragOver={(e) => e.preventDefault()}
           onClick={() => inputRef.current?.click()}
         >
-          <div className="flex flex-col items-center justify-center p-8 text-center">
-            <Upload className="h-10 w-10 text-muted-foreground mb-4" />
+          <div className="flex flex-col items-center justify-center px-4 text-center">
+            <Upload className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm font-medium mb-1">{description}</p>
             <p className="text-xs text-muted-foreground">
               {accept.split(",").join(", ")} - Max {maxSize}MB

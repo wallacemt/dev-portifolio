@@ -30,3 +30,11 @@ export const getGithubSuggestion = async (username: string, repo: string): Promi
   );
   return response.data as ProjectSuggestion;
 };
+
+export const getGithubReadme = async (username: string, repo: string): Promise<string | null> => {
+  await setupAuth();
+  const response = await API.get(
+    `/projects/private/github/readme?username=${encodeURIComponent(username)}&repo=${encodeURIComponent(repo)}`,
+  );
+  return (response.data as { readme: string | null }).readme;
+};
