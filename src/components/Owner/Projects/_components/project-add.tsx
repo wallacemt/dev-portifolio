@@ -8,19 +8,23 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Loader2, Eye, RefreshCcw, Plus } from "lucide-react";
+import { X, Loader2, Eye, RefreshCcw, Plus, Github, Sparkles } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Skill } from "@/types/skills";
 import { getSkillNotFilter } from "@/services/skillsApi";
+import { getGithubRepos, getGithubSuggestion, type GithubRepoSummary } from "@/services/githubSuggestion";
 import Link from "next/link";
 import { PreviewImage } from "@/utilis/preview-image";
 import { FileUpload } from "@/components/ui/file-upload";
 import z from "zod";
 import { Switch } from "@/components/ui/switch";
 import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const GITHUB_USERNAME_STORAGE_KEY = "owner-github-username";
 
 interface ProjectAddProps {
   onSuccess?: (redirect: boolean) => void;
@@ -36,6 +40,11 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
   const [isFinishRedirect, setIsFinishRedirect] = useState(false);
   const [jsonError, setJsonError] = useState("");
+  const [githubUsername, setGithubUsername] = useState("");
+  const [githubRepos, setGithubRepos] = useState<GithubRepoSummary[]>([]);
+  const [selectedRepo, setSelectedRepo] = useState("");
+  const [isFetchingRepos, setIsFetchingRepos] = useState(false);
+  const [isGeneratingSuggestion, setIsGeneratingSuggestion] = useState(false);
   const form = useForm<ProjectAddFormData>({
     resolver: zodResolver(projectAddSchema),
     defaultValues: {
@@ -186,8 +195,51 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       setIsLoading(false);
     }
   };
+  async function fetchGithubRepos() {
+    const username = githubUsername.trim();
+    if (!username) return;
+    setIsFetchingRepos(true);
+    setSelectedRepo("");
+    try {
+      const repos = await getGithubRepos(username);
+      setGithubRepos(repos);
+      localStorage.setItem(GITHUB_USERNAME_STORAGE_KEY, username);
+      if (repos.length === 0) toast.info("Nenhum repositório encontrado para esse usuário.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao buscar repositórios do GitHub.");
+      setGithubRepos([]);
+    } finally {
+      setIsFetchingRepos(false);
+    }
+  }
+
+  async function generateAiSuggestion() {
+    if (!selectedRepo) return;
+    setIsGeneratingSuggestion(true);
+    try {
+      const suggestion = await getGithubSuggestion(githubUsername.trim(), selectedRepo);
+      setValue("title", suggestion.title);
+      setValue("description", suggestion.description);
+      setValue("techs", Array.from(new Set([...techs, ...suggestion.techs])));
+      if (suggestion.missingSkills.length > 0) {
+        toast.info(`Techs detectadas que ainda não estão no seu perfil: ${suggestion.missingSkills.join(", ")}`, {
+          description: "Adicione-as na aba Skills se quiser usá-las.",
+        });
+      }
+      toast.success("Formulário preenchido pela sugestão IA! Revise os campos antes de salvar.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao gerar sugestão a partir do repositório.");
+    } finally {
+      setIsGeneratingSuggestion(false);
+    }
+  }
+
   useEffect(() => {
     fetchSkills();
+    const savedUsername = localStorage.getItem(GITHUB_USERNAME_STORAGE_KEY);
+    if (savedUsername) setGithubUsername(savedUsername);
   }, []);
 
   const filteredSkills = searchTech.trim()
@@ -217,6 +269,50 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             </Button>
             {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
           </div>
+        </div>
+        <div className="space-y-2 mb-4 flex flex-col bg-roxo600/60 p-4 rounded-md">
+          <Label className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4" /> Sugestão IA a partir do GitHub
+          </Label>
+          <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex items-center gap-2 flex-1">
+              <Github className="h-4 w-4 shrink-0 text-roxo100" />
+              <Input
+                value={githubUsername}
+                onChange={(e) => setGithubUsername(e.target.value)}
+                placeholder="Seu username do GitHub"
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), fetchGithubRepos())}
+              />
+            </div>
+            <Button type="button" variant="secondary" onClick={fetchGithubRepos} disabled={isFetchingRepos || !githubUsername.trim()}>
+              {isFetchingRepos ? <Loader2 className="h-4 w-4 animate-spin" /> : "Buscar repositórios"}
+            </Button>
+          </div>
+          {githubRepos.length > 0 && (
+            <div className="flex flex-col md:flex-row gap-2 mt-2">
+              <Select value={selectedRepo} onValueChange={setSelectedRepo}>
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder="Escolha um repositório" />
+                </SelectTrigger>
+                <SelectContent>
+                  {githubRepos.map((repo) => (
+                    <SelectItem key={repo.fullName} value={repo.name}>
+                      {repo.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button type="button" onClick={generateAiSuggestion} disabled={!selectedRepo || isGeneratingSuggestion}>
+                {isGeneratingSuggestion ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Gerando...
+                  </>
+                ) : (
+                  "Gerar sugestão"
+                )}
+              </Button>
+            </div>
+          )}
         </div>
         {previewImage && z.string().url().safeParse(previewImage).success && (
           <div className="mx-auto max-w-2xl">
