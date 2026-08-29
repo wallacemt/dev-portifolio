@@ -58,6 +58,7 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
       setValue("backend", project.links.content.backend.url);
       setValue("frontend", project.links.content.frontend.url);
       setValue("previewImage", project.previewImage);
+      setValue("logoUrl", project.logoUrl ?? "");
       setValue("videos", project.videos ?? []);
     }
   }, [project, isOpen, setValue]);
@@ -184,6 +185,21 @@ export function ProjectEditModal({ project, isOpen, onClose, onSuccess }: Projec
                   description="Arraste e solte ou clique para selecionar"
                 />
                 {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Logo do Projeto (opcional)</Label>
+                <FileUpload
+                  accept="image/*"
+                  uploadOptions={{ folder: "portifolio/projects/logo", resourceType: "image" }}
+                  existingUrls={watch("logoUrl") ? [watch("logoUrl") as string] : []}
+                  onRemoveExisting={() => setValue("logoUrl", "")}
+                  onUploadComplete={(results) => results[0]?.url && setValue("logoUrl", results[0].url)}
+                  onUploadError={(error) => toast.error("Erro no upload", { description: error })}
+                  label="Logo do Projeto"
+                  description="Usado em destaques compactos (landing); sem ele, usa a imagem de preview"
+                />
+                {errors.logoUrl && <p className="text-sm text-red-500">{errors.logoUrl.message}</p>}
               </div>
             </div>
 

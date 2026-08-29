@@ -14,9 +14,26 @@ interface NavItemsProps {
   languages: LenguagesResponse;
   language: string;
 }
+
+// On the landing, these nav paths have a matching inline section — scroll to
+// it instead of navigating away. Any other path keeps its normal route.
+const LANDING_SECTION_IDS: Record<string, string> = {
+  "/projects": "projetos",
+  "/skills": "skills",
+};
+
 export const NavItems = ({ menuItens, languages, language }: NavItemsProps) => {
   const pathName = usePathname();
   const isHome = pathName === `/watch/${language}`;
+
+  const handleNavClick = (path: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const sectionId = isHome ? LANDING_SECTION_IDS[path] : undefined;
+    if (!sectionId) return;
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    e.preventDefault();
+    section.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
       <nav
@@ -37,7 +54,12 @@ export const NavItems = ({ menuItens, languages, language }: NavItemsProps) => {
                 isHome && item.path === "/" ? "border-b-2 border-roxo100" : ""
               } lg:text-lg transition-colors text-foreground hover:font-bold hover:border-b-2 font-secundaria`}
             >
-              <Link href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}>{item.name}</Link>
+              <Link
+                href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}
+                onClick={handleNavClick(item.path)}
+              >
+                {item.name}
+              </Link>
             </li>
           ))}
           {languages && (

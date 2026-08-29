@@ -16,6 +16,8 @@ export interface Project {
   techs: { title: string; content: string[] };
   screenshots: string[];
   previewImage: string;
+  /** Optional clean logo/icon, preferred over previewImage in compact cards (e.g. landing highlights). */
+  logoUrl?: string | null;
   lastUpdate?: string | Date | null;
   /** ISO date the project was created. Sent by the backend alongside `dateLabelKey: "addedAt"`. */
   createdAt?: string | null;
@@ -68,6 +70,7 @@ export interface ProjectAdd {
   backend?: string;
   frontend?: string;
   previewImage: string;
+  logoUrl?: string;
   videos?: string[];
 }
 

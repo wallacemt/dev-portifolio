@@ -13,6 +13,14 @@ interface MobileNavProps {
   menuItens: { name: string; path: string }[];
   languages: LenguagesResponse
 }
+
+// On the landing, these nav paths have a matching inline section — scroll to
+// it instead of navigating away. Any other path keeps its normal route.
+const LANDING_SECTION_IDS: Record<string, string> = {
+  "/projects": "projetos",
+  "/skills": "skills",
+};
+
 export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { language } = useLanguage();
@@ -24,6 +32,16 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
 
   const closeMenu = () => {
     setIsOpen(false);
+  };
+
+  const handleNavClick = (path: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
+    closeMenu();
+    const sectionId = isHome ? LANDING_SECTION_IDS[path] : undefined;
+    if (!sectionId) return;
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    e.preventDefault();
+    section.scrollIntoView({ behavior: "smooth" });
   };
   return (
     <div className=" lg:hidden block z-50">
@@ -80,7 +98,7 @@ export const MobileNav = ({ menuItens, languages }: MobileNavProps) => {
             <Link
               href={`${item.path === "/" ? "/" : `/watch/${language}${item.path}`}`}
               key={index}
-              onClick={closeMenu}
+              onClick={handleNavClick(item.path)}
               className={`hover:text-roxo300 hover:scale-105 cursor-pointer w-full hover:border-Destaque glass rounded-2xl px-4 py-2 ${
                 pathName.endsWith(item.path) ? "ring-2 ring-Destaque" : ""
               } ${
