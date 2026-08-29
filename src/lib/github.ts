@@ -11,7 +11,7 @@ export function parseGithubRepo(url?: string | null): GithubRepoRef | null {
   if (!url) return null;
   try {
     const parsed = new URL(url);
-    if (!parsed.hostname.endsWith("github.com")) return null;
+    if (parsed.hostname !== "github.com") return null;
     const [owner, repo] = parsed.pathname.split("/").filter(Boolean);
     if (!owner || !repo) return null;
     return { owner, repo: repo.replace(/\.git$/, "") };
@@ -55,7 +55,16 @@ export async function getProjectGithubLastPush(links?: {
   frontend?: { url?: string };
   backend?: { url?: string };
 }): Promise<Date | null> {
-  const ref = parseGithubRepo(links?.frontend?.url) ?? parseGithubRepo(links?.backend?.url);
-  if (!ref) return null;
-  return getRepoLastPush(ref.owner, ref.repo);
+  const frontendRef = parseGithubRepo(links?.frontend?.url);
+  if (frontendRef) {
+    const lastPush = await getRepoLastPush(frontendRef.owner, frontendRef.repo);
+    if (lastPush) return lastPush;
+  }
+
+  // Frontend link either wasn't a GitHub URL or its lookup failed (private,
+  // deleted, renamed, rate-limited) — try backend before giving up.
+  const backendRef = parseGithubRepo(links?.backend?.url);
+  if (backendRef) return getRepoLastPush(backendRef.owner, backendRef.repo);
+
+  return null;
 }
