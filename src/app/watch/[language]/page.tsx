@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { Abbout } from "@/components/Visitor/Abbout";
 import { LandingExtras } from "@/components/Visitor/Landing/LandingExtras";
+import { LandingExtrasSkeleton } from "@/components/Visitor/Landing/_components/landing-extras-skeleton";
 import { getOwner } from "@/services/ownerApi";
 import { generateMetadata as generateSEOMetadata, getLanguageSpecificContent } from "@/lib/seo-utils";
 import { getSiteURL } from "@/lib/axios";
@@ -36,9 +37,9 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
         language,
         ogImage: owner.avatar || `${baseUrl}/og-image-home-${language === "pt" ? "pt" : "en"}.png`,
       },
-      owner
+      owner,
     );
-  } catch  {
+  } catch {
     const content = getLanguageSpecificContent(language);
     return generateSEOMetadata({
       title: `${content.homeTitle} | ${content.siteName}`,
@@ -56,7 +57,7 @@ export default async function HomePage({ params }: { params: Promise<{ language:
     return (
       <>
         <Abbout owner={ownerRes} language={language} />
-        <Suspense fallback={null}>
+        <Suspense fallback={<LandingExtrasSkeleton />}>
           <LandingExtras language={language} />
         </Suspense>
       </>
