@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { getSkillNotFilter } from "@/services/skillsApi";
+import { getAllProjects } from "@/services/projects";
 import { SkillsContent } from "./_components/skills-content";
 import { useSkillsPagination } from "./useSkillsPagination";
 import { useSkillsFilter } from "./useSkillsFilter";
 import { SkillResponse } from "@/types/skills";
 import { SkillsContentSkeleton } from "./_components/skills-tabs-content-skeleton";
+import { tallySkillsByProject } from "@/utilis/skill-project-count";
 
 interface SkillsContentProps {
   language: string;
@@ -19,6 +21,19 @@ export function Skills({ language }: SkillsContentProps) {
   // whatever 6 items happened to be on the current page.
   const [skillsData, setSkillsData] = useState<SkillResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [skillProjectCounts, setSkillProjectCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    getAllProjects()
+      .then((res) => {
+        const counts: Record<string, number> = {};
+        for (const { skill, count } of tallySkillsByProject(res.projects)) {
+          counts[skill.id] = count;
+        }
+        setSkillProjectCounts(counts);
+      })
+      .catch((error) => console.error("Error fetching projects for skill counts:", error));
+  }, []);
 
   const { currentPage, limit, isLoading, setIsLoading, goToPage, goToFirstPage, changeLimit } = useSkillsPagination({
     initialPage: 0,
@@ -169,6 +184,7 @@ export function Skills({ language }: SkillsContentProps) {
           isLoading,
         }}
         filter={{ activeCategory, setActiveCategory, categories, categoryCount }}
+        skillProjectCounts={skillProjectCounts}
       />
     </section>
   );

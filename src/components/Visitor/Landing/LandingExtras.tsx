@@ -1,8 +1,8 @@
-import { getProjects } from "@/services/projects";
+import { getProjects, getAllProjects } from "@/services/projects";
 import { getFormations } from "@/services/formationApi";
 import { getService } from "@/services/servicesApi";
 import { getProjectGithubLastPush } from "@/lib/github";
-import { Skill } from "@/types/skills";
+import { tallySkillsByProject } from "@/utilis/skill-project-count";
 import { Project } from "@/types/projects";
 import { FeaturedProjectsSection, FeaturedProject } from "./_components/featured-projects-section";
 import { SkillsHighlightsSection } from "./_components/skills-highlights-section";
@@ -31,26 +31,15 @@ async function attachGithubRecency(projects: Project[]): Promise<FeaturedProject
   });
 }
 
-function topSkillsFromProjects(projects: Project[], limit = 10): Skill[] {
-  const seen = new Map<string, { skill: Skill; count: number }>();
-  for (const project of projects) {
-    for (const skill of project.skills?.content ?? []) {
-      const entry = seen.get(skill.id);
-      if (entry) entry.count += 1;
-      else seen.set(skill.id, { skill, count: 1 });
-    }
-  }
-  return [...seen.values()]
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit)
-    .map((entry) => entry.skill);
-}
-
 export async function LandingExtras({ language }: LandingExtrasProps) {
-  const [projectsRes, formationsRes, servicesRes] = await Promise.all([
+  const [projectsRes, allProjectsRes, formationsRes, servicesRes] = await Promise.all([
     getProjects(language).catch((error) => {
       console.error("Error fetching featured projects:", error);
       return { projects: [], texts: { title: "", description: "" }, meta: { page: 1, limit: 3, total: 0, hasNextPage: false } };
+    }),
+    getAllProjects().catch((error) => {
+      console.error("Error fetching all projects for skill counts:", error);
+      return { projects: [], texts: { title: "", description: "" }, meta: { page: 1, limit: 0, total: 0, hasNextPage: false } };
     }),
     getFormations(language).catch((error) => {
       console.error("Error fetching formations for stats strip:", error);
@@ -63,7 +52,9 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
   ]);
 
   const featuredProjects = await attachGithubRecency(projectsRes.projects);
-  const topSkills = topSkillsFromProjects(projectsRes.projects);
+  // Counts (and which skills get featured) come from the full project list,
+  // not just the 3 featured above — "used in N projects" means all of them.
+  const topSkills = tallySkillsByProject(allProjectsRes.projects).slice(0, 10);
 
   return (
     <>

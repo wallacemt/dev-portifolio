@@ -27,9 +27,10 @@ interface SkillsContentProps {
   res: SkillResponse;
   pagination: PaginationProps;
   filter: FilterProps;
+  skillProjectCounts: Record<string, number>;
 }
 
-export const SkillsContent = ({ res, pagination, filter }: SkillsContentProps) => {
+export const SkillsContent = ({ res, pagination, filter, skillProjectCounts }: SkillsContentProps) => {
   return (
     <>
       <motion.div
@@ -64,6 +65,7 @@ export const SkillsContent = ({ res, pagination, filter }: SkillsContentProps) =
         setActiveCategory={filter.setActiveCategory}
         categories={filter.categories}
         categoryCount={filter.categoryCount}
+        skillProjectCounts={skillProjectCounts}
       />
 
       {res.pagination && res.pagination.totalPages > 1 && (

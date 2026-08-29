@@ -3,6 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skill } from "@/types/skills";
 import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
@@ -21,6 +22,7 @@ interface SkillTabContentProps {
   categoryCount: Record<string, number>;
   chooseText?: string;
   isLoading?: boolean;
+  skillProjectCounts: Record<string, number>;
 }
 
 export const SkillsTabContent = ({
@@ -31,6 +33,7 @@ export const SkillsTabContent = ({
   categoryCount,
   chooseText,
   isLoading = false,
+  skillProjectCounts,
 }: SkillTabContentProps) => {
   const { language } = useLanguage();
   useEffect(() => {
@@ -124,42 +127,64 @@ export const SkillsTabContent = ({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full mx-auto">
-            {filteredSkills.map((skill) => (
-              <div
-                key={skill.id}
-                className="flex flex-col items-center max-w-4xl p-4 rounded-lg bg-background hover:bg-background/80 transition-colors group relative"
-              >
-                <div className="relative mt-6 mb-2">
-                  <Image
-                    src={skill.image}
-                    alt={skill.title}
-                    width={200}
-                    height={200}
-                    className="w-full h-24 object-contain animate-float group-hover:scale-110 transition-transform"
-                    loading="lazy"
-                  />
+            {filteredSkills.map((skill) => {
+              const projectCount = skillProjectCounts[skill.id] ?? 0;
+              return (
+                <div
+                  key={skill.id}
+                  className="flex flex-col items-center max-w-4xl p-4 rounded-lg bg-background hover:bg-background/80 transition-colors group relative"
+                >
+                  <div className="relative mt-6 mb-2">
+                    <Image
+                      src={skill.image}
+                      alt={skill.title}
+                      width={200}
+                      height={200}
+                      className="w-full h-24 object-contain animate-float group-hover:scale-110 transition-transform"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="text-xl font-principal text-center">{skill.title}</span>
+                  <Badge className="text-xs text-roxo100 bg-transparent border border-gray-700 absolute top-2 left-1 capitalize">
+                    {skill.type}
+                  </Badge>
+                  {projectCount > 0 && (
+                    <Badge className="text-xs text-roxo100 bg-transparent border border-gray-700 absolute top-2 right-1">
+                      {language === "pt"
+                        ? projectCount === 1
+                          ? "1 projeto"
+                          : `${projectCount} projetos`
+                        : projectCount === 1
+                          ? "1 project"
+                          : `${projectCount} projects`}
+                    </Badge>
+                  )}
+                  <Separator className="my-4" />
+                  <div className="h-20 w-full flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
+                    {skill.subSkils &&
+                      skill.subSkils.length > 0 &&
+                      skill.subSkils.map((subSkill, index) => (
+                        <Badge
+                          key={index}
+                          className={`text-xs text-white font-bold font-secundaria rounded-full truncate ${
+                            index % 2 === 0 ? "bg-[var(--textura-roxo-3-3-hex)]" : "bg-[var(--textura-roxo-2-hex)]"
+                          }`}
+                        >
+                          {subSkill.length <= 45 ? subSkill : subSkill.slice(0, 45).concat("...")}
+                        </Badge>
+                      ))}
+                  </div>
+                  {projectCount > 0 && (
+                    <Link
+                      href={`/watch/${language}/projects?tech=${encodeURIComponent(skill.title)}`}
+                      className="mt-4 text-sm text-roxo100 hover:text-roxo300 transition-colors font-medium"
+                    >
+                      {language === "pt" ? "Ver projetos →" : "View projects →"}
+                    </Link>
+                  )}
                 </div>
-                <span className="text-xl font-principal text-center">{skill.title}</span>
-                <Badge className="text-xs text-roxo100 bg-transparent border border-gray-700 absolute top-2 left-1 capitalize">
-                  {skill.type}
-                </Badge>
-                <Separator className="my-4" />
-                <div className="h-20 w-full flex flex-wrap gap-3  justify-center  overflow-y-auto overflow-x-hidden">
-                  {skill.subSkils &&
-                    skill.subSkils.length > 0 &&
-                    skill.subSkils.map((subSkill, index) => (
-                      <Badge
-                        key={index}
-                        className={`text-xs text-white font-bold font-secundaria rounded-full truncate ${
-                          index % 2 === 0 ? "bg-[var(--textura-roxo-3-3-hex)]" : "bg-[var(--textura-roxo-2-hex)]"
-                        }`}
-                      >
-                        {subSkill.length <= 45 ? subSkill : subSkill.slice(0, 45).concat("...")}
-                      </Badge>
-                    ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </TabsContent>

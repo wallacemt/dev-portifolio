@@ -81,7 +81,7 @@ export default async function LanguageLayout({ children, params }: Props) {
               </div>
             </Suspense>
 
-            <main className="p-6 container mx-auto flex-1" role="main" aria-label="Conteúdo principal">
+            <main className="p-6 mx-auto flex-1" role="main" aria-label="Conteúdo principal">
               {children}
             </main>
             <Footer language={language} />
