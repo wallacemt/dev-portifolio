@@ -50,7 +50,7 @@ export function LatestVideoSection({ video, language }: LatestVideoSectionProps)
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5 }}
-        className="max-w-2xl mx-auto"
+        className="max-w-3xl mx-auto"
       >
         <VideoCard video={video} language={language} />
       </motion.div>
