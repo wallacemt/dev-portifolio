@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
       {
         title: `${title} | ${owner.name} - ${owner.occupation}`,
         description,
-        keywords: [...content.keywords, "youtube", "vídeos", "desenvolvimento", owner.name.toLowerCase()],
+        keywords: [...content.keywords, "youtube", language === "pt" ? "vídeos" : "videos", language === "pt" ? "desenvolvimento" : "development", owner.name.toLowerCase()],
         canonicalUrl: `${baseUrl}/watch/${language}/videos`,
         author: owner.name,
         language,
