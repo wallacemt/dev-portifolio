@@ -59,7 +59,7 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
           retryLabel={retryLabel(language)}
         />
       ) : (
-        featuredProjects.length > 0 && <FeaturedProjectsSection projects={featuredProjects} language={language} />
+        featuredProjects.length > 0 && <FeaturedProjectsSection projects={featuredProjects} />
       )}
 
       {topSkills === null ? (
@@ -68,7 +68,7 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
           retryLabel={retryLabel(language)}
         />
       ) : (
-        topSkills.length > 0 && <SkillsHighlightsSection skills={topSkills} language={language} />
+        topSkills.length > 0 && <SkillsHighlightsSection skills={topSkills} />
       )}
 
       {formations === null ? (
@@ -88,7 +88,7 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
           retryLabel={retryLabel(language)}
         />
       ) : (
-        latestVideo && <LatestVideoSection video={latestVideo} language={language} />
+        latestVideo && <LatestVideoSection video={latestVideo} />
       )}
 
       {services === null ? (

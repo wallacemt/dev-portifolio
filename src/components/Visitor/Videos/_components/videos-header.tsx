@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-export function VideosHeader({ language }: { language: string }) {
+export function VideosHeader() {
+  const { language } = useLanguage();
   return (
     <motion.div
       className="text-center mb-12"

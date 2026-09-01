@@ -2,11 +2,11 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { SkillWithCount } from "@/utilis/skill-project-count";
 
 interface SkillsHighlightsSectionProps {
   skills: SkillWithCount[];
-  language: string;
 }
 
 // Every 3rd tile spans two columns so the grid reads as an uneven bento
@@ -20,7 +20,8 @@ function projectCountLabel(count: number, language: string) {
   return count === 1 ? "1 project" : `${count} projects`;
 }
 
-export function SkillsHighlightsSection({ skills, language }: SkillsHighlightsSectionProps) {
+export function SkillsHighlightsSection({ skills }: SkillsHighlightsSectionProps) {
+  const { language } = useLanguage();
   return (
     <section id="skills" className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
       <motion.div

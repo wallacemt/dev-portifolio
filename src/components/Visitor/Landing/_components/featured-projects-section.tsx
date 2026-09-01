@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Project } from "@/types/projects";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { FeaturedProjectCard } from "./featured-project-card";
 
 export interface FeaturedProject {
@@ -11,10 +12,10 @@ export interface FeaturedProject {
 
 interface FeaturedProjectsSectionProps {
   projects: FeaturedProject[];
-  language: string;
 }
 
-export function FeaturedProjectsSection({ projects, language }: FeaturedProjectsSectionProps) {
+export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionProps) {
+  const { language } = useLanguage();
   return (
     <section id="projetos" className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
       <motion.div
@@ -59,7 +60,7 @@ export function FeaturedProjectsSection({ projects, language }: FeaturedProjects
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <FeaturedProjectCard project={project} githubLastPush={githubLastPush} language={language} />
+            <FeaturedProjectCard project={project} githubLastPush={githubLastPush} />
           </motion.div>
         ))}
       </div>

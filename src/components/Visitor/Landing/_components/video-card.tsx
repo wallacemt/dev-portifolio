@@ -4,15 +4,16 @@ import { Play } from "lucide-react";
 import { YoutubeLogoIcon } from "@phosphor-icons/react";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR, enUS } from "date-fns/locale";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { YoutubeVideo } from "@/types/youtube";
 import { OptimizedImage } from "../../SEO/OptimizedImage";
 
 interface VideoCardProps {
   video: YoutubeVideo;
-  language: string;
 }
 
-export function VideoCard({ video, language }: VideoCardProps) {
+export function VideoCard({ video }: VideoCardProps) {
+  const { language } = useLanguage();
   const publishedLabel = formatDistanceToNow(new Date(video.publishedAt), {
     addSuffix: true,
     locale: language === "pt" ? ptBR : enUS,

@@ -1,15 +1,16 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { YoutubeVideo } from "@/types/youtube";
 import { VideoCard } from "./video-card";
 
 interface LatestVideoSectionProps {
   video: YoutubeVideo;
-  language: string;
 }
 
-export function LatestVideoSection({ video, language }: LatestVideoSectionProps) {
+export function LatestVideoSection({ video }: LatestVideoSectionProps) {
+  const { language } = useLanguage();
   return (
     <section className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
       <motion.div
@@ -52,7 +53,7 @@ export function LatestVideoSection({ video, language }: LatestVideoSectionProps)
         transition={{ duration: 0.5 }}
         className="max-w-3xl mx-auto"
       >
-        <VideoCard video={video} language={language} />
+        <VideoCard video={video} />
       </motion.div>
     </section>
   );

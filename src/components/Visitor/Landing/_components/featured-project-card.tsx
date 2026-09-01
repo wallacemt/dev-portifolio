@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Project } from "@/types/projects";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { OptimizedImage } from "../../SEO/OptimizedImage";
 import { ProjectModal } from "../../Projects/_components/project-modal-view";
 import { formatRelativeUpdate, formatProjectDate } from "@/utilis/project-date";
@@ -9,10 +10,10 @@ import { formatRelativeUpdate, formatProjectDate } from "@/utilis/project-date";
 interface FeaturedProjectCardProps {
   project: Project;
   githubLastPush: Date | null;
-  language: string;
 }
 
-export function FeaturedProjectCard({ project, githubLastPush, language }: FeaturedProjectCardProps) {
+export function FeaturedProjectCard({ project, githubLastPush }: FeaturedProjectCardProps) {
+  const { language } = useLanguage();
   const [open, setOpen] = useState(false);
   const updatedLabel = githubLastPush
     ? formatRelativeUpdate(githubLastPush, language)

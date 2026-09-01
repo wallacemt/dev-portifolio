@@ -5,10 +5,9 @@ import { VideoCard } from "@/components/Visitor/Landing/_components/video-card";
 
 interface VideosListProps {
   videos: YoutubeVideo[];
-  language: string;
 }
 
-export function VideosList({ videos, language }: VideosListProps) {
+export function VideosList({ videos }: VideosListProps) {
   const [latest, ...rest] = videos;
 
   return (
@@ -19,7 +18,7 @@ export function VideosList({ videos, language }: VideosListProps) {
         transition={{ duration: 0.5, delay: 0.5 }}
         className="max-w-3xl mx-auto"
       >
-        <VideoCard video={latest} language={language} />
+        <VideoCard video={latest} />
       </motion.div>
 
       {rest.length > 0 && (
@@ -32,7 +31,7 @@ export function VideosList({ videos, language }: VideosListProps) {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
             >
-              <VideoCard video={video} language={language} />
+              <VideoCard video={video} />
             </motion.div>
           ))}
         </div>

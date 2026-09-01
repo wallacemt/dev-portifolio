@@ -14,7 +14,7 @@ export default async function VideosContent({ language }: { language: string }) 
 
   return (
     <section className="w-full max-w-5xl mx-auto px-4 md:px-12 py-16">
-      <VideosHeader language={language} />
+      <VideosHeader />
 
       {videos === null ? (
         <SectionRetry
@@ -26,7 +26,7 @@ export default async function VideosContent({ language }: { language: string }) 
           {language === "pt" ? "Nenhum vídeo encontrado." : "No videos found."}
         </p>
       ) : (
-        <VideosList videos={videos} language={language} />
+        <VideosList videos={videos} />
       )}
     </section>
   );
