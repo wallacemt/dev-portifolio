@@ -15,8 +15,9 @@ import { NavbarItens } from "@/types/utilis";
 
 interface FooterProps {
   menuItens: NavbarItens;
+  language: string;
 }
-export const FooterContent = ({ menuItens }: FooterProps) => {
+export const FooterContent = ({ menuItens, language }: FooterProps) => {
   const social = [
     {
       href: "mailto:wallacesantanak0@gmail.com",
@@ -60,7 +61,7 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
           blockMargin={2}
           fontSize={11}
           hideColorLegend={false}
-          errorMessage="Erro ao carregar dados"
+          errorMessage={language === "pt" ? "Erro ao carregar dados" : "Error loading data"}
           throwOnError={false}
           labels={{
             legend: {
@@ -101,7 +102,7 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
 
           <div className="flex items-center gap-2 text-sm mt-6 text-muted-foreground">
             <MapPinIcon size={16} className="text-purple-primary" />
-            <span>Salvador, BA - Brasil</span>
+            <span>{language === "pt" ? "Salvador, BA - Brasil" : "Salvador, BA - Brazil"}</span>
           </div>
         </div>
       </div>
