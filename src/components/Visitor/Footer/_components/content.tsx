@@ -11,12 +11,14 @@ import {
 import Link from "next/link";
 import GitHubCalendar from "react-github-calendar";
 import { Separator } from "@/components/ui/separator";
+import { ownerGithubUsername } from "@/lib/axios";
 import { NavbarItens } from "@/types/utilis";
 
 interface FooterProps {
   menuItens: NavbarItens;
+  language: string;
 }
-export const FooterContent = ({ menuItens }: FooterProps) => {
+export const FooterContent = ({ menuItens, language }: FooterProps) => {
   const social = [
     {
       href: "mailto:wallacesantanak0@gmail.com",
@@ -25,16 +27,16 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
       title: "wallacesantanak0@gmail.com",
     },
     {
-      href: "https://github.com/wallacemt",
+      href: `https://github.com/${ownerGithubUsername}`,
       icon: GithubLogoIcon,
       label: "GitHub",
-      title: "wallacemt",
+      title: ownerGithubUsername,
     },
     {
-      href: "https://www.linkedin.com/in/wallace-santanak0",
+      href: "https://www.linkedin.com/in/wallacedev",
       icon: LinkedinLogoIcon,
       label: "LinkedIn",
-      title: "wallace-santanak0",
+      title: "wallacedev",
     },
     {
       href: "https://discord.com/users/715397662479745044",
@@ -54,13 +56,13 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
     <div className="max-w-6xl mx-auto py-12 px-4 md:px-6 flex flex-col gap-2">
       <div className="flex md:flex-row flex-col justify-between gap-8 md:items-start">
         <GitHubCalendar
-          username="wallacemt"
+          username={ownerGithubUsername}
           style={{ userSelect: "none" }}
           blockSize={15}
           blockMargin={2}
           fontSize={11}
           hideColorLegend={false}
-          errorMessage="Erro ao carregar dados"
+          errorMessage={language === "pt" ? "Erro ao carregar dados" : "Error loading data"}
           throwOnError={false}
           labels={{
             legend: {
@@ -101,7 +103,7 @@ export const FooterContent = ({ menuItens }: FooterProps) => {
 
           <div className="flex items-center gap-2 text-sm mt-6 text-muted-foreground">
             <MapPinIcon size={16} className="text-purple-primary" />
-            <span>Salvador, BA - Brasil</span>
+            <span>{language === "pt" ? "Salvador, BA - Brasil" : "Salvador, BA - Brazil"}</span>
           </div>
         </div>
       </div>

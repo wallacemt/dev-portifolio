@@ -10,7 +10,7 @@ export default async function Footer({ language }: FooterProps) {
 
   return (
     <footer className="bg-background/60 border-t border-border mt-12 backdrop-blur-sm w-full self-end">
-      <FooterContent menuItens={menuItens} />
+      <FooterContent menuItens={menuItens} language={language} />
     </footer>
   );
 }

@@ -21,6 +21,13 @@ export function getSiteURL() {
 export const ownerId =
   process.env.NEXT_PUBLIC_OWNER_ID ?? "685b41be6ba068f5fbe56d71";
 
+// ponytail: same single-tenant reasoning as ownerId above — hardcoded default
+// is the real owner's GitHub handle. Was duplicated as a string literal in
+// the Footer (social links + GitHubCalendar) and typed by hand in the
+// project-add "Sugestão IA" box; centralized here so both read one source.
+export const ownerGithubUsername =
+  process.env.NEXT_PUBLIC_OWNER_GITHUB_USERNAME ?? "wallacemt";
+
 export const API = axios.create({
   baseURL: getBaseURL(),
   timeout: 30000,

@@ -22,7 +22,9 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
         </h1>
         <p className="font-secundaria w-full text-white/80 text-[1rem] md:text-lg text-justify  mb-6">
           {owner.about ||
-            "Desenvolvedor apaixonado por tecnologia, interfaces modernas e boas experiências digitais. Aqui você encontrará meus projetos, ideias e mais sobre mim."}
+            (language === "pt"
+              ? "Desenvolvedor apaixonado por tecnologia, interfaces modernas e boas experiências digitais. Aqui você encontrará meus projetos, ideias e mais sobre mim."
+              : "Developer passionate about technology, modern interfaces, and great digital experiences. Here you'll find my projects, ideas, and more about me.")}
         </p>
 
         <div className="flex w-full gap-4">

@@ -8,19 +8,24 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { X, Loader2, Eye, RefreshCcw, Plus } from "lucide-react";
+import { X, Loader2, Eye, RefreshCcw, Plus, Github, Sparkles, FileText } from "lucide-react";
 import { projectAddSchema, type ProjectAddFormData } from "@/lib/validations/project";
 import { postProject } from "@/services/projects";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Skill } from "@/types/skills";
 import { getSkillNotFilter } from "@/services/skillsApi";
+import { getGithubRepos, getGithubReadme, getGithubSuggestion, type GithubRepoSummary } from "@/services/githubSuggestion";
 import Link from "next/link";
 import { PreviewImage } from "@/utilis/preview-image";
 import { FileUpload } from "@/components/ui/file-upload";
 import z from "zod";
 import { Switch } from "@/components/ui/switch";
 import { isYoutubeUrl, youtubeEmbedUrl } from "@/utilis/youtube";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ownerGithubUsername } from "@/lib/axios";
+import { cn } from "@/lib/utils";
 
 interface ProjectAddProps {
   onSuccess?: (redirect: boolean) => void;
@@ -36,6 +41,13 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
   const [previewModalImage, setPreviewModalImage] = useState<string | null>(null);
   const [isFinishRedirect, setIsFinishRedirect] = useState(false);
   const [jsonError, setJsonError] = useState("");
+  const [githubUsername, setGithubUsername] = useState(ownerGithubUsername);
+  const [githubRepos, setGithubRepos] = useState<GithubRepoSummary[]>([]);
+  const [selectedRepo, setSelectedRepo] = useState("");
+  const [isFetchingRepos, setIsFetchingRepos] = useState(false);
+  const [isGeneratingSuggestion, setIsGeneratingSuggestion] = useState(false);
+  const [readme, setReadme] = useState<string | null>(null);
+  const [isLoadingReadme, setIsLoadingReadme] = useState(false);
   const form = useForm<ProjectAddFormData>({
     resolver: zodResolver(projectAddSchema),
     defaultValues: {
@@ -186,6 +198,62 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
       setIsLoading(false);
     }
   };
+  async function fetchGithubRepos() {
+    const username = githubUsername.trim();
+    if (!username) return;
+    setIsFetchingRepos(true);
+    setSelectedRepo("");
+    setReadme(null);
+    try {
+      const repos = await getGithubRepos(username);
+      setGithubRepos(repos);
+      if (repos.length === 0) toast.info("Nenhum repositório encontrado para esse usuário.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao buscar repositórios do GitHub.");
+      setGithubRepos([]);
+    } finally {
+      setIsFetchingRepos(false);
+    }
+  }
+
+  async function selectRepo(repoName: string) {
+    setSelectedRepo(repoName);
+    setReadme(null);
+    setIsLoadingReadme(true);
+    try {
+      const content = await getGithubReadme(githubUsername.trim(), repoName);
+      setReadme(content);
+    } catch (err) {
+      console.error(err);
+      setReadme(null);
+    } finally {
+      setIsLoadingReadme(false);
+    }
+  }
+
+  async function generateAiSuggestion() {
+    if (!selectedRepo) return;
+    setIsGeneratingSuggestion(true);
+    try {
+      const suggestion = await getGithubSuggestion(githubUsername.trim(), selectedRepo);
+      setValue("title", suggestion.title);
+      setValue("description", suggestion.description);
+      setValue("techs", Array.from(new Set([...techs, ...suggestion.techs])));
+      if (suggestion.missingSkills.length > 0) {
+        toast.info(`Techs detectadas que ainda não estão no seu perfil: ${suggestion.missingSkills.join(", ")}`, {
+          description: "Adicione-as na aba Skills se quiser usá-las.",
+        });
+      }
+      toast.success("Formulário preenchido pela sugestão IA! Revise os campos antes de salvar.");
+    } catch (err) {
+      console.error(err);
+      toast.error("Erro ao gerar sugestão a partir do repositório.");
+    } finally {
+      setIsGeneratingSuggestion(false);
+    }
+  }
+
   useEffect(() => {
     fetchSkills();
   }, []);
@@ -217,6 +285,84 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
             </Button>
             {jsonError && <span className="text-red-500 text-sm">{jsonError}</span>}
           </div>
+        </div>
+        <div className="space-y-2 mb-4 flex flex-col bg-roxo600/60 p-4 rounded-md">
+          <Label className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4" /> Sugestão IA a partir do GitHub
+          </Label>
+          <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex items-center gap-2 flex-1">
+              <Github className="h-4 w-4 shrink-0 text-roxo100" />
+              <Input
+                value={githubUsername}
+                onChange={(e) => setGithubUsername(e.target.value)}
+                placeholder="Seu username do GitHub"
+                onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), fetchGithubRepos())}
+              />
+            </div>
+            <Button type="button" variant="secondary" onClick={fetchGithubRepos} disabled={isFetchingRepos || !githubUsername.trim()}>
+              {isFetchingRepos ? <Loader2 className="h-4 w-4 animate-spin" /> : "Buscar repositórios"}
+            </Button>
+          </div>
+          {githubRepos.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 max-h-72 overflow-auto pr-1">
+              {githubRepos.map((repo) => (
+                <button
+                  key={repo.fullName}
+                  type="button"
+                  onClick={() => selectRepo(repo.name)}
+                  className={cn(
+                    "text-left rounded-md border p-3 transition hover:border-roxo100",
+                    selectedRepo === repo.name ? "border-roxo100 bg-roxo500/40" : "border-roxo300/40 bg-roxo700/40",
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-medium truncate">{repo.name}</span>
+                    {repo.language && (
+                      <Badge variant="secondary" className="text-xs shrink-0">
+                        {repo.language}
+                      </Badge>
+                    )}
+                  </div>
+                  {repo.description && <p className="text-xs text-roxo100 mt-1 line-clamp-2">{repo.description}</p>}
+                  <p className="text-[10px] text-roxo100/70 mt-1">
+                    Atualizado em {new Date(repo.updatedAt).toLocaleDateString("pt-BR")}
+                  </p>
+                </button>
+              ))}
+            </div>
+          )}
+          {selectedRepo && (
+            <div className="mt-3 space-y-2 border-t border-roxo300/30 pt-3">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <Label className="flex items-center gap-2 text-sm">
+                  <FileText className="h-4 w-4" /> README de {selectedRepo}
+                </Label>
+                <Button type="button" size="sm" onClick={generateAiSuggestion} disabled={isGeneratingSuggestion}>
+                  {isGeneratingSuggestion ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Gerando...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="mr-1 h-4 w-4" /> Gerar sugestão
+                    </>
+                  )}
+                </Button>
+              </div>
+              <ScrollArea className="h-48 rounded-md border border-roxo300/30 bg-roxo700/60 p-3">
+                {isLoadingReadme ? (
+                  <div className="flex items-center gap-2 text-sm text-roxo100">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Carregando README...
+                  </div>
+                ) : readme ? (
+                  <pre className="whitespace-pre-wrap text-xs font-mono text-roxo100">{readme}</pre>
+                ) : (
+                  <p className="text-sm text-roxo100">Esse repositório não tem README.</p>
+                )}
+              </ScrollArea>
+            </div>
+          )}
         </div>
         {previewImage && z.string().url().safeParse(previewImage).success && (
           <div className="mx-auto max-w-2xl">
@@ -263,7 +409,6 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                 onRemoveExisting={() => setValue("previewImage", "")}
                 onUploadComplete={(results) => results[0]?.url && setValue("previewImage", results[0].url)}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label=""
                 description="Arraste e solte ou clique para selecionar"
               />
               {errors.previewImage && <p className="text-sm text-red-500">{errors.previewImage.message}</p>}
@@ -278,7 +423,6 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
                 onRemoveExisting={() => setValue("logoUrl", "")}
                 onUploadComplete={(results) => results[0]?.url && setValue("logoUrl", results[0].url)}
                 onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-                label=""
                 description="Usado em destaques compactos (landing); sem ele, usa a imagem de preview"
               />
               {errors.logoUrl && <p className="text-sm text-red-500">{errors.logoUrl.message}</p>}
@@ -430,7 +574,6 @@ export function ProjectAdd({ onSuccess }: ProjectAddProps) {
               uploadOptions={{ folder: "portifolio/projects/screenshots", resourceType: "image" }}
               onUploadComplete={handleScreenshotsUploaded}
               onUploadError={(error) => toast.error("Erro no upload", { description: error })}
-              label="Screenshots"
               description="Arraste e solte ou clique para selecionar (várias imagens)"
             />
 
