@@ -5,11 +5,12 @@ import { Formation } from "@/types/formations";
 import { FormationClientManager } from "./EducationClientManager";
 
 export async function EducationPageCRUD({ state }: { state: CrudState }) {
-  const { formations } = await getFormations();
   const { state: formationState, id } = await state;
 
+  let formations: Formation[] = [];
   let editFormation: Formation | null = null;
   if (formationState === "edit" && id) {
+    ({ formations } = await getFormations());
     editFormation = formations.find((f) => f.id === id) || null;
     if (!editFormation) {
       notFound();

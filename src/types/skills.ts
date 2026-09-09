@@ -19,6 +19,7 @@ export enum StackType {
   Frontend = "frontend",
   Backend = "backend",
   Mobile = "mobile",
+  Desktop = "desktop",
   Design = "design",
   DevOps = "devops",
   Other = "other",

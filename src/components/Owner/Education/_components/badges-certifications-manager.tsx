@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useOwnerList } from "../../use-owner-list";
+import { OwnerListControls } from "../../owner-list-controls";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge, Certification } from "@/types/badges";
@@ -24,19 +26,13 @@ import { Spinner } from "@/components/ui/spinner";
 import { BadgeCard } from "@/components/Visitor/Formations/_components/badge-card";
 import { CertificationCard } from "@/components/Visitor/Formations/_components/certification-card";
 
-interface BadgesAndCertificationsManagerProps {
-  certifications: Certification[];
-  badges: Badge[];
-  onUpdate: () => void;
-  loading: boolean;
-}
-
-export function BadgesAndCertificationsManager({
-  certifications,
-  badges,
-  onUpdate,
-  loading,
-}: BadgesAndCertificationsManagerProps) {
+export function BadgesAndCertificationsManager() {
+  const badgeList = useOwnerList<Badge>("badges");
+  const certificationList = useOwnerList<Certification>("certifications");
+  const badges = badgeList.items;
+  const certifications = certificationList.items;
+  const loading = badgeList.loading || certificationList.loading;
+  const onUpdate = () => { badgeList.refresh(); certificationList.refresh(); };
   const [badgeModalOpen, setBadgeModalOpen] = useState(false);
   const [certificationModalOpen, setCertificationModalOpen] = useState(false);
   const [editingBadge, setEditingBadge] = useState<Badge | undefined>();
@@ -118,28 +114,29 @@ export function BadgesAndCertificationsManager({
                 <Plus className="h-4 w-4 mr-2" />
                 Adicionar Badge
               </Button>
-              <Button size="sm" onClick={onUpdate}>
+              <Button size="sm" onClick={onUpdate} aria-label="Atualizar listas">
                 <RefreshCcw />
               </Button>
             </div>
           </div>
         </CardHeader>
         <CardContent>
+          <OwnerListControls list={badgeList} collection="badges" />
           {loading && (
             <div className="flex items-center justify-center">
               <Spinner className="size-8" />
             </div>
           )}
           {badges && badges.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={badgeList.view === "list" ? "grid grid-cols-1 gap-6" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}>
               {badges.map((badge) => (
                 <div key={badge.id} className="flex relative items-start justify-between gap-4">
                   <BadgeCard badge={badge} />
                   <div className="flex gap-2 absolute right-2">
-                    <Button size="icon" variant="ghost" onClick={() => handleBadgeEdit(badge)}>
+                    <Button size="icon" variant="ghost" aria-label="Editar badge" onClick={() => handleBadgeEdit(badge)}>
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button size="icon" variant="ghost" onClick={() => handleDeleteConfirm("badge", badge.id)}>
+                    <Button size="icon" variant="ghost" aria-label="Excluir badge" onClick={() => handleDeleteConfirm("badge", badge.id)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
                   </div>
@@ -147,9 +144,9 @@ export function BadgesAndCertificationsManager({
               ))}
             </div>
           ) : (
-            !loading && (
+            !loading && !badgeList.error && (
               <p className="text-sm text-muted-foreground text-center py-8">
-                Nenhum badge cadastrado para esta formação
+                Nenhum badge encontrado. Altere a busca.
               </p>
             )
           )}
@@ -180,6 +177,7 @@ export function BadgesAndCertificationsManager({
           </div>
         </CardHeader>
         <CardContent>
+          <OwnerListControls list={certificationList} collection="certifications" />
           {loading && (
             <div className="flex items-center justify-center">
               <Spinner className="size-8" />
@@ -187,17 +185,18 @@ export function BadgesAndCertificationsManager({
           )}
 
           {certifications && certifications.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={certificationList.view === "list" ? "grid grid-cols-1 gap-6" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"}>
               {certifications.map((certification) => (
                 <div key={certification.id} className="flex relative items-start justify-between gap-4">
                   <CertificationCard certification={certification} />
                   <div className="flex gap-2 absolute right-0">
-                    <Button size="icon" variant="ghost" onClick={() => handleCertificationEdit(certification)}>
+                    <Button size="icon" variant="ghost" aria-label="Editar certificação" onClick={() => handleCertificationEdit(certification)}>
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
                       size="icon"
                       variant="ghost"
+                      aria-label="Excluir certificação"
                       onClick={() => handleDeleteConfirm("certification", certification.id)}
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
@@ -207,9 +206,9 @@ export function BadgesAndCertificationsManager({
               ))}
             </div>
           ) : (
-            !loading && (
+            !loading && !certificationList.error && (
               <p className="text-sm text-muted-foreground text-center py-8">
-                Nenhuma certificação cadastrada para esta formação
+                Nenhuma certificação encontrada. Altere a busca.
               </p>
             )
           )}

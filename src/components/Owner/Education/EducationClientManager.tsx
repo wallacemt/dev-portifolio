@@ -9,12 +9,7 @@ import { FormationsAllContent } from "./_components/formation-all-content";
 import { FormationEditModal } from "./_components/formation-edit-modal";
 import { FormationAdd } from "./_components/formation-add";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
 import { BadgesAndCertificationsManager } from "./_components/badges-certifications-manager";
-import { Badge, Certification } from "@/types/badges";
-import { getAllBadges } from "@/services/badgeApi";
-import { getAllCertifications } from "@/services/certificationApi";
 
 interface FormationClientManagerProps {
   formation: Formation[];
@@ -24,39 +19,6 @@ interface FormationClientManagerProps {
 
 export function FormationClientManager({ formation, currentState, editFormation }: FormationClientManagerProps) {
   const router = useRouter();
-  const [certifications, setCertification] = useState<Certification[]>([]);
-  const [badges, setBadges] = useState<Badge[]>([]);
-  const [update, setUpdate] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const getCertifications = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await getAllCertifications();
-      setCertification(response.certifications);
-    } catch (error) {
-      toast.error(`Error ao carregar formations: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  }, [update]);
-  const getBadges = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await getAllBadges();
-      setBadges(response.badges);
-    } catch (error) {
-      toast.error(`Error ao carregar formations: ${error}`);
-    } finally {
-      setLoading(false);
-    }
-  }, [update]);
-
-  useEffect(() => {
-    getBadges();
-    getCertifications();
-    getBadges();
-  }, [getCertifications, getBadges]);
   const handleUpdate = () => {
     router.refresh();
   };
@@ -138,12 +100,7 @@ export function FormationClientManager({ formation, currentState, editFormation 
           <FormationsAllContent formations={formation} onUpdate={handleUpdate} />
         </TabsContent>
         <TabsContent value="certification">
-          <BadgesAndCertificationsManager
-            loading={loading}
-            certifications={certifications}
-            badges={badges}
-            onUpdate={() => setUpdate(!update)}
-          />
+          <BadgesAndCertificationsManager />
         </TabsContent>
       </Tabs>
     </div>
