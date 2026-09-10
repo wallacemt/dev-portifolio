@@ -5,11 +5,12 @@ import { notFound } from "next/navigation";
 import { CrudState } from "@/types/utilis";
 
 export async function ProjectsPageCRUD({ state }: { state: CrudState }) {
-  const { projects } = await getAllProjects();
   const { state: projectState, id } = await state;
 
+  let projects: Project[] = [];
   let editProject: Project | null = null;
   if (projectState === "edit" && id) {
+    ({ projects } = await getAllProjects());
     editProject = projects.find((p) => p.id === id) || null;
     if (!editProject) {
       notFound();

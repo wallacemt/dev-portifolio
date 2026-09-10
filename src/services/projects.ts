@@ -33,8 +33,15 @@ export const getProjects = async (language: string = "pt", filters?: ProjectFilt
 };
 export const getAllProjects = async (): Promise<ProjectResponse> => {
   try {
-    const response = await API.get(`/projects/owner/${ownerId}`);
-    return response.data as ProjectResponse;
+    const first = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: 1, limit: 100 } });
+    const result = first.data;
+    let meta = result.meta;
+    while (meta.hasNextPage) {
+      const response = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: meta.page + 1, limit: 100 } });
+      result.projects.push(...response.data.projects);
+      meta = response.data.meta;
+    }
+    return { ...result, meta: { ...meta, total: result.projects.length } };
   } catch (error) {
     console.error("Error fetching projects:", error);
     throw error;

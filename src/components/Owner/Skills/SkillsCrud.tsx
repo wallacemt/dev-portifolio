@@ -6,9 +6,10 @@ import { notFound } from "next/navigation";
 
 export async function SkillsCrud({ state }: { state: CrudState }) {
   const { state: skState, id } = await state;
+  let skills: Skill[] = [];
   let editSk: Skill | null = null;
-  const { skills } = await getSkillNotFilter();
   if (skState === "edit" && id) {
+    ({ skills } = await getSkillNotFilter());
     editSk = skills.find((p) => p.id === id) || null;
     if (!editSk) {
       notFound();

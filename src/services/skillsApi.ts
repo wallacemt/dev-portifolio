@@ -2,7 +2,7 @@ import { API, ownerId, setupAuth, SimpleResponse } from "@/lib/axios";
 import { SkillAddFormData, SkillUpdateFormData } from "@/lib/validations/skills";
 import type { Skill, SkillResponse } from "@/types/skills";
 
-export const getSkills = async (language = "pt", page = 0, limit = 5): Promise<SkillResponse> => {
+export const getSkills = async (language = "pt", page = 1, limit = 5): Promise<SkillResponse> => {
   try {
     const queryParams = new URLSearchParams();
 
