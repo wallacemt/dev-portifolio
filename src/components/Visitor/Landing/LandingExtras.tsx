@@ -1,3 +1,4 @@
+import { getUiTexts, LandingTexts } from "@/services/uiTexts";
 import { getAllProjects } from "@/services/projects";
 import { getFormations } from "@/services/formationApi";
 import { getService } from "@/services/servicesApi";
@@ -18,14 +19,15 @@ interface LandingExtrasProps {
   language: string;
 }
 
-const retryLabel = (language: string) => (language === "pt" ? "Tentar novamente" : "Try again");
+
 
 export async function LandingExtras({ language }: LandingExtrasProps) {
+  const texts = await getUiTexts<LandingTexts>("landing", language);
   // Runs in parallel, inside the Suspense boundary set up in page.tsx — this
   // (including the GitHub lookups, which can be slow) never blocks the Hero.
   const [featuredResult, allProjectsResult, formationsResult, servicesResult, videosResult] = await Promise.allSettled([
     attachGithubRecency(language),
-    getAllProjects(),
+    getAllProjects(language),
     getFormations(language),
     getService(language),
     getYoutubeVideos(1),
@@ -55,26 +57,26 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
     <section className="w-full lg:w-screen">
       {featuredProjects === null ? (
         <SectionRetry
-          message={language === "pt" ? "Não deu pra carregar os projetos em destaque." : "Couldn't load featured projects."}
-          retryLabel={retryLabel(language)}
+          message={texts.projectsError}
+          retryLabel={texts.retry}
         />
       ) : (
-        featuredProjects.length > 0 && <FeaturedProjectsSection projects={featuredProjects} />
+        featuredProjects.length > 0 && <FeaturedProjectsSection projects={featuredProjects} texts={texts} />
       )}
 
       {topSkills === null ? (
         <SectionRetry
-          message={language === "pt" ? "Não deu pra carregar as skills em destaque." : "Couldn't load the skills highlights."}
-          retryLabel={retryLabel(language)}
+          message={texts.skillsError}
+          retryLabel={texts.retry}
         />
       ) : (
-        topSkills.length > 0 && <SkillsHighlightsSection skills={topSkills} />
+        topSkills.length > 0 && <SkillsHighlightsSection skills={topSkills} texts={texts} />
       )}
 
       {formations === null ? (
         <SectionRetry
-          message={language === "pt" ? "Não deu pra carregar as estatísticas." : "Couldn't load the stats."}
-          retryLabel={retryLabel(language)}
+          message={texts.statsError}
+          retryLabel={texts.retry}
         />
       ) : (
         formations.formations.length > 0 && (
@@ -84,17 +86,17 @@ export async function LandingExtras({ language }: LandingExtrasProps) {
 
       {videos === null ? (
         <SectionRetry
-          message={language === "pt" ? "Não deu pra carregar o último vídeo." : "Couldn't load the latest video."}
-          retryLabel={retryLabel(language)}
+          message={texts.videoError}
+          retryLabel={texts.retry}
         />
       ) : (
-        latestVideo && <LatestVideoSection video={latestVideo} />
+        latestVideo && <LatestVideoSection video={latestVideo} texts={texts} />
       )}
 
       {services === null ? (
         <SectionRetry
-          message={language === "pt" ? "Não deu pra carregar essa seção." : "Couldn't load this section."}
-          retryLabel={retryLabel(language)}
+          message={texts.sectionError}
+          retryLabel={texts.retry}
         />
       ) : (
         services.texts.cta && <LandingCtaSection texts={services.texts} language={language} />

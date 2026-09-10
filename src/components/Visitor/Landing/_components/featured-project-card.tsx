@@ -1,4 +1,5 @@
 "use client";
+import type { LandingTexts } from "@/services/uiTexts";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Project } from "@/types/projects";
@@ -8,16 +9,17 @@ import { ProjectModal } from "../../Projects/_components/project-modal-view";
 import { formatRelativeUpdate, formatProjectDate } from "@/utilis/project-date";
 
 interface FeaturedProjectCardProps {
+  texts: LandingTexts;
   project: Project;
   githubLastPush: Date | null;
 }
 
-export function FeaturedProjectCard({ project, githubLastPush }: FeaturedProjectCardProps) {
+export function FeaturedProjectCard({ project, githubLastPush, texts }: FeaturedProjectCardProps) {
   const { language } = useLanguage();
   const [open, setOpen] = useState(false);
   const updatedLabel = githubLastPush
-    ? formatRelativeUpdate(githubLastPush, language)
-    : formatProjectDate(project, language);
+    ? formatRelativeUpdate(githubLastPush, language, texts.updated)
+    : formatProjectDate(project, language, texts);
 
   return (
     <>

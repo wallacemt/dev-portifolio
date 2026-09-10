@@ -31,13 +31,13 @@ export const getProjects = async (language: string = "pt", filters?: ProjectFilt
     throw error;
   }
 };
-export const getAllProjects = async (): Promise<ProjectResponse> => {
+export const getAllProjects = async (language: string = "pt"): Promise<ProjectResponse> => {
   try {
-    const first = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: 1, limit: 100 } });
+    const first = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: 1, limit: 100, language } });
     const result = first.data;
     let meta = result.meta;
     while (meta.hasNextPage) {
-      const response = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: meta.page + 1, limit: 100 } });
+      const response = await API.get<ProjectResponse>(`/projects/owner/${ownerId}`, { params: { page: meta.page + 1, limit: 100, language } });
       result.projects.push(...response.data.projects);
       meta = response.data.meta;
     }

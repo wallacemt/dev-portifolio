@@ -1,4 +1,5 @@
 "use client";
+import type { LandingTexts } from "@/services/uiTexts";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SkillWithCount } from "@/utilis/skill-project-count";
 
 interface SkillsHighlightsSectionProps {
+  texts: LandingTexts;
   skills: SkillWithCount[];
 }
 
@@ -15,12 +17,8 @@ function tileSpan(index: number) {
   return index % 3 === 0 ? "sm:col-span-2" : "";
 }
 
-function projectCountLabel(count: number, language: string) {
-  if (language === "pt") return count === 1 ? "1 projeto" : `${count} projetos`;
-  return count === 1 ? "1 project" : `${count} projects`;
-}
 
-export function SkillsHighlightsSection({ skills }: SkillsHighlightsSectionProps) {
+export function SkillsHighlightsSection({ skills, texts }: SkillsHighlightsSectionProps) {
   const { language } = useLanguage();
   return (
     <section id="skills" className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
@@ -33,27 +31,17 @@ export function SkillsHighlightsSection({ skills }: SkillsHighlightsSectionProps
       >
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-4xl font-bold font-principal text-foreground">
-            {language === "pt" ? (
-              <>
-                Stack em <span className="text-roxo100">uso</span>
-              </>
-            ) : (
-              <>
-                Current <span className="text-roxo100">stack</span>
-              </>
-            )}
+            {texts.skillsTitle}
           </h2>
           <p className="text-foreground/70 mt-2">
-            {language === "pt"
-              ? "As tecnologias mais presentes no meu portfólio. Clique numa delas para ver os projetos."
-              : "The technologies showing up most across my portfolio. Click one to see its projects."}
+            {texts.skillsDescription}
           </p>
         </div>
         <Link
           href={`/watch/${language}/skills`}
           className="shrink-0 text-roxo100 hover:text-roxo300 transition-colors font-medium"
         >
-          {language === "pt" ? "Ver todas →" : "View all →"}
+          {texts.viewAll}
         </Link>
       </motion.div>
 
@@ -81,7 +69,7 @@ export function SkillsHighlightsSection({ skills }: SkillsHighlightsSectionProps
                   <span className="text-[0.65rem] uppercase tracking-wide text-roxo100/80 bg-roxo100/10 rounded-full px-2 py-0.5 truncate">
                     {skill.stack}
                   </span>
-                  <span className="text-[0.65rem] text-foreground/50 shrink-0">{projectCountLabel(count, language)}</span>
+                  <span className="text-[0.65rem] text-foreground/50 shrink-0">{count} {count === 1 ? texts.projectSingular : texts.projectPlural}</span>
                 </div>
               </div>
             </Link>

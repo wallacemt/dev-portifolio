@@ -1,4 +1,5 @@
 "use client";
+import type { LandingTexts } from "@/services/uiTexts";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Project } from "@/types/projects";
@@ -11,10 +12,11 @@ export interface FeaturedProject {
 }
 
 interface FeaturedProjectsSectionProps {
+  texts: LandingTexts;
   projects: FeaturedProject[];
 }
 
-export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionProps) {
+export function FeaturedProjectsSection({ projects, texts }: FeaturedProjectsSectionProps) {
   const { language } = useLanguage();
   return (
     <section id="projetos" className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
@@ -27,27 +29,17 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
       >
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-4xl font-bold font-principal text-foreground">
-            {language === "pt" ? (
-              <>
-                Últimos <span className="text-roxo100">projetos</span>
-              </>
-            ) : (
-              <>
-                Recent <span className="text-roxo100">projects</span>
-              </>
-            )}
+            {texts.projectsTitle}
           </h2>
           <p className="text-foreground/70 mt-2">
-            {language === "pt"
-              ? "O que venho construindo mais recentemente, com atualização puxada direto do GitHub."
-              : "What I've been building lately, with recency pulled straight from GitHub."}
+            {texts.projectsDescription}
           </p>
         </div>
         <Link
           href={`/watch/${language}/projects`}
           className="shrink-0 text-roxo100 hover:text-roxo300 transition-colors font-medium"
         >
-          {language === "pt" ? "Ver todos →" : "View all →"}
+          {texts.viewAll}
         </Link>
       </motion.div>
 
@@ -60,7 +52,7 @@ export function FeaturedProjectsSection({ projects }: FeaturedProjectsSectionPro
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <FeaturedProjectCard project={project} githubLastPush={githubLastPush} />
+            <FeaturedProjectCard project={project} githubLastPush={githubLastPush} texts={texts} />
           </motion.div>
         ))}
       </div>
