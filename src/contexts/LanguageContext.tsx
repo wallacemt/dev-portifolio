@@ -41,15 +41,9 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   );
 
   useEffect(() => {
-    const savedLang = Cookies.get("preferredLanguage");
-    const isManualLang = Cookies.get("languageManuallySet") === "1";
-    const currentLang = segments[1] || "pt";
-    if (isManualLang && savedLang && savedLang !== currentLang) {
-      setLanguage(savedLang);
-      router.replace(`/watch/${savedLang}/${segments.slice(2).join("/")}`);
-    } else {
-      setLanguage(currentLang);
-    }
+    // An explicit /watch/:language URL is authoritative; cookies only choose
+    // the initial language in middleware when the visitor opens the root URL.
+    setLanguage(segments[1] || "pt");
   }, [router, segments]);
 
   const value = useMemo(() => ({ language, setLenguage, isLoading }), [language, setLenguage, isLoading]);

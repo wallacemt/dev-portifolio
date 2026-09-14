@@ -1,4 +1,5 @@
 "use client";
+import type { LandingTexts } from "@/services/uiTexts";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -6,10 +7,11 @@ import { YoutubeVideo } from "@/types/youtube";
 import { VideoCard } from "./video-card";
 
 interface LatestVideoSectionProps {
+  texts: LandingTexts;
   video: YoutubeVideo;
 }
 
-export function LatestVideoSection({ video }: LatestVideoSectionProps) {
+export function LatestVideoSection({ video, texts }: LatestVideoSectionProps) {
   const { language } = useLanguage();
   return (
     <section className="w-full max-w-6xl mx-auto px-4 md:px-12 py-16">
@@ -22,27 +24,17 @@ export function LatestVideoSection({ video }: LatestVideoSectionProps) {
       >
         <div className="max-w-xl">
           <h2 className="text-3xl md:text-4xl font-bold font-principal text-foreground">
-            {language === "pt" ? (
-              <>
-                Último <span className="text-roxo100">vídeo</span>
-              </>
-            ) : (
-              <>
-                Latest <span className="text-roxo100">video</span>
-              </>
-            )}
+            {texts.latestVideoTitle}
           </h2>
           <p className="text-foreground/70 mt-2">
-            {language === "pt"
-              ? "Acompanhe no YouTube o desenvolvimento dos meus projetos."
-              : "Follow along on YouTube as I build my projects."}
+            {texts.latestVideoDescription}
           </p>
         </div>
         <Link
           href={`/watch/${language}/videos`}
           className="shrink-0 text-roxo100 hover:text-roxo300 transition-colors font-medium"
         >
-          {language === "pt" ? "Ver todos →" : "View all →"}
+          {texts.viewAll}
         </Link>
       </motion.div>
 
@@ -51,7 +43,7 @@ export function LatestVideoSection({ video }: LatestVideoSectionProps) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto"
+        className="max-w-5xl mx-auto"
       >
         <VideoCard video={video} />
       </motion.div>

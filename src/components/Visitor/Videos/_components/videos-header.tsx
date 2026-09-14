@@ -1,9 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import { useLanguage } from "@/contexts/LanguageContext";
+import type { VideosTexts } from "@/services/uiTexts";
 
-export function VideosHeader() {
-  const { language } = useLanguage();
+export function VideosHeader({ texts }: { texts: VideosTexts }) {
   return (
     <motion.div
       className="text-center mb-12"
@@ -17,15 +16,7 @@ export function VideosHeader() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        {language === "pt" ? (
-          <>
-            Vídeos <span className="text-roxo100">recentes</span>
-          </>
-        ) : (
-          <>
-            Recent <span className="text-roxo100">videos</span>
-          </>
-        )}
+        {texts.title}
       </motion.h1>
       <motion.p
         className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed font-secundaria"
@@ -33,9 +24,7 @@ export function VideosHeader() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        {language === "pt"
-          ? "Acompanhando o desenvolvimento dos meus projetos, direto do canal no YouTube."
-          : "Following the development of my projects, straight from the YouTube channel."}
+        {texts.description}
       </motion.p>
     </motion.div>
   );

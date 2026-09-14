@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
-import { ptBR, enUS } from "date-fns/locale";
+import { dateLocale } from "@/lib/date-locale";
 import { Project } from "@/types/projects";
 
 // ponytail: only 2 labels, no dictionary system exists on the frontend yet — add real i18n keys here if one shows up.
@@ -13,7 +13,7 @@ const DATE_LABELS: Record<NonNullable<Project["dateLabelKey"]>, { pt: string; en
  * Falls back to the legacy pre-formatted `lastUpdateText` when the backend
  * hasn't sent `lastUpdate`/`dateLabelKey` yet.
  */
-export function formatProjectDate(project: Project, language: string): string | null {
+export function formatProjectDate(project: Project, language: string, labels?: { updatedAt: string; addedAt: string }): string | null {
   const rawDate = project.lastUpdate ?? project.createdAt;
 
   if (!project.dateLabelKey || !rawDate) {
@@ -26,7 +26,7 @@ export function formatProjectDate(project: Project, language: string): string | 
     year: "numeric",
   }).format(new Date(rawDate));
 
-  const label = DATE_LABELS[project.dateLabelKey][language === "pt" ? "pt" : "en"];
+  const label = labels?.[project.dateLabelKey] ?? DATE_LABELS[project.dateLabelKey][language === "pt" ? "pt" : "en"];
   return `${label} ${formattedDate}`;
 }
 
@@ -35,10 +35,10 @@ export function formatProjectDate(project: Project, language: string): string | 
  * recency badge on Featured Projects, distinct from formatProjectDate's
  * absolute-date label.
  */
-export function formatRelativeUpdate(date: Date, language: string): string {
+export function formatRelativeUpdate(date: Date, language: string, updatedLabel?: string): string {
   const distance = formatDistanceToNow(date, {
     addSuffix: true,
-    locale: language === "pt" ? ptBR : enUS,
+    locale: dateLocale(language),
   });
-  return language === "pt" ? `Atualizado ${distance}` : `Updated ${distance}`;
+  return `${updatedLabel ?? (language === "pt" ? "Atualizado" : "Updated")} ${distance}`;
 }

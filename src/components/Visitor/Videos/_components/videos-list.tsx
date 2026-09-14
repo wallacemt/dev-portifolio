@@ -16,7 +16,7 @@ export function VideosList({ videos }: VideosListProps) {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.5 }}
-        className="max-w-3xl mx-auto"
+        className="max-w-5xl mx-auto"
       >
         <VideoCard video={latest} />
       </motion.div>
