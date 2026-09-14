@@ -29,7 +29,7 @@ export function VideoCard({ video }: VideoCardProps) {
       transition={{ duration: 0.3 }}
     >
       <div className="relative aspect-video [&>div]:h-full">
-        <OptimizedImage src={video.thumbnailUrl} fill alt="" title={video.title} />
+        <OptimizedImage src={video.thumbnailUrl} fill alt={video.title} title={video.title} />
         <span className="absolute bottom-4 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-white text-roxo700 shadow-lg transition-transform group-hover:scale-110" aria-hidden="true">
           <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" />
         </span>
