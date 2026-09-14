@@ -3,10 +3,11 @@
 import type { SpringOptions } from "framer-motion";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface TiltedCardProps {
-  imageSrc: React.ComponentProps<"img">["src"];
+  imageSrc: string;
   altText?: string;
   captionText?: string;
   containerHeight?: React.CSSProperties["height"];
@@ -20,6 +21,7 @@ interface TiltedCardProps {
   className?: string;
   overlayContent?: React.ReactNode;
   displayOverlayContent?: boolean;
+  priority?: boolean;
 }
 
 const springValues: SpringOptions = {
@@ -43,6 +45,7 @@ export default function TiltedCard({
   showTooltip = true,
   overlayContent = null,
   displayOverlayContent = false,
+  priority = false,
 }: TiltedCardProps) {
   const ref = useRef<HTMLElement>(null);
   const x = useMotionValue(0);
@@ -133,19 +136,18 @@ export default function TiltedCard({
             />
           )}
 
-          <motion.img
+          <Image
             src={imageSrc}
             alt={altText}
+            fill
+            sizes="320px"
+            priority={priority}
             data-loaded={isImageLoaded ? "true" : "false"}
             onLoad={(event) => {
               event.currentTarget.setAttribute("data-loaded", "true");
               setIsImageLoaded(true);
             }}
-            className="absolute top-0 left-0 object-cover rounded-[15px] will-change-transform [transform:translateZ(0)] data-[loaded=false]:animate-pulse  data-[loaded=false]:hidden"
-            style={{
-              width: imageWidth,
-              height: imageHeight,
-            }}
+            className="object-cover rounded-[15px] will-change-transform [transform:translateZ(0)] data-[loaded=false]:animate-pulse data-[loaded=false]:hidden"
           />
         </>
 

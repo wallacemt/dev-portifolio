@@ -58,8 +58,9 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
           showMobileWarning={false}
           showTooltip={true}
           displayOverlayContent={true}
+          priority
         />
-        <Image src={owner.avatar} loading="lazy" fetchPriority="high" width={280} height={380} alt="Owner image" className="md:hidden rounded-xl" />
+        <Image src={owner.avatar} priority width={280} height={380} alt="Owner image" className="md:hidden rounded-xl" />
       </div>
     </section>
   );
