@@ -1,20 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  extractVisitorDataFromRequest,
-  getGeoLocation,
-  isAnalyticsEnabled,
-  shouldTrackPage,
-  VisitorData,
-} from "@/lib/analytics-utils";
+import { getClientIP, getGeoLocation } from "@/lib/analytics-utils";
 import { isSupportedLanguage, resolveLanguageFromCountryCode } from "@/lib/geo-language";
-import { ServerAnalytics } from "@/lib/server-analytics";
-import { setSessionIdCookie, getOrCreateSessionId } from "@/lib/session-utils";
 
 const LANGUAGE_COOKIE = "preferredLanguage";
 const LANGUAGE_MANUAL_COOKIE = "languageManuallySet";
 const LANGUAGE_COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
-
-type GeoData = { country: string; city: string; countryCode: string };
 
 export async function middleware(request: NextRequest) {
   const cookieLang = request.cookies.get(LANGUAGE_COOKIE)?.value;
@@ -24,10 +14,6 @@ export async function middleware(request: NextRequest) {
 
   request.headers.append("X-Frame-Options", "DENY");
   let response: NextResponse;
-  // Reused for analytics below when the "/" branch already had to fetch it,
-  // so a first-time visitor only triggers one ipapi.co call, not two.
-  let prefetchedGeo: GeoData | null = null;
-
   if (pathname === "/") {
     let lang: string;
     if (isManualLang && isSupportedLanguage(cookieLang)) {
@@ -39,9 +25,8 @@ export async function middleware(request: NextRequest) {
       // must never shadow this, or travel/VPN never re-redirects — only an
       // explicit pick via the language selector sticks across visits.
       // Countries with no mapping fall back to DEFAULT_LANGUAGE.
-      const ip = extractVisitorDataFromRequest(request).ip || "127.0.0.1";
-      prefetchedGeo = await getGeoLocation(ip);
-      lang = resolveLanguageFromCountryCode(prefetchedGeo.countryCode);
+      const geo = await getGeoLocation(getClientIP(request));
+      lang = resolveLanguageFromCountryCode(geo.countryCode);
     }
 
     const url = request.nextUrl.clone();
@@ -82,39 +67,7 @@ export async function middleware(request: NextRequest) {
     response = NextResponse.next();
   }
 
-  const isPrefetch =
-    request.headers.get("Next-Router-Prefetch") === "1" ||
-    request.headers.get("purpose") === "prefetch" ||
-    request.headers.get("RSC") === "1";
-
-  if (isAnalyticsEnabled() && shouldTrackPage(pathname) && !isPrefetch) {
-    const existingSessionId = request.cookies.get("sessionId")?.value;
-    const sessionId = existingSessionId || getOrCreateSessionId(request);
-    if (!existingSessionId) {
-      response = setSessionIdCookie(response, sessionId);
-      handleAnalytics(request, sessionId, prefetchedGeo).catch(() => {});
-    }
-  }
-
   return response;
-}
-
-async function handleAnalytics(request: NextRequest, sessionId: string, prefetchedGeo: GeoData | null) {
-  try {
-    const visitorData = extractVisitorDataFromRequest(request);
-    const geoData = prefetchedGeo ?? (await getGeoLocation(visitorData.ip || "127.0.0.1"));
-
-    const fullVisitorData = {
-      ...visitorData,
-      sessionId,
-      country: geoData.country,
-      city: geoData.city,
-    };
-
-    ServerAnalytics.trackVisitorAsync(fullVisitorData as VisitorData);
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") console.debug("Middleware analytics error:", error);
-  }
 }
 
 export const config = {

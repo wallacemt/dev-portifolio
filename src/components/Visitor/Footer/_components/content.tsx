@@ -120,6 +120,12 @@ export const FooterContent = ({ menuItens, language }: FooterProps) => {
           <DevicesIcon size={16} className="text-roxo100 animate-pulse" />
         </div>
 
+        <p className="text-xs text-center">
+          {language === "pt"
+            ? "Este site usa Umami, sem cookies, sem dados pessoais identificáveis."
+            : "This site uses Umami, no cookies, no personally identifiable data."}
+        </p>
+
         <div className="flex items-center gap-2 px-3 py-1 bg-card border border-border rounded-full">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
           <span className="text-xs">{menuItens.callText}</span>
