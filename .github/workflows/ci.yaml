@@ -80,7 +80,11 @@ jobs:
             type=sha
       - name: Build and push Docker Image
         uses: docker/build-push-action@v5
-        with: 
+        with:
           push: true
           tags: ${{ steps.tag.outputs.tags }}
           labels: ${{ steps.tag.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_API_URL=https://api.wallacedev.com.br
+            NEXT_PUBLIC_UMAMI_WEBSITE_ID=a056bc30-381b-438c-9c03-b8dc371b30d9
+            NEXT_PUBLIC_UMAMI_SCRIPT_URL=https://analytics.wallacedev.com.br/script.js
