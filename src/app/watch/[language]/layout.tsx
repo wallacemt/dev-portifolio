@@ -6,7 +6,6 @@ import Footer from "@/components/Visitor/Footer/Footer";
 import Header from "@/components/Visitor/Header/Header";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { OwnerProvider } from "@/contexts/OwnerContext";
-import { OptimizedAnalyticsProvider } from "@/hooks/useOptimizedAnalytics";
 import { UmamiScript } from "@/components/analytics/UmamiScript";
 import { StructuredData } from "@/components/Visitor/SEO/StructuredData";
 import {
@@ -68,29 +67,27 @@ export default async function LanguageLayout({ children, params }: Props) {
 
   return (
     <>
-      <OptimizedAnalyticsProvider>
-        <LanguageProvider>
-          <OwnerProvider>
-            <PageLoader>
-              <StructuredData data={structuredData} />
-              <Header language={language} />
+      <LanguageProvider>
+        <OwnerProvider>
+          <PageLoader>
+            <StructuredData data={structuredData} />
+            <Header language={language} />
 
-              <Suspense
-                fallback={<div className="fixed inset-0 z-[-1] bg-gradient-to-br from-roxo300/20 to-roxo300/40" />}
-              >
-                <div className="fixed inset-0 z-[-1]">
-                  <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
-                </div>
-              </Suspense>
+            <Suspense
+              fallback={<div className="fixed inset-0 z-[-1] bg-gradient-to-br from-roxo300/20 to-roxo300/40" />}
+            >
+              <div className="fixed inset-0 z-[-1]">
+                <Silk speed={6} scale={1} color="#2F0559" noiseIntensity={1.5} rotation={0} />
+              </div>
+            </Suspense>
 
-              <main className="p-6 mx-auto flex-1" role="main" aria-label="Conteúdo principal">
-                {children}
-              </main>
-              <Footer language={language} />
-            </PageLoader>
-          </OwnerProvider>
-        </LanguageProvider>
-      </OptimizedAnalyticsProvider>
+            <main className="p-6 mx-auto flex-1" role="main" aria-label="Conteúdo principal">
+              {children}
+            </main>
+            <Footer language={language} />
+          </PageLoader>
+        </OwnerProvider>
+      </LanguageProvider>
       <UmamiScript />
     </>
   );

@@ -1,45 +1,9 @@
-import { API, ownerId, setupAuth } from "@/lib/axios";
+import { API, setupAuth } from "@/lib/axios";
 import {
   AnalyticsRealTimeResponse,
   AnalyticsResponse,
   AnalyticsSummaryResponse,
-  TrackVisitorPage,
-  TrackVisitorRequest,
 } from "@/types/analytics";
-import { validateTimeSpent } from "@/lib/analytics-utils";
-
-export const postTrackVisitor = async (trackingData: TrackVisitorRequest) => {
-  try {
-    const response = await API.post(`/analytics/${ownerId}/track-visitor`, trackingData);
-    return response.data;
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") console.debug("Error tracking visitor:", error);
-    return null;
-  }
-};
-
-export const postTrackVisitorPageView = async (
-  trackingPage: TrackVisitorPage,
-  trackingVisitor: TrackVisitorRequest
-) => {
-  try {
-    const sanitizedData = {
-      pageView: {
-        ...trackingPage,
-        timeSpent: trackingPage.timeSpent ? validateTimeSpent(trackingPage.timeSpent) : undefined,
-      },
-      visitor: {
-        ...trackingVisitor,
-      },
-    };
-
-    const res = await API.post(`/analytics/${ownerId}/track-pageview`, sanitizedData);
-    return res.data;
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") console.debug("Error tracking page view:", error);
-    return null;
-  }
-};
 
 export const analyticsDashboard = async (startDate: Date, endDate: Date): Promise<AnalyticsResponse> => {
   try {
