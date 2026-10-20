@@ -44,6 +44,11 @@ export const OwnerProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
 
   const login = useCallback((token: string, ownerData: OwnerResponse) => {
+    try {
+      localStorage.setItem("umami.disabled", "1");
+    } catch {
+      // localStorage can be unavailable in private browsing or restricted contexts.
+    }
     cookieUtils.setAuthToken(token);
     setOwner(ownerData);
   }, []);

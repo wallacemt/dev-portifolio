@@ -18,13 +18,11 @@ import {
   Eye,
   Clock,
   Users,
-  RefreshCw,
   AlertCircle,
   Calendar as CalendarIcon,
 } from "lucide-react";
-import { analyticsDashboard, analyticsUpdateDaily } from "@/services/analytics";
+import { analyticsDashboard } from "@/services/analytics";
 import { AnalyticsResponse } from "@/types/analytics";
-import { cn } from "@/lib/utils";
 import { SiteHeader } from "@/components/ui/site-header";
 import { type DateRange } from "react-day-picker";
 import { addDays } from "date-fns";
@@ -39,8 +37,6 @@ export function AnalyzeDetail() {
     from: addDays(new Date(), -30),
     to: new Date(),
   });
-  const [isUpdating, setIsUpdating] = useState(false);
-
   // ponytail: request id (not AbortController) is enough here — analyticsDashboard
   // has no cancel-aware axios call, this just ignores stale responses.
   const latestRequestId = useRef(0);
@@ -72,20 +68,6 @@ export function AnalyzeDetail() {
   useEffect(() => {
     loadAnalyticsData();
   }, [loadAnalyticsData]);
-
-  const updateDailyAnalytics = async () => {
-    try {
-      setIsUpdating(true);
-      const today = new Date().toISOString().split("T")[0];
-      await analyticsUpdateDaily(today);
-      await loadAnalyticsData();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao atualizar dados diários");
-      console.error("Error updating daily analytics:", err);
-    } finally {
-      setIsUpdating(false);
-    }
-  };
 
   const formatNumber = (num: number) => {
     if (num === 0) return num;
@@ -122,12 +104,6 @@ export function AnalyzeDetail() {
           <div className="flex items-center flex-col space-x-4">
             <SiteHeader title="Análise Detalhada" icon={<CalendarIcon className="w-5 h-5" />} />
             <p className="text-white pl-8 hidden md:block">Métricas completas de analytics do portfólio</p>
-          </div>
-          <div className="flex items-center flex-col md:flex-row gap-2 space-x-2">
-            <Button onClick={updateDailyAnalytics} disabled={isUpdating} variant="outline" size="sm">
-              <RefreshCw className={cn("w-4 h-4 mr-2", isUpdating && "animate-spin")} />
-              {isUpdating ? "Atualizando..." : "Atualizar Dados"}
-            </Button>
           </div>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -242,7 +218,7 @@ export function AnalyzeDetail() {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-          <AnalyticsTrendChart dayliStats={data?.dayliStats} isLoading={isLoading} />
+          <AnalyticsTrendChart dailyStats={data?.dailyStats} isLoading={isLoading} />
         </motion.div>
 
         <motion.div

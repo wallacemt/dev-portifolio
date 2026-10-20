@@ -1,67 +1,60 @@
 "use client";
+
 import { useCallback, useEffect, useRef, useState } from "react";
-import { cookieUtils } from "@/lib/cookies";
-import { getBaseURL } from "@/lib/axios";
 import { analyticsRealTime } from "@/services/analytics";
 import { AnalyticsStreamEvent } from "@/types/analytics";
 
 export type StreamStatus = "connecting" | "live" | "offline";
 
-const FALLBACK_POLL_INTERVAL_MS = 15000;
+const POLL_INTERVAL_MS = 15000;
 
 export const useAnalyticsStream = () => {
   const [data, setData] = useState<AnalyticsStreamEvent | null>(null);
   const [status, setStatus] = useState<StreamStatus>("connecting");
-  const statusRef = useRef<StreamStatus>("connecting");
-
-  const setStatusSynced = useCallback((next: StreamStatus) => {
-    statusRef.current = next;
-    setStatus(next);
-  }, []);
+  const pollInFlight = useRef(false);
 
   const refresh = useCallback(async () => {
+    if (pollInFlight.current) return;
+
+    pollInFlight.current = true;
     try {
-      const realTime = await analyticsRealTime();
-      setData((prev) => ({
-        online: prev?.online ?? 0,
-        ...realTime,
-      }));
+      setData(await analyticsRealTime());
+      setStatus("live");
     } catch (error) {
       if (process.env.NODE_ENV === "development") console.debug("Error refreshing real-time analytics:", error);
+      setStatus("offline");
+    } finally {
+      pollInFlight.current = false;
     }
   }, []);
 
   useEffect(() => {
-    const token = cookieUtils.getAuthToken();
-    if (!token) {
-      setStatusSynced("offline");
-      return;
-    }
+    let pollTimer: ReturnType<typeof setInterval> | undefined;
 
-    setStatusSynced("connecting");
-
-    const url = `${getBaseURL()}/analytics/stream?token=${encodeURIComponent(token)}`;
-    const es = new EventSource(url);
-
-    es.onopen = () => setStatusSynced("live");
-
-    es.addEventListener("analytics", (event: MessageEvent<string>) => {
-      setData(JSON.parse(event.data));
-    });
-
-    es.onerror = () => {
-      setStatusSynced(es.readyState === EventSource.CLOSED ? "offline" : "connecting");
+    const stopPolling = () => {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = undefined;
     };
 
-    const pollTimer = setInterval(() => {
-      if (statusRef.current !== "live") refresh();
-    }, FALLBACK_POLL_INTERVAL_MS);
+    const startPolling = () => {
+      if (document.visibilityState !== "visible") return;
+      void refresh();
+      pollTimer = setInterval(() => void refresh(), POLL_INTERVAL_MS);
+    };
+
+    const handleVisibilityChange = () => {
+      stopPolling();
+      if (document.visibilityState === "visible") startPolling();
+    };
+
+    startPolling();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      es.close();
-      clearInterval(pollTimer);
+      stopPolling();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [refresh, setStatusSynced]);
+  }, [refresh]);
 
   return { data, status, refresh };
 };
