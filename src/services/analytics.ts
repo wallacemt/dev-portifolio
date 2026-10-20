@@ -1,4 +1,4 @@
-import { API, ownerId, setupAuth, SimpleResponse } from "@/lib/axios";
+import { API, ownerId, setupAuth } from "@/lib/axios";
 import {
   AnalyticsRealTimeResponse,
   AnalyticsResponse,
@@ -86,15 +86,3 @@ export const analyticsRealTime = async (): Promise<AnalyticsRealTimeResponse> =>
   }
 };
 
-export const analyticsUpdateDaily = async (date: string): Promise<SimpleResponse> => {
-  try {
-    await setupAuth();
-
-    const res = await API.post<SimpleResponse>(`/analytics/private/update-daily`, { date });
-    return res.data;
-  } catch (error) {
-    throw new Error(
-      (error as { response: { data: { error: string } } }).response?.data?.error || "Error updating daily analytics"
-    );
-  }
-};

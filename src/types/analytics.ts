@@ -37,18 +37,11 @@ interface DailyStats {
   totalVisitors: number;
   uniqueVisitors: number;
   pageViews: number;
-  dasktop: number;
-  tablet: number;
-  topPages: { page: string; views: string }[];
-  topCountries: { country: string; visitors: number }[];
-  topBrowsers: { browser: string; visitors: number };
-  bounceRate: number;
-  avgTimeSpent: number;
 }
 export interface AnalyticsResponse {
   overview: AnalyticsOverview;
   deviceBreakdown: AnalyticsBreakDown;
-  dayliStats: DailyStats[];
+  dailyStats: DailyStats[];
   topPages: { page: string; views: number }[];
   topCountries: { country: string; visitors: number }[];
   topBrowsers: { browser: string; visitors: number }[];
@@ -65,20 +58,15 @@ export interface AnalyticsSummaryResponse {
   month: {
     visitors: number;
   };
-  realTime: {
-    activeVisitors: number;
-    topActivatePage: { page: string; activeUsers: number }[];
-    recentVisitors: { country: string; device: string; page: string; timestamp: Date }[];
-  };
+  realTime: AnalyticsRealTimeResponse;
 }
 
 
 export interface AnalyticsRealTimeResponse {
+  online: number;
   activeVisitors: number;
   topActivePages: { page: string; activeUsers: number }[];
   recentVisitors: { country: string; device: string; page: string; timestamp: string }[];
 }
 
-export type AnalyticsStreamEvent = AnalyticsRealTimeResponse & {
-  online: number;
-};
+export type AnalyticsStreamEvent = AnalyticsRealTimeResponse;

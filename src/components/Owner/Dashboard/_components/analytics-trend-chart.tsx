@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AnalyticsResponse } from "@/types/analytics";
 
 interface AnalyticsTrendChartProps {
-  dayliStats: AnalyticsResponse["dayliStats"] | undefined;
+  dailyStats: AnalyticsResponse["dailyStats"] | undefined;
   isLoading: boolean;
 }
 
@@ -22,7 +22,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function AnalyticsTrendChart({ dayliStats, isLoading }: AnalyticsTrendChartProps) {
+export function AnalyticsTrendChart({ dailyStats, isLoading }: AnalyticsTrendChartProps) {
   if (isLoading) {
     return (
       <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
@@ -37,7 +37,7 @@ export function AnalyticsTrendChart({ dayliStats, isLoading }: AnalyticsTrendCha
     );
   }
 
-  if (!dayliStats?.length) {
+  if (!dailyStats?.length) {
     return (
       <Card className="@container/card bg-gradient-to-t from-roxo100/5 to-card shadow-xs">
         <CardHeader>
@@ -59,7 +59,7 @@ export function AnalyticsTrendChart({ dayliStats, isLoading }: AnalyticsTrendCha
       </CardHeader>
       <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer config={chartConfig} className="aspect-auto h-[250px] w-full">
-          <AreaChart data={dayliStats}>
+          <AreaChart data={dailyStats}>
             <defs>
               <linearGradient id="fillTotalVisitors" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="var(--color-totalVisitors)" stopOpacity={0.8} />
