@@ -17,7 +17,7 @@ export const Abbout = ({ owner, language }: AbboutProps) => {
  
     >
       <div className="flex flex-col md:text-left  md:max-w-xl">
-        <h1 className="text-2xl md:text-4xl font-bold mb-3 font-principal">
+        <h1 className="text-2xl md:text-4xl mb-3 font-principal">
           <BlurText text={owner.welcomeMessage} delay={150} animateBy="words" direction="top" />
         </h1>
         <p className="font-secundaria w-full text-white/80 text-[1rem] md:text-lg text-justify  mb-6">

@@ -24,7 +24,7 @@ export function ServicesContent({ services, connections, texts, lan }: ServicesP
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.h2
-          className="text-4xl md:text-5xl font-bold font-principal text-white mb-6 font-title"
+          className="text-4xl md:text-5xl font-principal text-white mb-6 font-title"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}

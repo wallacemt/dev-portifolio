@@ -31,7 +31,7 @@ export function CertificationsSection({ certifications, language, texts }: Certi
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-primary/10 mb-4">
             <ShieldCheck className="h-7 w-7 text-primary" />
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-principal">{texts.title}</h2>
+          <h2 className="text-3xl md:text-4xl text-white mb-4 font-principal">{texts.title}</h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto font-secundaria">{texts.description}</p>
         </motion.div>
 

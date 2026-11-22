@@ -17,7 +17,7 @@ export default async function NotFound() {
       />
 
       <div className="sm:mt-0 mt-6 text-center w-full flex flex-col gap-2">
-        <h1 className="font-bold font-principal text-amber-500 lg:w-[30%] lg:mx-auto " style={{ fontSize: "1.7rem" }}>
+        <h1 className="font-principal text-amber-500 lg:w-[30%] lg:mx-auto " style={{ fontSize: "1.7rem" }}>
           404 - Pagina não encontrada!
         </h1>
         <p className="text-lg font-secundaria font-semibold text-white mt-4">

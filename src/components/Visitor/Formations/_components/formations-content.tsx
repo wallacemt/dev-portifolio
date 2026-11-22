@@ -34,7 +34,7 @@ export const FormationsContent = ({ formations, language }: FormationsContentPro
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <motion.h2
-            className="text-4xl md:text-5xl font-bold text-white mb-6 font-principal"
+            className="text-4xl md:text-5xl text-white mb-6 font-principal"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}

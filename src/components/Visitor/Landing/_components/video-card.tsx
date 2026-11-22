@@ -37,7 +37,7 @@ export function VideoCard({ video }: VideoCardProps) {
 
       <div className="p-5 md:p-6">
         <span className="mb-3 flex items-center gap-2 text-sm text-foreground/80"><YoutubeLogoIcon aria-hidden="true" className="h-5 w-5" />YouTube</span>
-        <h3 className="text-lg md:text-xl font-semibold text-foreground font-principal leading-snug">
+        <h3 className="text-lg md:text-xl text-foreground font-principal leading-snug">
           {video.title}
         </h3>
         <p className="text-sm text-foreground/70 mt-1.5 capitalize">{publishedLabel}</p>

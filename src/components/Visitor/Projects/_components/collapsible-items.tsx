@@ -20,7 +20,7 @@ function HeaderComponent({ title, open }: Omit<CollapsibleItemsProps, "project">
   return (
     <CollapsibleTrigger asChild>
       <div className="flex gap-2 items-center cursor-pointer w-fit">
-        <h2 className=" text-xl md:text-4xl font-semibold text-gray-100 font-principal">{title}</h2>
+        <h2 className=" text-xl md:text-4xl text-gray-100 font-principal">{title}</h2>
         {open ? <ChevronsUpDown className="text-Destaque" /> : <ChevronsDownUp className="text-Destaque" />}
       </div>
     </CollapsibleTrigger>

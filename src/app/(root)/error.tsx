@@ -19,7 +19,7 @@ export default function WatchError({ error }: { error: Error }) {
       />
 
       <div className="sm:mt-0 mt-6 text-center w-full flex flex-col gap-2">
-        <h1 className="font-bold font-principal text-amber-500 w-[30%] h-30 mb-4 overflow-y-auto p-2 lg:mx-auto ">
+        <div className="font-principal text-amber-500 w-[30%] h-30 mb-4 overflow-y-auto p-2 lg:mx-auto ">
           {isApiError ? (
             <>
               <h1 className="text-2xl font-bold">Erro no servidor</h1>
@@ -31,7 +31,7 @@ export default function WatchError({ error }: { error: Error }) {
               {error.message && <p className="mt-2 text-sm  text-red-900 ">{error.message}</p>}
             </>
           )}
-        </h1>
+        </div>
       </div>
       <button
         onClick={() => window.location.reload()}
