@@ -11,7 +11,7 @@ export function VideosHeader({ texts }: { texts: VideosTexts }) {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.h1
-        className="text-4xl md:text-5xl font-bold text-white mb-4 font-principal"
+        className="text-4xl md:text-5xl text-white mb-4 font-principal"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}

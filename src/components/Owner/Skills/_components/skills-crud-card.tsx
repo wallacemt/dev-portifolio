@@ -81,7 +81,7 @@ export function SkillCrudCard({ skill, onEdit, onUpdate }: SkillCrudCardProps) {
         <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
           <DialogContent className="bg-background p-6 rounded-lg flex flex-col gap-2 max-w-md w-full mx-4">
             <DialogHeader>
-              <h3 className="text-lg font-semibold mb-2 font-principal">Confirmar Exclusão</h3>
+              <h3 className="text-lg mb-2 font-principal">Confirmar Exclusão</h3>
               <p className="text-sm text-muted-foreground mb-4 font-secundaria">
                 Tem certeza que deseja excluir a skill <span className="text-Destaque">{skill.title}</span>? Esta ação
                 não pode ser desfeita.

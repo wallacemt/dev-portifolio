@@ -77,7 +77,7 @@ export function SecretWordVerification() {
             </div>
 
             <div className="text-center space-y-2">
-              <h1 className="text-2xl font-bold text-foreground font-principal">Área Restrita</h1>
+              <h1 className="text-2xl text-foreground font-principal">Área Restrita</h1>
               <p className="text-muted-foreground font-secundaria">Digite a palavra secreta para continuar</p>
             </div>
 

@@ -42,7 +42,7 @@ export function FeaturedProjectCard({ project, githubLastPush, texts }: Featured
         )}
 
         <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-          <h3 className="text-lg font-semibold text-foreground font-principal">{project.title}</h3>
+          <h3 className="text-lg text-foreground font-principal">{project.title}</h3>
           <p className="text-sm text-foreground/70 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75 line-clamp-2">
             {project.description.content}
           </p>

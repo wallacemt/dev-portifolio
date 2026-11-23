@@ -12,7 +12,6 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("authToken")?.value;
   const pathname = request.nextUrl.pathname;
 
-  request.headers.append("X-Frame-Options", "DENY");
   let response: NextResponse;
   if (pathname === "/") {
     let lang: string;

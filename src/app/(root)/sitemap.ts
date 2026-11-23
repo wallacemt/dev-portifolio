@@ -1,16 +1,16 @@
 import { getSiteURL } from "@/lib/axios";
 import { MetadataRoute } from "next";
+import { LANGUAGE_TAGS } from "@/lib/html-lang";
+import { SUPPORTED_LANGUAGES } from "@/lib/geo-language";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteURL();
 
-  const routes = ["", "/projects", "/skills", "/formation", "/services"];
-
-  const languages = ["pt", "en"];
+  const routes = ["", "/projects", "/skills", "/formation", "/services", "/videos"];
 
   const sitemapEntries: MetadataRoute.Sitemap = [];
 
-  for (const lang of languages) {
+  for (const lang of SUPPORTED_LANGUAGES) {
     for (const route of routes) {
       sitemapEntries.push({
         url: `${baseUrl}/watch/${lang}${route}`,
@@ -19,8 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: route === "" ? 1 : 0.8,
         alternates: {
           languages: {
-            "pt-BR": `${baseUrl}/watch/pt${route}`,
-            "en-US": `${baseUrl}/watch/en${route}`,
+            ...Object.fromEntries(SUPPORTED_LANGUAGES.map((language) => [LANGUAGE_TAGS[language], `${baseUrl}/watch/${language}${route}`])),
           },
         },
       });

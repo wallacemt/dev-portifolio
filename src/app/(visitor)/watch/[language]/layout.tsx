@@ -1,5 +1,5 @@
 import { ReactNode, Suspense } from "react";
-import { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Silk from "@/components/blocks/Backgrounds/Silk/SilkLazy";
 import { PageLoader } from "@/components/ui/page-loader";
 import Footer from "@/components/Visitor/Footer/Footer";
@@ -15,6 +15,20 @@ import {
 } from "@/lib/seo-utils";
 import { getOwner } from "@/services/ownerApi";
 import { getSiteURL } from "@/lib/axios";
+import { htmlLang } from "@/lib/html-lang";
+import { fontClasses, SharedProviders } from "@/components/shared-head";
+import "../../../globals.css";
+
+export const viewport: Viewport = { themeColor: "#2F0559", width: "device-width", initialScale: 1, maximumScale: 5, userScalable: true, colorScheme: "dark light" };
+const baseMetadata: Metadata = {
+  metadataBase: new URL(getSiteURL()),
+  keywords: ["portfolio", "desenvolvedor", "fullstack", "frontend", "backend", "Next.js", "React", "Node.js", "TypeScript", "JavaScript", "web developer"],
+  authors: [{ name: "Portfolio Owner" }], creator: "Portfolio Owner", publisher: "Portfolio Owner",
+  formatDetection: { email: false, address: false, telephone: false },
+  icons: { icon: [{ url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-16x16_tkhuxm.png", sizes: "16x16", type: "image/png" }, { url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon-32x32_oumosx.png", sizes: "32x32", type: "image/png" }], apple: [{ url: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/apple-touch-icon_z7bs1v.png", sizes: "180x180", type: "image/png" }], shortcut: "https://res.cloudinary.com/dg9hqvlas/image/upload/v1755800847/favicon_ih9jni.ico" },
+  manifest: "/manifest.json", verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION },
+  category: "technology", classification: "Portfolio Website", referrer: "origin-when-cross-origin",
+};
 
 interface Props {
   children: ReactNode;
@@ -28,7 +42,9 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
     const owner = await getOwner(language);
     const content = getLanguageSpecificContent(language);
     const baseUrl = getSiteURL();
-    return generateSEOMetadata(
+    return {
+      ...baseMetadata,
+      ...generateSEOMetadata(
       {
         title: `${owner.name} - ${content.siteName}`,
         description: owner.about || content.defaultDescription,
@@ -43,15 +59,21 @@ export async function generateMetadata({ params }: { params: Promise<{ language:
         ogImage: `${baseUrl}/og-image-home-${language === "pt" ? "pt" : "en"}.png`,
       },
       owner
-    );
+      ),
+      alternates: { ...baseMetadata.alternates, ...generateSEOMetadata({ language }).alternates, languages: { "pt-BR": "/watch/pt", "en-US": "/watch/en", "es-ES": "/watch/es", "fr-FR": "/watch/fr", "it-IT": "/watch/it", "ja-JP": "/watch/ja", "ko-KR": "/watch/ko", "zh-CN": "/watch/zh" } },
+    };
   } catch {
     const content = getLanguageSpecificContent(language);
-    return generateSEOMetadata({
+    return {
+      ...baseMetadata,
+      ...generateSEOMetadata({
       title: content.siteName,
       description: content.defaultDescription,
       keywords: content.keywords,
       language,
-    });
+      }),
+      alternates: { languages: { "pt-BR": "/watch/pt", "en-US": "/watch/en", "es-ES": "/watch/es", "fr-FR": "/watch/fr", "it-IT": "/watch/it", "ja-JP": "/watch/ja", "ko-KR": "/watch/ko", "zh-CN": "/watch/zh" } },
+    };
   }
 }
 
@@ -66,7 +88,9 @@ export default async function LanguageLayout({ children, params }: Props) {
   const structuredData = generateStructuredData(owner, language);
 
   return (
-    <>
+    <html lang={htmlLang(language)} className={fontClasses}>
+      <body className="antialiased" suppressHydrationWarning>
+      <SharedProviders>
       <LanguageProvider>
         <OwnerProvider>
           <PageLoader>
@@ -89,6 +113,7 @@ export default async function LanguageLayout({ children, params }: Props) {
         </OwnerProvider>
       </LanguageProvider>
       <UmamiScript />
-    </>
+      </SharedProviders></body>
+    </html>
   );
 }
